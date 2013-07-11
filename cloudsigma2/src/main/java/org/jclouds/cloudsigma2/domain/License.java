@@ -16,6 +16,8 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import java.net.URI;
+
 /**
  * @author Vladimir Shevchenko
  */
@@ -25,7 +27,7 @@ public class License {
         protected boolean burstable;
         protected String longName;
         protected String name;
-        protected String resourceUri;
+        protected URI resourceUri;
         protected String type;
         protected String userMetric;
 
@@ -44,7 +46,7 @@ public class License {
             return this;
         }
 
-        public Builder resourceUri(String resourceUri){
+        public Builder resourceUri(URI resourceUri){
             this.resourceUri = resourceUri;
             return this;
         }
@@ -67,11 +69,11 @@ public class License {
     protected final boolean burstable;
     protected final String longName;
     protected final String name;
-    protected final String resourceUri;
+    protected final URI resourceUri;
     protected final String type;
     protected final String userMetric;
 
-    public License(boolean burstable, String longName, String name, String resourceUri, String type, String userMetric) {
+    public License(boolean burstable, String longName, String name, URI resourceUri, String type, String userMetric) {
         this.burstable = burstable;
         this.longName = longName;
         this.name = name;
@@ -104,7 +106,7 @@ public class License {
     /**
      * @return Unique resource uri
      */
-    public String getResourceUri() {
+    public URI getResourceUri() {
         return resourceUri;
     }
 

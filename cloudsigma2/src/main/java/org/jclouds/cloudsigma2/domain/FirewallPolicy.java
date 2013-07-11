@@ -19,7 +19,9 @@ package org.jclouds.cloudsigma2.domain;
 import com.google.common.collect.ImmutableList;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vladimir Shevchenko
@@ -27,7 +29,7 @@ import java.util.List;
 public class FirewallPolicy extends Item{
 
     public static class Builder extends Item.Builder{
-        protected Object meta;
+        protected Map<String, String> meta;
         protected Owner owner;
         protected List<FirewallRule> rules;
         protected List<Server> servers;
@@ -36,7 +38,7 @@ public class FirewallPolicy extends Item{
          * @param meta User assigned meta information for this policy
          * @return
          */
-        public Builder meta(Object meta){
+        public Builder meta(Map<String, String> meta){
             this.meta = meta;
             return this;
         }
@@ -103,24 +105,24 @@ public class FirewallPolicy extends Item{
         }
     }
 
-    protected final Object meta;
+    protected final Map<String, String> meta;
     protected final Owner owner;
     protected final List<FirewallRule> rules;
     protected final List<Server> servers;
 
-    public FirewallPolicy(Object meta, String name, Owner owner, URI resourceUri, List<FirewallRule> rules
+    public FirewallPolicy(Map<String, String> meta, String name, Owner owner, URI resourceUri, List<FirewallRule> rules
             , List<Server> servers, String uuid) {
         super(uuid, name, resourceUri);
         this.meta = meta;
         this.owner = owner;
-        this.rules = rules;
-        this.servers = servers;
+        this.rules = rules == null ? new ArrayList<FirewallRule>() : rules;
+        this.servers = servers == null ? new ArrayList<Server>() : servers;
     }
 
     /**
      * @return User assigned meta information for this policy
      */
-    public Object getMeta() {
+    public Map<String, String> getMeta() {
         return meta;
     }
 

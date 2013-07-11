@@ -17,7 +17,9 @@
 package org.jclouds.cloudsigma2.functions;
 
 import com.google.common.base.Function;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.jclouds.cloudsigma2.domain.ProfileInfo;
 import org.jclouds.javax.annotation.Nullable;
 
@@ -40,6 +42,10 @@ public class ProfileInfoToJson implements Function<ProfileInfo, JsonObject>{
             profileJson.addProperty("address", input.getAddress());
         }
 
+        if(input.getBankReference() != null){
+            profileJson.addProperty("bank_reference", input.getBankReference());
+        }
+
         if(input.getCompany() != null){
             profileJson.addProperty("company", input.getCompany());
         }
@@ -48,12 +54,24 @@ public class ProfileInfoToJson implements Function<ProfileInfo, JsonObject>{
             profileJson.addProperty("country", input.getCountry());
         }
 
+        if(input.getEmail() != null){
+            profileJson.addProperty("email", input.getEmail());
+        }
+
         if(input.getFirstName() != null){
             profileJson.addProperty("first_name", input.getFirstName());
         }
 
         if(input.getLastName() != null){
             profileJson.addProperty("last_name", input.getLastName());
+        }
+
+        if(input.getMeta() != null){
+            profileJson.add("meta", new JsonParser().parse(new Gson().toJson(input.getMeta())));
+        }
+
+        if(input.getMyNotes() != null){
+            profileJson.addProperty("my_notes", input.getMyNotes());
         }
 
         if(input.getNickname() != null){
@@ -74,10 +92,6 @@ public class ProfileInfoToJson implements Function<ProfileInfo, JsonObject>{
 
         if(input.getTown() != null){
             profileJson.addProperty("town", input.getTown());
-        }
-
-        if(input.getUsername() != null){
-            profileJson.addProperty("username", input.getUsername());
         }
 
         return profileJson;

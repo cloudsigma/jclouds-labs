@@ -17,20 +17,38 @@
 package org.jclouds.cloudsigma2.domain;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Vladimir Shevchenko
  */
 public class ServerAvailabilityGroup {
 
-    private final Iterable<String> uuids;
+    private final List<String> uuids;
 
-    public ServerAvailabilityGroup(Iterable<String> uuids) {
+    public ServerAvailabilityGroup(List<String> uuids) {
         this.uuids = uuids;
     }
 
-    public Iterable<String> getUuids() {
+    public List<String> getUuids() {
         return uuids;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ServerAvailabilityGroup)) return false;
+
+        ServerAvailabilityGroup that = (ServerAvailabilityGroup) o;
+
+        if (uuids != null ? !uuids.equals(that.uuids) : that.uuids != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return uuids != null ? uuids.hashCode() : 0;
     }
 
     @Override

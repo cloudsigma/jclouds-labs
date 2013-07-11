@@ -16,27 +16,34 @@
  */
 package org.jclouds.cloudsigma2.functions;
 
-import com.google.common.base.Function;
-import com.google.gson.JsonObject;
-import org.jclouds.cloudsigma2.domain.DriveInfo;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.google.inject.Guice;
+import org.jclouds.cloudsigma2.beans.RawAccountBalance;
+import org.jclouds.cloudsigma2.domain.AccountBalance;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * @author Vladimir Shevchenko
  */
-@Singleton
-public class DriveInfoToJson implements Function<DriveInfo, JsonObject>{
-    private final DriveToJson baseDriveToJson;
+@Test(groups = "unit")
+public class JsonToAccountBalanceTest {
 
-    @Inject
-    public DriveInfoToJson(DriveToJson baseDriveToMap) {
-        this.baseDriveToJson = baseDriveToMap;
+    private static final JsonToAccountBalance JSON_TO_ACCOUNT_BALANCE = Guice.createInjector().getInstance(JsonToAccountBalance.class);
+
+    private RawAccountBalance input;
+    private AccountBalance expected;
+
+    @BeforeMethod
+    public void setUp() throws Exception {
+        input = new RawAccountBalance();
+        input.balance = "128.20175975233523933736";
+        input.currency = "USD";
+
+        expected = new AccountBalance(128.20175975233523933736, "USD");
     }
 
-    @Override
-    public JsonObject apply(DriveInfo input) {
-        return baseDriveToJson.apply(input);
+    public void test(){
+        Assert.assertEquals(JSON_TO_ACCOUNT_BALANCE.apply(input), expected);
     }
 }

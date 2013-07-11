@@ -17,14 +17,13 @@
 package org.jclouds.cloudsigma2;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.reflect.TypeToken;
 import com.google.inject.Module;
 import org.jclouds.apis.ApiMetadata;
 import org.jclouds.cloudsigma2.compute.config.CloudSigmaComputeServiceContextModule;
-import org.jclouds.cloudsigma2.config.CloudSigma2RestClientModule;
+import org.jclouds.cloudsigma2.config.CloudSigma2HttpApiModule;
 import org.jclouds.cloudsigma2.reference.CloudSigmaConstants;
 import org.jclouds.compute.ComputeServiceContext;
-import org.jclouds.rest.internal.BaseRestApiMetadata;
+import org.jclouds.rest.internal.BaseHttpApiMetadata;
 
 import java.net.URI;
 import java.util.Properties;
@@ -33,21 +32,12 @@ import static org.jclouds.compute.config.ComputeServiceProperties.TEMPLATE;
 import static org.jclouds.reflect.Reflection2.typeToken;
 
 /**
- * Implementation of {@link ApiMetadata} for the Cloud Sigma API
+ * Implementation of {@link BaseHttpApiMetadata} for the Cloud Sigma API
  * 
- * @author Adrian Cole
+ * @author Vladimir Shevchenko
  */
-public class CloudSigma2ApiMetadata extends BaseRestApiMetadata {
+public class CloudSigma2ApiMetadata extends BaseHttpApiMetadata {
 
-   /**
-    * @deprecated please use {@code org.jclouds.ContextBuilder#buildApi(CloudSigma2Client.class)} as
-    *             {@link CloudSigma2AsyncClient} interface will be removed in jclouds 1.7.
-    */
-   @Deprecated
-   public static final TypeToken<org.jclouds.rest.RestContext<CloudSigma2Client, CloudSigma2AsyncClient>> CONTEXT_TOKEN = new TypeToken<org.jclouds.rest.RestContext<CloudSigma2Client, CloudSigma2AsyncClient>>() {
-      private static final long serialVersionUID = 1L;
-   };
-   
    @Override
    public Builder toBuilder() {
       return new Builder().fromApiMetadata(this);
@@ -62,7 +52,7 @@ public class CloudSigma2ApiMetadata extends BaseRestApiMetadata {
    }
 
    public static Properties defaultProperties() {
-      Properties properties = BaseRestApiMetadata.defaultProperties();
+      Properties properties = BaseHttpApiMetadata.defaultProperties();
       properties.setProperty(CloudSigmaConstants.PROPERTY_VNC_PASSWORD, "IL9vs34d");
       // passwords are set post-boot, so auth failures are possible
       // from a race condition applying the password set script
@@ -72,21 +62,22 @@ public class CloudSigma2ApiMetadata extends BaseRestApiMetadata {
       return properties;
    }
 
-   public static class Builder extends BaseRestApiMetadata.Builder<Builder> {
+   public static class Builder extends BaseHttpApiMetadata.Builder {
 
-      @SuppressWarnings("deprecation")
       protected Builder() {
-         super(CloudSigma2Client.class, CloudSigma2AsyncClient.class);
-         id("cloudsigma")
+         super(CloudSigma2Api.class);
+         id("cloudsigma2")
          .name("CloudSigma API")
+         .defaultIdentity("email")
          .identityName("Email")
+         .defaultCredential("Password")
          .credentialName("Password")
          .documentation(URI.create("http://cloudsigma.com/en/platform-details/the-api"))
          .version("2.0")
          .defaultEndpoint("https://zrh.cloudsigma.com/api/2.0")
          .defaultProperties(CloudSigma2ApiMetadata.defaultProperties())
          .view(typeToken(ComputeServiceContext.class))
-         .defaultModules(ImmutableSet.<Class<? extends Module>>of(CloudSigma2RestClientModule.class, CloudSigmaComputeServiceContextModule.class));
+         .defaultModules(ImmutableSet.<Class<? extends Module>>of(CloudSigma2HttpApiModule.class, CloudSigmaComputeServiceContextModule.class));
       }
 
       @Override
@@ -97,6 +88,11 @@ public class CloudSigma2ApiMetadata extends BaseRestApiMetadata {
       @Override
       protected Builder self() {
          return this;
+      }
+
+      @Override
+      public Builder fromApiMetadata(ApiMetadata in) {
+          return this;
       }
    }
 }

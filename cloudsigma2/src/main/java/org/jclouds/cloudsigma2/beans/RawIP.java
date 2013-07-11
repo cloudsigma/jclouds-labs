@@ -17,6 +17,7 @@
 package org.jclouds.cloudsigma2.beans;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vladimir Shevchenko
@@ -26,7 +27,7 @@ public class RawIP {
     public String uuid;
     public RawServer server;
     public String resource_uri;
-    public Object meta;
+    public Map<String, String> meta;
     public RawSubscription subscription;
     public List<RawTag> tags;
     public List<String> nameservers;

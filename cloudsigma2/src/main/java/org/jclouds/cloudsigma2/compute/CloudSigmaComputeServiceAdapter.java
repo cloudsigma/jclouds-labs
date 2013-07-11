@@ -30,7 +30,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import org.jclouds.Constants;
-import org.jclouds.cloudsigma2.CloudSigma2Client;
+import org.jclouds.cloudsigma2.CloudSigma2Api;
 import org.jclouds.cloudsigma2.compute.options.CloudSigmaTemplateOptions;
 import org.jclouds.cloudsigma2.domain.*;
 import org.jclouds.cloudsigma2.reference.CloudSigmaConstants;
@@ -56,7 +56,7 @@ import static com.google.common.collect.Iterables.filter;
 import static org.jclouds.concurrent.FutureIterables.transformParallel;
 
 /**
- * defines the connection between the {@link org.jclouds.cloudsigma2.CloudSigma2Client} implementation
+ * defines the connection between the {@link org.jclouds.cloudsigma2.CloudSigma2Api} implementation
  * and the jclouds {@link ComputeService}
  *
  */
@@ -72,8 +72,7 @@ public class CloudSigmaComputeServiceAdapter implements
             }
 
          });
-   private final CloudSigma2Client client;
-   private final Predicate<DriveInfo> driveNotClaimed;
+   private final CloudSigma2Api client;
    private final String defaultVncPassword;
    private final LoadingCache<String, DriveInfo> cache;
    private final ListeningExecutorService userExecutor;
@@ -83,11 +82,10 @@ public class CloudSigmaComputeServiceAdapter implements
    protected Logger logger = Logger.NULL;
 
    @Inject
-   public CloudSigmaComputeServiceAdapter(CloudSigma2Client client, Predicate<DriveInfo> driveNotClaimed,
+   public CloudSigmaComputeServiceAdapter(CloudSigma2Api api,
          @Named(CloudSigmaConstants.PROPERTY_VNC_PASSWORD) String defaultVncPassword,
          LoadingCache<String, DriveInfo> cache, @Named(Constants.PROPERTY_USER_THREADS) ListeningExecutorService userExecutor) {
-      this.client = checkNotNull(client, "client");
-      this.driveNotClaimed = checkNotNull(driveNotClaimed, "driveNotClaimed");
+      this.client = checkNotNull(api, "client");
       this.defaultVncPassword = checkNotNull(defaultVncPassword, "defaultVncPassword");
       checkArgument(defaultVncPassword.length() <= 8, "vnc passwords should be less that 8 characters!"); 
       this.cache = checkNotNull(cache, "cache");
@@ -106,7 +104,7 @@ public class CloudSigmaComputeServiceAdapter implements
          template.getImage().getId(), bootSize, affinityType);
       DriveInfo drive = client.cloneDrive(template.getImage().getId(),
          new DriveInfo.Builder().size(new BigInteger("" + bootSize)).build());
-      boolean success = driveNotClaimed.apply(drive);
+      boolean success = PREINSTALLED_DISK.apply(drive);
       logger.debug("<< image(%s) complete(%s)", drive.getUuid(), success);
       if (!success) {
          client.deleteDrive(drive.getUuid());

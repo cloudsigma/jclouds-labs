@@ -20,6 +20,7 @@ import com.google.common.base.Function;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.jclouds.cloudsigma2.domain.FirewallPolicy;
 import org.jclouds.cloudsigma2.domain.FirewallRule;
 import org.jclouds.javax.annotation.Nullable;
@@ -40,7 +41,7 @@ public class FirewallPolicyToJson implements Function<FirewallPolicy, JsonObject
         }
 
         if(input.getMeta() != null){
-            firewallObject.addProperty("name", new Gson().toJson(input.getMeta()));
+            firewallObject.add("meta", new JsonParser().parse(new Gson().toJson(input.getMeta())));
         }
 
         if(input.getRules() != null){

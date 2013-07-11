@@ -57,8 +57,8 @@ public class JsonToLibraryDrive implements Function<RawLibraryDrive, LibraryDriv
             libraryDriveBuilder.description(input.description);
         }
 
-        if(input.favorite != null){
-            libraryDriveBuilder.isFavorite(input.favorite);
+        if(input.favourite != null){
+            libraryDriveBuilder.isFavorite(input.favourite);
         }
 
         if(input.image_type != null){

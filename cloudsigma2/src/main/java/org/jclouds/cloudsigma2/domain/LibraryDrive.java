@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vladimir Shevchenko
@@ -114,7 +115,7 @@ public class LibraryDrive extends DriveInfo {
          * {@inheritDoc}
          */
         @Override
-        public Builder jobs(Iterable<String> jobs) {
+        public Builder jobs(List<String> jobs) {
             this.jobs = ImmutableList.copyOf(jobs);
             return this;
         }
@@ -141,7 +142,7 @@ public class LibraryDrive extends DriveInfo {
          * {@inheritDoc}
          */
         @Override
-        public Builder meta(Object meta) {
+        public Builder meta(Map<String,String> meta) {
             this.meta = meta;
             return this;
         }
@@ -231,7 +232,7 @@ public class LibraryDrive extends DriveInfo {
 
     public LibraryDrive(String uuid, String name, URI resourceUri, BigInteger size, Owner owner, DriveStatus status
             , boolean allowMultimount, List<String> affinities, List<String> jobs, List<DriveLicense> licenses
-            , MediaType media, Object meta, List<Server> mountedOn, List<String> tags, String arch, List<String> category
+            , MediaType media, Map<String,String> meta, List<Server> mountedOn, List<String> tags, String arch, List<String> category
             , String description, boolean favorite, String imageType, String installNotes, String os, boolean paid, String url) {
         super(uuid, name, resourceUri, size, owner, status, allowMultimount, affinities, jobs, licenses, media, meta, mountedOn, tags);
         this.arch = arch;

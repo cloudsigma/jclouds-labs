@@ -24,6 +24,8 @@ import org.jclouds.cloudsigma2.domain.DriveStatus;
 import org.jclouds.cloudsigma2.domain.Owner;
 
 import javax.inject.Singleton;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * @author Vladimir Shevchenko
@@ -43,13 +45,21 @@ public class JsonToDrive implements Function<RawDrive, Drive> {
                 ownerBuilder.uuid(input.owner.uuid);
             }
             if(input.owner.resource_uri != null){
-                ownerBuilder.resourceUri(input.owner.resource_uri);
+                try {
+                    ownerBuilder.resourceUri(new URI(input.owner.resource_uri));
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
             builder.owner(ownerBuilder.build());
         }
 
         if(input.resource_uri != null){
-            builder.resourceUri(input.resource_uri);
+            try {
+                builder.resourceUri(new URI(input.resource_uri));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
 
         if(input.status != null){

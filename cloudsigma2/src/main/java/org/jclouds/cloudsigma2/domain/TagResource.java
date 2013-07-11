@@ -16,6 +16,8 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import java.net.URI;
+
 /**
  * @author Vladimir Shevchenko
  */
@@ -23,7 +25,7 @@ public class TagResource {
 
     public static class Builder{
         protected Owner owner;
-        protected String resourceUri;
+        protected URI resourceUri;
         protected String uuid;
         protected TagResourceType resourceType;
 
@@ -32,7 +34,7 @@ public class TagResource {
             return this;
         }
 
-        public Builder resourceUri(String resourceUri) {
+        public Builder resourceUri(URI resourceUri) {
             this.resourceUri = resourceUri;
             return this;
         }
@@ -53,11 +55,11 @@ public class TagResource {
     }
 
     protected final Owner owner;
-    protected final String resourceUri;
+    protected final URI resourceUri;
     protected final String uuid;
     protected final TagResourceType resourceType;
 
-    public TagResource(String uuid, TagResourceType resourceType, Owner owner, String resourceUri) {
+    public TagResource(String uuid, TagResourceType resourceType, Owner owner, URI resourceUri) {
         this.owner = owner;
         this.resourceUri = resourceUri;
         this.uuid = uuid;
@@ -84,7 +86,7 @@ public class TagResource {
      *
      * @return resource uri
      */
-    public String getResourceUri() {
+    public URI getResourceUri() {
         return resourceUri;
     }
 

@@ -16,20 +16,22 @@
  */
 package org.jclouds.cloudsigma2.beans;
 
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vladimir Shevchenko
  */
 public class RawServerInfo extends RawServer {
     public Integer cpu;
-    public Boolean cpus_nstead_of_cores;
+    public Boolean cpus_instead_of_cores;
     public List<RawServerDrive> drives;
     public Boolean enable_numa;
     public Boolean hv_relaxed;
     public Boolean hv_tsc;
-    public Long mem;
-    public Object meta;
+    public BigInteger mem;
+    public Map<String, String> meta;
     public List<RawNIC> nics;
     public List<String> requirements;
     public List<String> tags;

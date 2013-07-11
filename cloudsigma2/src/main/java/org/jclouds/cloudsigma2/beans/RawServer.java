@@ -16,15 +16,13 @@
  */
 package org.jclouds.cloudsigma2.beans;
 
-import java.net.URI;
-
 /**
  * @author Vladimir Shevchenko
  */
 public class RawServer {
     public String name;
     public RawOwner owner;
-    public URI resource_uri;
+    public String resource_uri;
     public String status;
     public String uuid;
     public RawServerRuntime runtime;

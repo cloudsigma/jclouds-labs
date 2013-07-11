@@ -46,11 +46,11 @@ public class LibraryDriveToJson implements Function<LibraryDrive, JsonObject> {
             libraryDriveObject = new JsonObject();
         }
 
-        libraryDriveObject.addProperty("favorite", input.isFavorite());
+        libraryDriveObject.addProperty("favourite", input.isFavorite());
 
         if(input.getDescription() != null){
             libraryDriveObject.addProperty("description", input.getDescription());
         }
-        return null;
+        return libraryDriveObject;
     }
 }

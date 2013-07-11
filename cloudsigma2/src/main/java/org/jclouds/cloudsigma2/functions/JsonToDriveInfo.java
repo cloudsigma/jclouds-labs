@@ -23,6 +23,8 @@ import org.jclouds.cloudsigma2.domain.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +58,11 @@ public class JsonToDriveInfo implements Function<RawDrive, DriveInfo> {
         }
 
         if(input.resource_uri != null){
-            builder.resourceUri(input.resource_uri);
+            try {
+                builder.resourceUri(new URI(input.resource_uri));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
 
         if(input.status != null){
