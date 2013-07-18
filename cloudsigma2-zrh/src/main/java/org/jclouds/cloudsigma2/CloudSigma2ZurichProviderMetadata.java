@@ -23,8 +23,7 @@ import java.net.URI;
 import java.util.Properties;
 
 /**
- * Implementation of {@link org.jclouds.types.ProviderMetadata} for CloudSigma Zurich.
-
+ * Implementation of {@link org.jclouds.providers.internal.BaseProviderMetadata} for CloudSigma Zurich.
  * 
  * @author Vladimir Shevchenko
  */

@@ -19,6 +19,7 @@ package org.jclouds.cloudsigma2.functions;
 import com.google.common.base.Function;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.inject.Singleton;
 import org.jclouds.cloudsigma2.domain.VLANInfo;
 import org.jclouds.javax.annotation.Nullable;
@@ -38,7 +39,7 @@ public class VLANInfoToJson implements Function<VLANInfo, JsonObject> {
         JsonObject vlanObject = new JsonObject();
 
         if(input.getMeta() != null){
-            vlanObject.addProperty("meta", new Gson().toJson(input.getMeta()));
+            vlanObject.add("meta", new JsonParser().parse(new Gson().toJson(input.getMeta())));
         }
 
         return vlanObject;

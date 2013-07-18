@@ -16,11 +16,13 @@
  */
 package org.jclouds.cloudsigma2.beans;
 
+import java.util.Map;
+
 /**
  * @author Vladimir Shevchenko
  */
 public class RawTag {
-    public Object meta;
+    public Map<String,String> meta;
     public RawOwner owner;
     public String resource_uri;
     public Iterable<RawTagResource> resources;

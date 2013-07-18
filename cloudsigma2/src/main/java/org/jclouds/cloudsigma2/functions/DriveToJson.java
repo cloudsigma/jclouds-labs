@@ -19,6 +19,7 @@ package org.jclouds.cloudsigma2.functions;
 import com.google.common.base.Function;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
 
 import javax.inject.Singleton;
@@ -45,15 +46,15 @@ public class DriveToJson implements Function<DriveInfo, JsonObject> {
         }
 
         if(input.getAffinities() != null){
-            driveObject.addProperty("affinities", new Gson().toJson(input.getAffinities()));
+            driveObject.add("affinities", new JsonParser().parse(new Gson().toJson(input.getAffinities())));
         }
 
         if(input.getMeta() != null){
-            driveObject.addProperty("meta", new Gson().toJson(input.getMeta()));
+            driveObject.add("meta", new JsonParser().parse(new Gson().toJson(input.getMeta())));
         }
 
         if(input.getTags() != null){
-            driveObject.addProperty("tags", new Gson().toJson(input.getTags()));
+            driveObject.add("tags", new JsonParser().parse(new Gson().toJson(input.getTags())));
         }
 
         driveObject.addProperty("allow_multimount", input.isAllowMultimount());

@@ -69,6 +69,9 @@ public class CloudSigmaErrorHandler implements HttpErrorHandler {
          case 401:
             exception = new AuthorizationException(message, exception);
             break;
+         case 402:
+             exception = new IllegalStateException(message, exception);
+             break;
          case 404:
             if (!command.getCurrentRequest().getMethod().equals("DELETE")) {
                exception = new ResourceNotFoundException(message, exception);

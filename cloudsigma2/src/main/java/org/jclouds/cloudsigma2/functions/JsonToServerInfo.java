@@ -55,8 +55,8 @@ public class JsonToServerInfo implements Function<RawServerInfo, ServerInfo> {
             serverInfoBuilder.cpu(input.cpu.intValue());
         }
 
-        if(input.cpus_nstead_of_cores != null){
-            serverInfoBuilder.cpusInsteadOfCores(input.cpus_nstead_of_cores);
+        if(input.cpus_instead_of_cores != null){
+            serverInfoBuilder.cpusInsteadOfCores(input.cpus_instead_of_cores);
         }
 
         if(input.drives != null){

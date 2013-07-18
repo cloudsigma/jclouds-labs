@@ -22,6 +22,8 @@ import org.jclouds.cloudsigma2.domain.License;
 import org.jclouds.javax.annotation.Nullable;
 
 import javax.inject.Singleton;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * @author Vladimir Shevchenko
@@ -49,7 +51,11 @@ public class JsonToLicense implements Function<RawDrive.RawLicense, License> {
         }
 
         if(input.resource_uri != null){
-            licenseInfoBuilder.resourceUri(input.resource_uri);
+            try {
+                licenseInfoBuilder.resourceUri(new URI(input.resource_uri));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
 
         if(input.type != null){

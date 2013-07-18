@@ -19,6 +19,7 @@ package org.jclouds.cloudsigma2.functions;
 import com.google.common.base.Function;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.jclouds.cloudsigma2.domain.IPInfo;
 import org.jclouds.javax.annotation.Nullable;
 
@@ -38,7 +39,7 @@ public class IPInfoToJson implements Function<IPInfo, JsonObject>{
         JsonObject ipObject = new JsonObject();
 
         if(input.getMeta() != null){
-            ipObject.addProperty("meta", new Gson().toJson(input.getMeta()));
+            ipObject.add("meta", new JsonParser().parse(new Gson().toJson(input.getMeta())));
         }
 
         return ipObject;

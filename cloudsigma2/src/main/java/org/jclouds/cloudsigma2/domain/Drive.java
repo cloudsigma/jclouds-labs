@@ -131,30 +131,25 @@ public class Drive extends Item {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((owner == null) ? 0 : owner.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Drive)) return false;
+        if (!super.equals(o)) return false;
+
+        Drive drive = (Drive) o;
+
+        if (owner != null ? !owner.equals(drive.owner) : drive.owner != null) return false;
+        if (status != drive.status) return false;
+
+        return true;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Drive other = (Drive) obj;
-        if (owner != other.owner)
-            return false;
-        if (!Objects.equal(status, other.status))
-            return false;
-        if (!Objects.equal(name, other.name))
-            return false;
-        return true;
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (owner != null ? owner.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        return result;
     }
 
     @Override

@@ -19,6 +19,7 @@ package org.jclouds.cloudsigma2.binders;
 import com.google.common.base.Function;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.Drive;
+import org.jclouds.cloudsigma2.domain.DriveInfo;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
@@ -35,16 +36,16 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 @Singleton
 public class BindDriveToJson implements Binder {
-    private final Function<Drive, JsonObject> createDriveRequestToJson;
+    private final Function<DriveInfo, JsonObject> createDriveRequestToJson;
 
     @Inject
-    public BindDriveToJson(Function<Drive, JsonObject> createDriveRequestToJson) {
+    public BindDriveToJson(Function<DriveInfo, JsonObject> createDriveRequestToJson) {
         this.createDriveRequestToJson = createDriveRequestToJson;
     }
     @Override
     public <R extends HttpRequest> R bindToRequest(R request, Object payload) {
-        checkArgument(payload instanceof Drive, "this binder is only valid for Drive!");
-        Drive create = Drive.class.cast(payload);
+        checkArgument(payload instanceof DriveInfo, "this binder is only valid for DriveInfo!");
+        DriveInfo create = DriveInfo.class.cast(payload);
         JsonObject driveJson = createDriveRequestToJson.apply(create);
 
         request.setPayload(driveJson.toString());

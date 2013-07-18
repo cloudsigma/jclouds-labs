@@ -43,6 +43,10 @@ public class ParseDrivesList implements Function<HttpResponse, Iterable<Drive>> 
     public List<Drive> apply(HttpResponse response) {
         Response rawResponse = parseJson.apply(response);
 
+        if(rawResponse == null){
+            return null;
+        }
+
         return toDriveInfo(rawResponse.objects);
     }
 

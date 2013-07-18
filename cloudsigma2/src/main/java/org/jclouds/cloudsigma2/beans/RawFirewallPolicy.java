@@ -17,12 +17,13 @@
 package org.jclouds.cloudsigma2.beans;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vladimir Shevchenko
  */
 public class RawFirewallPolicy {
-    public Object meta;
+    public Map<String, String> meta;
     public String name;
     public RawOwner owner;
     public String resource_uri;

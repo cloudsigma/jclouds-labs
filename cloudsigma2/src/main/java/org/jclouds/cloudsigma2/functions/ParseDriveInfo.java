@@ -19,6 +19,7 @@ package org.jclouds.cloudsigma2.functions;
 import com.google.common.base.Function;
 import com.google.inject.Inject;
 import org.jclouds.cloudsigma2.beans.RawDrive;
+import org.jclouds.cloudsigma2.beans.RawServerInfo;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
 import org.jclouds.http.HttpResponse;
 import org.jclouds.http.functions.ParseJson;
@@ -32,23 +33,34 @@ import javax.inject.Singleton;
 @Singleton
 public class ParseDriveInfo implements Function<HttpResponse, DriveInfo> {
 
-    private final ParseJson<RawDrive> parseJson;
+    private final ParseJson<RawResponse> parseJson;
     private final JsonToDriveInfo jsonToDrive;
 
     @Inject
-    ParseDriveInfo(ParseJson<RawDrive> parseJson, JsonToDriveInfo jsonToDriveInfo){
+    ParseDriveInfo(ParseJson<RawResponse> parseJson, JsonToDriveInfo jsonToDriveInfo){
         this.parseJson = parseJson;
         this.jsonToDrive = jsonToDriveInfo;
     }
 
 
     @Override
-    public DriveInfo apply(HttpResponse response) {
-        RawDrive rawDrive = parseJson.apply(response);
+    public DriveInfo apply(HttpResponse input) {
+        RawDrive rawDrive = null;
+        RawResponse response = parseJson.apply(input);
+        if(response.objects != null && response.objects.iterator().hasNext()){
+            rawDrive = response.objects.iterator().next();
+        } else{
+            rawDrive = response;
+        }
+
         if(rawDrive == null){
             return null;
         }
 
         return jsonToDrive.apply(rawDrive);
+    }
+
+    protected class RawResponse extends RawDrive{
+        Iterable<RawDrive> objects;
     }
 }
