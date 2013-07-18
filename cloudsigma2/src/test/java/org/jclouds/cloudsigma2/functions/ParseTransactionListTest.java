@@ -96,7 +96,7 @@ public class ParseTransactionListTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_TRANSACTION_LIST.apply(HttpResponse.builder()
                                                                     .message("OK")
                                                                     .statusCode(200)
-                                                                    .payload(getJsonResource("/ledger"))
+                                                                    .payload(getJsonResource("/ledger.json"))
                                                                     .build())
         , expected);
     }

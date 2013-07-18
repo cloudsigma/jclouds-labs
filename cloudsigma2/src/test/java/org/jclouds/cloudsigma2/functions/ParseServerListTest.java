@@ -89,7 +89,7 @@ public class ParseServerListTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_SERVER_LIST.apply(HttpResponse.builder()
                 .message("OK")
                 .statusCode(200)
-                .payload(getJsonResource("/servers"))
+                .payload(getJsonResource("/servers.json"))
                 .build())
             , expectedList);
     }

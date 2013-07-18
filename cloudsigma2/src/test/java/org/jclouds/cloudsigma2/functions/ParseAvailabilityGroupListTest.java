@@ -64,7 +64,7 @@ public class ParseAvailabilityGroupListTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_AVAILABILITY_GROUP.apply(HttpResponse.builder()
                                                                 .statusCode(200)
                                                                 .message("OK")
-                                                                .payload(getJsonResource("/servers-availability-groups"))
+                                                                .payload(getJsonResource("/servers-availability-groups.json"))
                                                                 .build())
         , expected);
     }

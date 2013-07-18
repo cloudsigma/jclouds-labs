@@ -75,7 +75,7 @@ public class ParseLibraryDriveTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_LIBRARY_DRIVE.apply(HttpResponse.builder()
                                                             .statusCode(200)
                                                             .message("OK")
-                                                            .payload(getJsonResource("/libdrives-single"))
+                                                            .payload(getJsonResource("/libdrives-single.json"))
                                                             .build())
                 , expected);
     }

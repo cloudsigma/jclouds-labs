@@ -106,7 +106,7 @@ public class ParseServerInfoTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_SERVER_INFO.apply(HttpResponse.builder()
                 .message("OK")
                 .statusCode(200)
-                .payload(getJsonResource("/servers-single"))
+                .payload(getJsonResource("/servers-single.json"))
                 .build())
         , expected);
     }

@@ -37,7 +37,7 @@ public class ParseAccountBalanceTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_ACCOUNT_BALANCE.apply(HttpResponse.builder()
                                                 .message("OK")
                                                 .statusCode(200)
-                                                .payload(getJsonResource("/balance"))
+                                                .payload(getJsonResource("/balance.json"))
                                                 .build())
         , expected);
     }

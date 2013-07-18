@@ -81,7 +81,7 @@ public class ParseLicenseListTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_LICENSE_LIST.apply(HttpResponse.builder()
                                                                 .message("OK")
                                                                 .statusCode(200)
-                                                                .payload(getJsonResource("/licences"))
+                                                                .payload(getJsonResource("/licences.json"))
                                                                 .build())
         , expected);
     }

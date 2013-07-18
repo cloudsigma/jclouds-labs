@@ -112,7 +112,7 @@ public class ParseTagListTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_TAG_LIST.apply(HttpResponse.builder()
                                     .message("OK")
                                     .statusCode(200)
-                                    .payload(getJsonResource("/tags-detail"))
+                                    .payload(getJsonResource("/tags-detail.json"))
                                     .build())
         , expected);
     }

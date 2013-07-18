@@ -146,7 +146,7 @@ public class ParseLibraryDrivesListTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_LIBRARY_DRIVES_LIST.apply(HttpResponse.builder()
         .statusCode(200)
         .message("OK")
-        .payload(getJsonResource("/libdrives"))
+        .payload(getJsonResource("/libdrives.json"))
         .build()), resultList);
     }
 }

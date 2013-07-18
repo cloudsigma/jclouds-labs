@@ -77,7 +77,7 @@ public class ParseIPInfoTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_IP_INFO.apply(HttpResponse.builder()
                                                     .message("OK")
                                                     .statusCode(200)
-                                                    .payload(getJsonResource("/ips-single"))
+                                                    .payload(getJsonResource("/ips-single.json"))
                                                     .build())
         , expected);
     }
