@@ -97,7 +97,7 @@ public class ParseVLANInfoListTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_VLAN_INFO_LIST.apply(HttpResponse.builder()
                 .message("OK")
                 .statusCode(200)
-                .payload(getJsonResource("/vlans"))
+                .payload(getJsonResource("/vlans.json"))
                 .build())
         , expected);
     }

@@ -63,7 +63,7 @@ public class ParseCurrentUsageTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_CURRENT_USAGE.apply(HttpResponse.builder()
                                                 .statusCode(200)
                                                 .message("OK")
-                                                .payload(getJsonResource("/currentusage"))
+                                                .payload(getJsonResource("/currentusage.json"))
                                                 .build())
         , expected);
     }

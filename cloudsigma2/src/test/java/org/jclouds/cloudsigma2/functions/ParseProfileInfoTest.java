@@ -81,7 +81,7 @@ public class ParseProfileInfoTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_PROFILE_INFO.apply(HttpResponse.builder()
                                                         .message("OK")
                                                         .statusCode(200)
-                                                        .payload(getJsonResource("/profile"))
+                                                        .payload(getJsonResource("/profile.json"))
                                                         .build())
         , expected);
     }

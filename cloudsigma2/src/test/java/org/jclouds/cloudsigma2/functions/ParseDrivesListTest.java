@@ -82,7 +82,7 @@ public class ParseDrivesListTest extends CloudSigma2ParserTest {
         Assert.assertEquals(PARSE_DRIVES_LIST.apply(HttpResponse.builder()
                 .statusCode(200)
                 .message("ok")
-                .payload(getJsonResource("/drives"))
+                .payload(getJsonResource("/drives.json"))
                 .build())
                 , resultList);
     }
