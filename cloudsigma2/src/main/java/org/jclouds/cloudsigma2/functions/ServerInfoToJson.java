@@ -20,6 +20,7 @@ import com.google.common.base.Function;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.jclouds.cloudsigma2.domain.IPConfiguration;
 import org.jclouds.cloudsigma2.domain.NIC;
 import org.jclouds.cloudsigma2.domain.ServerDrive;
@@ -51,15 +52,15 @@ public class ServerInfoToJson implements Function<ServerInfo, JsonObject> {
         }
 
         if(input.getMeta() != null){
-            serverObject.addProperty("meta", input.getMeta().toString());
+            serverObject.add("meta", new JsonParser().parse(new Gson().toJson(input.getMeta())));
         }
 
         if(input.getRequirements() != null){
-            serverObject.addProperty("requirements", new Gson().toJson(input.getRequirements()));
+            serverObject.add("requirements", new JsonParser().parse(new Gson().toJson(input.getRequirements())));
         }
 
         if(input.getTags() != null){
-            serverObject.addProperty("tags", new Gson().toJson(input.getTags()));
+            serverObject.add("tags", new JsonParser().parse(new Gson().toJson(input.getTags())));
         }
 
         if(input.getVncPassword() != null){

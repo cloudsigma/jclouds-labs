@@ -19,6 +19,7 @@ package org.jclouds.cloudsigma2.functions;
 import com.google.common.base.Function;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.jclouds.cloudsigma2.domain.Tag;
 import org.jclouds.cloudsigma2.domain.TagResource;
 import org.jclouds.javax.annotation.Nullable;
@@ -40,6 +41,10 @@ public class TagToJson implements Function<Tag, JsonObject> {
             jsonTag.addProperty("name", input.getName());
         }
 
+        if(input.getMeta() != null){
+            jsonTag.add("meta", new JsonParser().parse(new Gson().toJson(input.getMeta())));
+        }
+
         if(input.getResources() != null && input.getResources().size() != 0){
             List<String> uuidsList = new ArrayList<String>();
 
@@ -47,7 +52,7 @@ public class TagToJson implements Function<Tag, JsonObject> {
                 uuidsList.add(tagResource.getUuid());
             }
 
-            jsonTag.addProperty("resources", new Gson().toJson(uuidsList));
+            jsonTag.add("resources", new JsonParser().parse(new Gson().toJson(uuidsList)));
         }
 
         return jsonTag;

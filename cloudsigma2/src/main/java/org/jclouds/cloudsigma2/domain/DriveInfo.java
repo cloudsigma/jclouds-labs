@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vladimir Shevchenko
@@ -34,7 +35,7 @@ public class DriveInfo extends Drive {
         protected List<String> jobs;
         protected List<DriveLicense> licenses;
         protected MediaType media = MediaType.UNRECOGNIZED;
-        protected Object meta;
+        protected Map<String, String> meta;
         protected List<Server> mountedOn;
         protected List<String> tags;
 
@@ -69,7 +70,7 @@ public class DriveInfo extends Drive {
          * @param jobs Background jobs related to this resource
          * @return DriveInfo Builder
          */
-        public Builder jobs(Iterable<String> jobs) {
+        public Builder jobs(List<String> jobs) {
             this.jobs = ImmutableList.copyOf(jobs);
             return this;
         }
@@ -96,7 +97,7 @@ public class DriveInfo extends Drive {
          * @param meta User defined meta information
          * @return DriveInfo Builder
          */
-        public Builder meta(Object meta) {
+        public Builder meta(Map<String, String> meta) {
             this.meta = meta;
             return this;
         }
@@ -190,14 +191,14 @@ public class DriveInfo extends Drive {
     protected final List<String> jobs;
     protected final List<DriveLicense> licenses;
     protected final MediaType media;
-    protected final Object meta;
+    protected final Map<String, String> meta;
     protected final List<Server> mountedOn;
     protected final List<String> tags;
 
     public DriveInfo(String uuid, String name, URI resourceUri,
                      BigInteger size, Owner owner, DriveStatus status,
                      boolean allowMultimount, List<String> affinities, List<String> jobs, List<DriveLicense> licenses,
-                     MediaType media, Object meta, List<Server> mountedOn, List<String> tags) {
+                     MediaType media, Map<String, String> meta, List<Server> mountedOn, List<String> tags) {
         super(uuid, name, resourceUri, owner, status);
         this.size = size;
         this.allowMultimount = allowMultimount;
@@ -255,7 +256,7 @@ public class DriveInfo extends Drive {
     /**
      * @return User defined meta information
      */
-    public Object getMeta() {
+    public Map<String, String> getMeta() {
         return meta;
     }
 
@@ -289,51 +290,23 @@ public class DriveInfo extends Drive {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        DriveInfo other = (DriveInfo) obj;
-        if (affinities == null) {
-            if (other.affinities != null)
-                return false;
-        } else if (!affinities.equals(other.affinities))
-            return false;
-        if (jobs == null) {
-            if (other.jobs != null)
-                return false;
-        } else if (!jobs.equals(other.jobs))
-            return false;
-        if (licenses == null) {
-            if (other.licenses != null)
-                return false;
-        } else if (!licenses.equals(other.licenses))
-            return false;
-        if (media == null) {
-            if (other.media != null)
-                return false;
-        } else if (!media.equals(other.media))
-            return false;
-        if (meta == null) {
-            if (other.meta != null)
-                return false;
-        } else if (!meta.equals(other.meta))
-            return false;
-        if (mountedOn == null) {
-            if (other.mountedOn != null)
-                return false;
-        } else if (!mountedOn.equals(other.mountedOn))
-            return false;
-        if (tags == null) {
-            if (other.tags != null)
-                return false;
-        } else if (!tags.equals(other.tags))
-            return false;
-        if (size != other.size)
-            return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DriveInfo)) return false;
+        if (!super.equals(o)) return false;
+
+        DriveInfo driveInfo = (DriveInfo) o;
+
+        if (allowMultimount != driveInfo.allowMultimount) return false;
+        if (affinities != null ? !affinities.equals(driveInfo.affinities) : driveInfo.affinities != null) return false;
+        if (jobs != null ? !jobs.equals(driveInfo.jobs) : driveInfo.jobs != null) return false;
+        if (licenses != null ? !licenses.equals(driveInfo.licenses) : driveInfo.licenses != null) return false;
+        if (media != driveInfo.media) return false;
+        if (meta != null ? !meta.equals(driveInfo.meta) : driveInfo.meta != null) return false;
+        if (mountedOn != null ? !mountedOn.equals(driveInfo.mountedOn) : driveInfo.mountedOn != null) return false;
+        if (size != null ? !size.equals(driveInfo.size) : driveInfo.size != null) return false;
+        if (tags != null ? !tags.equals(driveInfo.tags) : driveInfo.tags != null) return false;
+
         return true;
     }
 

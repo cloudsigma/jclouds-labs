@@ -20,7 +20,9 @@ import com.google.common.collect.ImmutableList;
 import org.jclouds.javax.annotation.Nullable;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vladimir Shevchenko
@@ -28,11 +30,11 @@ import java.util.List;
 public class Tag extends Item{
 
     public static class Builder extends Item.Builder{
-        protected Object meta;
+        protected Map<String, String> meta;
         protected Owner owner;
         protected List<TagResource> resources;
 
-        public Builder meta(Object meta) {
+        public Builder meta(Map<String, String> meta) {
             this.meta = meta;
             return this;
         }
@@ -76,22 +78,22 @@ public class Tag extends Item{
         }
     }
 
-    protected final Object meta;
+    protected final Map<String, String> meta;
     protected final Owner owner;
     protected final List<TagResource> resources;
 
-    public Tag(@Nullable String uuid, String name, @Nullable URI resourceUri, Object meta, Owner owner, List<TagResource> resources) {
+    public Tag(@Nullable String uuid, String name, @Nullable URI resourceUri, Map<String, String> meta, Owner owner, List<TagResource> resources) {
         super(uuid, name, resourceUri);
         this.meta = meta;
         this.owner = owner;
-        this.resources = resources;
+        this.resources = resources == null ? new ArrayList<TagResource>() : resources;
     }
 
     /**
      *
      * @return tag meta data
      */
-    public Object getMeta() {
+    public Map<String, String> getMeta() {
         return meta;
     }
 
@@ -112,40 +114,26 @@ public class Tag extends Item{
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Tag other = (Tag) obj;
-        if (meta == null) {
-            if (other.meta != null)
-                return false;
-        } else if (!meta.equals(other.meta))
-            return false;
-        if (owner == null) {
-            if (other.owner != null)
-                return false;
-        } else if (!owner.equals(other.owner))
-            return false;
-        if (resources == null) {
-            if (other.resources != null)
-                return false;
-        } else if (!resources.equals(other.resources))
-            return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Tag)) return false;
+        if (!super.equals(o)) return false;
+
+        Tag tag = (Tag) o;
+
+        if (meta != null ? !meta.equals(tag.meta) : tag.meta != null) return false;
+        if (owner != null ? !owner.equals(tag.owner) : tag.owner != null) return false;
+        if (resources != null ? !resources.equals(tag.resources) : tag.resources != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((meta == null) ? 0 : meta.hashCode());
-        result = prime * result + ((owner == null) ? 0 : owner.hashCode());
-        result = prime * result + ((resources == null) ? 0 : resources.hashCode());
+        result = 31 * result + (meta != null ? meta.hashCode() : 0);
+        result = 31 * result + (owner != null ? owner.hashCode() : 0);
+        result = 31 * result + (resources != null ? resources.hashCode() : 0);
         return result;
     }
 

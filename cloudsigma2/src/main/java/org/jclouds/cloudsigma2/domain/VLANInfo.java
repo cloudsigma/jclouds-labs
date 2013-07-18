@@ -21,6 +21,7 @@ import org.jclouds.javax.annotation.Nullable;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -29,7 +30,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class VLANInfo {
     public static class Builder {
-        protected Object meta;
+        protected Map<String, String> meta;
         protected String uuid;
         protected Owner owner;
         protected URI resourceUri;
@@ -59,7 +60,7 @@ public class VLANInfo {
          * @param meta User defined meta information
          * @return VLANInfo Builder
          */
-        public Builder meta(Object meta) {
+        public Builder meta(Map<String, String> meta) {
             this.meta = meta;
             return this;
         }
@@ -105,7 +106,7 @@ public class VLANInfo {
         }
     }
 
-    protected final Object meta;
+    protected final Map<String, String> meta;
     protected final String uuid;
     protected final Owner owner;
     protected final URI resourceUri;
@@ -113,7 +114,7 @@ public class VLANInfo {
     protected final Subscription subscription;
     protected final List<Tag> tags;
 
-    public VLANInfo(Object meta, String uuid, Owner owner, URI resourceUri, List<Server> servers
+    public VLANInfo(Map<String, String> meta, String uuid, Owner owner, URI resourceUri, List<Server> servers
             , Subscription subscription, List<Tag> tags) {
         this.meta = meta;
         this.uuid = uuid;
@@ -142,7 +143,7 @@ public class VLANInfo {
     /**
      * @return User defined meta information
      */
-    public Object getMeta() {
+    public Map<String, String> getMeta() {
         return meta;
     }
 

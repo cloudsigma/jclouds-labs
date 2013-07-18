@@ -19,8 +19,7 @@ package org.jclouds.cloudsigma2.config;
 import com.google.common.base.Function;
 import com.google.gson.JsonObject;
 import com.google.inject.TypeLiteral;
-import org.jclouds.cloudsigma2.CloudSigma2AsyncClient;
-import org.jclouds.cloudsigma2.CloudSigma2Client;
+import org.jclouds.cloudsigma2.CloudSigma2Api;
 import org.jclouds.cloudsigma2.domain.*;
 import org.jclouds.cloudsigma2.functions.*;
 import org.jclouds.cloudsigma2.handlers.CloudSigmaErrorHandler;
@@ -28,19 +27,16 @@ import org.jclouds.http.HttpErrorHandler;
 import org.jclouds.http.annotation.ClientError;
 import org.jclouds.http.annotation.Redirection;
 import org.jclouds.http.annotation.ServerError;
-import org.jclouds.rest.ConfiguresRestClient;
-import org.jclouds.rest.config.RestClientModule;
-
-import java.util.List;
-import java.util.Map;
+import org.jclouds.rest.ConfiguresHttpApi;
+import org.jclouds.rest.config.HttpApiModule;
 
 /**
  * Configures the CloudSigma connection.
  *
- * @author Adrian Cole
+ * @author Vladimir Shevchenko
  */
-@ConfiguresRestClient
-public class CloudSigma2RestClientModule extends RestClientModule<CloudSigma2Client, CloudSigma2AsyncClient> {
+@ConfiguresHttpApi
+public class CloudSigma2HttpApiModule extends HttpApiModule<CloudSigma2Api> {
 
     @Override
     protected void bindErrorHandlers() {
@@ -53,7 +49,7 @@ public class CloudSigma2RestClientModule extends RestClientModule<CloudSigma2Cli
     protected void configure() {
         super.configure();
         bind(new TypeLiteral<Function<DriveInfo, JsonObject>>() {
-        }).to(DriveInfoToJson.class);
+        }).to(DriveToJson.class);
         bind(new TypeLiteral<Function<ServerInfo, JsonObject>>() {
         }).to(ServerInfoToJson.class);
         bind(new TypeLiteral<Function<Tag, JsonObject>>() {
@@ -66,6 +62,8 @@ public class CloudSigma2RestClientModule extends RestClientModule<CloudSigma2Cli
         }).to(FirewallPolicyToJson.class);
         bind(new TypeLiteral<Function<IPInfo, JsonObject>>() {
         }).to(IPInfoToJson.class);
+        bind(new TypeLiteral<Function<VLANInfo, JsonObject>>() {
+        }).to(VLANInfoToJson.class);
         bind(new TypeLiteral<Function<CreateSubscriptionRequest, JsonObject>>() {
         }).to(CreateSubscriptionRequestToJson.class);
     }

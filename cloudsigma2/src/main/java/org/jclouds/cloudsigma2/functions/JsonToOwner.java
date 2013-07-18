@@ -22,6 +22,8 @@ import org.jclouds.cloudsigma2.domain.Owner;
 import org.jclouds.javax.annotation.Nullable;
 
 import javax.inject.Singleton;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * @author Vladimir Shevchenko
@@ -37,7 +39,11 @@ public class JsonToOwner implements Function<RawOwner, Owner> {
         Owner.Builder ownerBuilder = new Owner.Builder();
 
         if(input.resource_uri != null){
-            ownerBuilder.resourceUri(input.resource_uri);
+            try {
+                ownerBuilder.resourceUri(new URI(input.resource_uri));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
 
         if(input.email != null){

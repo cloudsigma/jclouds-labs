@@ -20,7 +20,9 @@ import com.google.common.collect.ImmutableList;
 
 import java.math.BigInteger;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vladimir Shevchenko
@@ -35,7 +37,7 @@ public class ServerInfo extends Server {
         protected boolean hvRelaxed;
         protected boolean hvTsc;
         protected BigInteger memory;
-        protected Object meta;
+        protected Map<String, String> meta;
         protected List<NIC> nics;
         protected List<String> requirements;
         protected List<String> tags;
@@ -109,7 +111,7 @@ public class ServerInfo extends Server {
          * @param meta user assigned meta information for this server
          * @return ServerInfo Builder
          */
-        public Builder meta(Object meta) {
+        public Builder meta(Map<String, String> meta) {
             this.meta = meta;
             return this;
         }
@@ -246,7 +248,7 @@ public class ServerInfo extends Server {
     protected final boolean hvRelaxed;
     protected final boolean hvTsc;
     protected final BigInteger memory;
-    protected final Object meta;
+    protected final Map<String, String> meta;
     protected final List<NIC> nics;
     protected final List<String> requirements;
     protected final List<String> tags;
@@ -255,18 +257,18 @@ public class ServerInfo extends Server {
 
     public ServerInfo(String uuid, String name, URI resourceUri, Owner owner, ServerStatus status, ServerRuntime runtime
             , int cpu, boolean cpusInsteadOfCores, List<ServerDrive> drives, boolean enableNuma
-            , boolean hvRelaxed, boolean hvTsc, BigInteger memory, Object meta, List<NIC> nics
+            , boolean hvRelaxed, boolean hvTsc, BigInteger memory, Map<String, String> meta, List<NIC> nics
             , List<String> requirements, List<String> tags, String vncPassword, int smp) {
         super(uuid, name, resourceUri, owner, status, runtime);
         this.cpu = cpu;
         this.cpusInsteadOfCores = cpusInsteadOfCores;
-        this.drives = drives;
+        this.drives = drives == null ? new ArrayList<ServerDrive>() : drives;
         this.enableNuma = enableNuma;
         this.hvRelaxed = hvRelaxed;
         this.hvTsc = hvTsc;
         this.memory = memory;
         this.meta = meta;
-        this.nics = nics;
+        this.nics = nics == null ? new ArrayList<NIC>() : nics;
         this.requirements = requirements;
         this.tags = tags;
         this.vncPassword = vncPassword;
@@ -325,7 +327,7 @@ public class ServerInfo extends Server {
     /**
      * @return user assigned meta information for this server
      */
-    public Object getMeta() {
+    public Map<String, String> getMeta() {
         return meta;
     }
 
@@ -377,9 +379,9 @@ public class ServerInfo extends Server {
         if (enableNuma != that.enableNuma) return false;
         if (hvRelaxed != that.hvRelaxed) return false;
         if (hvTsc != that.hvTsc) return false;
-        if (memory != that.memory) return false;
         if (smp != that.smp) return false;
         if (drives != null ? !drives.equals(that.drives) : that.drives != null) return false;
+        if (memory != null ? !memory.equals(that.memory) : that.memory != null) return false;
         if (meta != null ? !meta.equals(that.meta) : that.meta != null) return false;
         if (nics != null ? !nics.equals(that.nics) : that.nics != null) return false;
         if (requirements != null ? !requirements.equals(that.requirements) : that.requirements != null) return false;

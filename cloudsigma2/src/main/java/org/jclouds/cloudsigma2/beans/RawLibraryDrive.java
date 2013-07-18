@@ -25,7 +25,7 @@ public class RawLibraryDrive extends RawDrive {
     public String arch;
     public List<String> category;
     public String description;
-    public Boolean favorite;
+    public Boolean favourite;
     public String image_type;
     public String install_notes;
     public String os;

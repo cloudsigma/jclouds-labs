@@ -24,6 +24,7 @@ import org.jclouds.cloudsigma2.domain.TagResource;
 import org.jclouds.cloudsigma2.domain.TagResourceType;
 import org.jclouds.javax.annotation.Nullable;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -35,23 +36,20 @@ import java.util.List;
  */
 @Singleton
 public class JsonToTag implements Function<RawTag, Tag> {
+
+    private final JsonToOwner jsonToOwner;
+
+    @Inject
+    public JsonToTag(JsonToOwner jsonToOwner) {
+        this.jsonToOwner = jsonToOwner;
+    }
+
     @Override
     public Tag apply(@Nullable RawTag input) {
         Tag.Builder tagBuilder = new Tag.Builder();
 
         if(input.owner != null){
-            Owner.Builder ownerBuilder = new Owner.Builder();
-
-            if(input.owner.uuid != null){
-                ownerBuilder.uuid(input.owner.uuid);
-            }
-            if(input.owner.email != null){
-                ownerBuilder.email(input.owner.email);
-            }
-            if(input.owner.resource_uri != null){
-                ownerBuilder.resourceUri(input.owner.resource_uri);
-            }
-            tagBuilder.owner(ownerBuilder.build());
+            tagBuilder.owner(jsonToOwner.apply(input.owner));
         }
 
         if(input.resource_uri != null){
@@ -81,18 +79,7 @@ public class JsonToTag implements Function<RawTag, Tag> {
                 TagResource.Builder tagResourceBuilder = new TagResource.Builder();
 
                 if(rawTagResource.owner != null){
-                    Owner.Builder ownerBuilder = new Owner.Builder();
-
-                    if(rawTagResource.owner.uuid != null){
-                        ownerBuilder.uuid(rawTagResource.owner.uuid);
-                    }
-                    if(rawTagResource.owner.email != null){
-                        ownerBuilder.email(rawTagResource.owner.email);
-                    }
-                    if(rawTagResource.owner.resource_uri != null){
-                        ownerBuilder.resourceUri(rawTagResource.owner.resource_uri);
-                    }
-                    tagResourceBuilder.owner(ownerBuilder.build());
+                    tagResourceBuilder.owner(jsonToOwner.apply(rawTagResource.owner));
                 }
 
                 if(rawTagResource.res_type != null){
@@ -104,7 +91,11 @@ public class JsonToTag implements Function<RawTag, Tag> {
                 }
 
                 if(rawTagResource.resource_uri != null){
-                    tagResourceBuilder.resourceUri(rawTagResource.resource_uri);
+                    try {
+                        tagResourceBuilder.resourceUri(new URI(rawTagResource.resource_uri));
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 tagResourceList.add(tagResourceBuilder.build());

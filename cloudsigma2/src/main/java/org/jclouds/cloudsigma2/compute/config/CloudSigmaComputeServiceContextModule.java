@@ -16,13 +16,13 @@
  */
 package org.jclouds.cloudsigma2.compute.config;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static org.jclouds.util.Predicates2.retry;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import org.jclouds.cloudsigma2.CloudSigma2Client;
+import com.google.common.base.Function;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.inject.Provides;
+import com.google.inject.TypeLiteral;
+import org.jclouds.cloudsigma2.CloudSigma2Api;
 import org.jclouds.cloudsigma2.compute.CloudSigmaComputeServiceAdapter;
 import org.jclouds.cloudsigma2.compute.CloudSigmaTemplateBuilderImpl;
 import org.jclouds.cloudsigma2.compute.functions.ParseOsFamilyVersion64BitFromImageName;
@@ -35,29 +35,15 @@ import org.jclouds.cloudsigma2.domain.Device;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
 import org.jclouds.cloudsigma2.domain.Server;
 import org.jclouds.cloudsigma2.domain.ServerInfo;
-import org.jclouds.cloudsigma2.predicates.DriveClaimed;
-import org.jclouds.cloudsigma2.domain.Server;
 import org.jclouds.compute.ComputeServiceAdapter;
 import org.jclouds.compute.config.ComputeServiceAdapterContextModule;
-import org.jclouds.compute.domain.Hardware;
-import org.jclouds.compute.domain.Image;
-import org.jclouds.compute.domain.NodeMetadata;
-import org.jclouds.compute.domain.OsFamilyVersion64Bit;
-import org.jclouds.compute.domain.TemplateBuilder;
-import org.jclouds.compute.domain.Volume;
+import org.jclouds.compute.domain.*;
 import org.jclouds.compute.options.TemplateOptions;
-import org.jclouds.compute.reference.ComputeServiceConstants.Timeouts;
 import org.jclouds.domain.Location;
 import org.jclouds.functions.IdentityFunction;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.inject.Provides;
-import com.google.inject.TypeLiteral;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * 
@@ -98,23 +84,17 @@ public class CloudSigmaComputeServiceContextModule extends
 
    @Singleton
    public static class GetDrive extends CacheLoader<String, DriveInfo> {
-      private final CloudSigma2Client client;
+      private final CloudSigma2Api api;
 
       @Inject
-      public GetDrive(CloudSigma2Client client) {
-         this.client = client;
+      public GetDrive(CloudSigma2Api api) {
+         this.api = api;
       }
 
       @Override
       public DriveInfo load(String input) {
-         return client.getDriveInfo(input);
+         return api.getDriveInfo(input);
       }
-   }
-
-   @Provides
-   @Singleton
-   protected Predicate<DriveInfo> supplyDriveUnclaimed(DriveClaimed driveClaimed, Timeouts timeouts) {
-      return retry(Predicates.not(driveClaimed), timeouts.nodeRunning, 1000, MILLISECONDS);
    }
 
    @Provides

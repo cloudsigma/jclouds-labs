@@ -128,40 +128,27 @@ public class Server extends Item {
 
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((owner == null) ? 0 : owner.hashCode());
-        result = prime * result + ((status == null) ? 0 : status.hashCode());
-        result = prime * result + ((runtime == null) ? 0 : runtime.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Server)) return false;
+        if (!super.equals(o)) return false;
+
+        Server server = (Server) o;
+
+        if (owner != null ? !owner.equals(server.owner) : server.owner != null) return false;
+        if (runtime != null ? !runtime.equals(server.runtime) : server.runtime != null) return false;
+        if (status != server.status) return false;
+
+        return true;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Server other = (Server) obj;
-        if (owner == null) {
-            if (other.owner != null)
-                return false;
-        } else if (!owner.equals(other.owner))
-            return false;
-        if (status == null) {
-            if (other.status != null)
-                return false;
-        } else if (!status.equals(other.status))
-            return false;
-        if (runtime == null) {
-            if (other.runtime != null)
-                return false;
-        } else if (!runtime.equals(other.runtime))
-            return false;
-        return true;
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (owner != null ? owner.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (runtime != null ? runtime.hashCode() : 0);
+        return result;
     }
 
     @Override

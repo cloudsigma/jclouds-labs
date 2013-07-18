@@ -17,15 +17,15 @@
 package org.jclouds.cloudsigma2.beans;
 
 import java.math.BigInteger;
-import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Vladimir Shevchenko
  */
 public class RawDrive {
     public RawOwner owner;
-    public URI resource_uri;
+    public String resource_uri;
     public String status;
     public String uuid;
 
@@ -38,7 +38,7 @@ public class RawDrive {
     public String name;
     public BigInteger size;
     public List<String> tags;
-    public Object meta;
+    public Map meta;
 
     public class RawDriveLicense{
         public Integer amount;

@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableSet;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -31,7 +32,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class IPInfo extends IP {
     public static class Builder extends IP.Builder {
-        protected Object meta;
+        protected Map<String, String> meta;
         protected Subscription subscription;
         protected List<Tag> tags;
         protected List<String> nameservers;
@@ -42,7 +43,7 @@ public class IPInfo extends IP {
          * @param meta User defined meta information
          * @return IPInfo Builder
          */
-        public Builder meta(Object meta) {
+        public Builder meta(Map<String, String> meta) {
             this.meta = meta;
             return this;
         }
@@ -137,14 +138,14 @@ public class IPInfo extends IP {
         }
     }
 
-    protected final Object meta;
+    protected final Map<String, String> meta;
     protected final Subscription subscription;
     protected final List<Tag> tags;
     protected final List<String> nameservers;
     protected final int netmask;
     protected final String gateway;
 
-    public IPInfo(String uuid, Owner owner, Server server, URI resourceUri, Object meta, Subscription subscription
+    public IPInfo(String uuid, Owner owner, Server server, URI resourceUri, Map<String, String> meta, Subscription subscription
             , List<Tag> tags, List<String> nameservers, int netmask, String gateway) {
         super(uuid, owner, server, resourceUri);
         this.meta = meta;
@@ -158,7 +159,7 @@ public class IPInfo extends IP {
     /**
      * @return User defined meta information
      */
-    public Object getMeta() {
+    public Map<String, String> getMeta() {
         return meta;
     }
 

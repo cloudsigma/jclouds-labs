@@ -16,13 +16,15 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import java.net.URI;
+
 /**
  * @author Vladimir Shevchenko
  */
 public class Owner {
     public static class Builder{
         protected String uuid;
-        protected String resourceUri;
+        protected URI resourceUri;
         protected String email;
 
         public Builder uuid(String uuid) {
@@ -30,7 +32,7 @@ public class Owner {
             return this;
         }
 
-        public Builder resourceUri(String resourceUri) {
+        public Builder resourceUri(URI resourceUri) {
             this.resourceUri = resourceUri;
             return this;
         }
@@ -82,10 +84,10 @@ public class Owner {
         }
     }
     private String uuid;
-    private String resourceUri;
+    private URI resourceUri;
     private String email;
 
-    public Owner(String uuid, String resourceUri, String email){
+    public Owner(String uuid, URI resourceUri, String email){
         this.uuid = uuid;
         this.resourceUri = resourceUri;
         this.email = email;
@@ -103,7 +105,7 @@ public class Owner {
      *
      * @return resource uri of the profile.
      */
-    public String getResourceUri() {
+    public URI getResourceUri() {
         return resourceUri;
     }
 
