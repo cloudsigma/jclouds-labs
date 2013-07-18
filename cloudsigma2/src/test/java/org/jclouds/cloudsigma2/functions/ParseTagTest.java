@@ -91,7 +91,7 @@ public class ParseTagTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_TAG.apply(HttpResponse.builder()
                                                     .message("OK")
                                                     .statusCode(200)
-                                                    .payload(getJsonResource("/tags-single"))
+                                                    .payload(getJsonResource("/tags-single.json"))
                                                     .build())
         , expected);
     }

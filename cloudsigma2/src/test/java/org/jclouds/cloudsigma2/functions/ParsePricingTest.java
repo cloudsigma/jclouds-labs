@@ -123,7 +123,7 @@ public class ParsePricingTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_PRICING.apply(HttpResponse.builder()
                                         .message("OK")
                                         .statusCode(200)
-                                        .payload(getJsonResource("/pricing"))
+                                        .payload(getJsonResource("/pricing.json"))
                                         .build())
         , expected);
     }

@@ -135,7 +135,7 @@ public class ParseDrivesInfoListTest extends CloudSigma2ParserTest {
         Assert.assertEquals(PARSE_DRIVES_INFO_LIST.apply(HttpResponse.builder()
                 .statusCode(200)
                 .message("ok")
-                .payload(getJsonResource("/drives-detail"))
+                .payload(getJsonResource("/drives-detail.json"))
                 .build())
                 , resultList);
     }

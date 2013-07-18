@@ -140,7 +140,7 @@ public class ParseFirewallPoliciesListTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_FIREWALL_POLICIES_LIST.apply(HttpResponse.builder()
                                 .statusCode(200)
                                 .message("OK")
-                                .payload(getJsonResource("/fwpolicies-detail"))
+                                .payload(getJsonResource("/fwpolicies-detail.json"))
                                 .build())
         , expected);
     }

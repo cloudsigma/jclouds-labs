@@ -65,7 +65,7 @@ public class ParseSubscriptionTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_SUBSCRIPTION.apply(HttpResponse.builder()
                                             .message("OK")
                                             .statusCode(200)
-                                            .payload(getJsonResource("/subscriptions-single"))
+                                            .payload(getJsonResource("/subscriptions-single.json"))
                                             .build())
         , expected);
     }

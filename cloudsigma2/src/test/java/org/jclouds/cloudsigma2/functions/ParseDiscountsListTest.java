@@ -62,7 +62,7 @@ public class ParseDiscountsListTest extends CloudSigma2ParserTest{
         Assert.assertEquals(PARSE_DISCOUNTS_LIST.apply(HttpResponse.builder()
                                                 .statusCode(200)
                                                 .message("OK")
-                                                .payload(getJsonResource("/discount"))
+                                                .payload(getJsonResource("/discount.json"))
                                                 .build())
         , expected);
     }
