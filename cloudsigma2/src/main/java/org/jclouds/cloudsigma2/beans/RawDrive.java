@@ -38,7 +38,7 @@ public class RawDrive {
     public String name;
     public BigInteger size;
     public List<String> tags;
-    public Map meta;
+    public Map<String, String> meta;
 
     public class RawDriveLicense{
         public Integer amount;
