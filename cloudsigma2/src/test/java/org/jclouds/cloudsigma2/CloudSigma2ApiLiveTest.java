@@ -16,9 +16,9 @@ import java.util.Map;
  * @author Vladimir Shevchenko
  */
 @Test(groups = "live")
-public class CloudSigma2ApiTest extends BaseApiLiveTest<CloudSigma2Api> {
+public class CloudSigma2ApiLiveTest extends BaseApiLiveTest<CloudSigma2Api> {
 
-    public CloudSigma2ApiTest() {
+    public CloudSigma2ApiLiveTest() {
         provider = "cloudsigma2";
     }
 
