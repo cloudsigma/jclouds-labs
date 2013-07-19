@@ -20,7 +20,6 @@ import com.google.common.base.Function;
 import org.jclouds.cloudsigma2.beans.RawServer;
 import org.jclouds.cloudsigma2.beans.RawTag;
 import org.jclouds.cloudsigma2.beans.RawVLAN;
-import org.jclouds.cloudsigma2.domain.Owner;
 import org.jclouds.cloudsigma2.domain.Server;
 import org.jclouds.cloudsigma2.domain.Tag;
 import org.jclouds.cloudsigma2.domain.VLANInfo;

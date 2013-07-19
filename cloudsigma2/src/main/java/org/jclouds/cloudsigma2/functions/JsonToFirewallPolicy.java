@@ -19,9 +19,13 @@ package org.jclouds.cloudsigma2.functions;
 import com.google.common.base.Function;
 import org.jclouds.cloudsigma2.beans.RawFirewallPolicy;
 import org.jclouds.cloudsigma2.beans.RawServer;
-import org.jclouds.cloudsigma2.domain.*;
+import org.jclouds.cloudsigma2.domain.FirewallAction;
+import org.jclouds.cloudsigma2.domain.FirewallDirection;
+import org.jclouds.cloudsigma2.domain.FirewallIpProtocol;
+import org.jclouds.cloudsigma2.domain.FirewallPolicy;
+import org.jclouds.cloudsigma2.domain.FirewallRule;
+import org.jclouds.cloudsigma2.domain.Server;
 import org.jclouds.javax.annotation.Nullable;
-import org.jclouds.net.domain.IpProtocol;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

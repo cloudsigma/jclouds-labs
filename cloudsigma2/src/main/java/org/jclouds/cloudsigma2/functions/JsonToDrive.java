@@ -17,7 +17,6 @@
 package org.jclouds.cloudsigma2.functions;
 
 import com.google.common.base.Function;
-import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.beans.RawDrive;
 import org.jclouds.cloudsigma2.domain.Drive;
 import org.jclouds.cloudsigma2.domain.DriveStatus;

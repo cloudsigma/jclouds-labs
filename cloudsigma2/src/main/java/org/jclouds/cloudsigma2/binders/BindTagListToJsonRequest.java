@@ -16,31 +16,39 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.Tag;
+import org.jclouds.cloudsigma2.functions.TagToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * @author Vladimir Shevchenko
  */
 @Singleton
 public class BindTagListToJsonRequest implements Binder {
-    private final Function<Tag, JsonObject> tagJsonObjectFunction;
+    private final TagToJson tagJsonObjectFunction;
 
     @Inject
-    public BindTagListToJsonRequest(Function<Tag, JsonObject> tagJsonObjectFunction) {
+    public BindTagListToJsonRequest(TagToJson tagJsonObjectFunction) {
         this.tagJsonObjectFunction = tagJsonObjectFunction;
     }
 
     @Override
     public <R extends HttpRequest> R bindToRequest(R request, Object payload) {
+        checkArgument(payload instanceof List, "this binder is only valid for List<Tag>!");
+        List list = List.class.cast(payload);
+        for(Object o : list){
+            checkArgument(o instanceof Tag, "this binder is only valid for List<Tag>!");
+        }
         Iterable<Tag> tags = (Iterable<Tag>) payload;
         JsonArray tagJsonArray = new JsonArray();
 

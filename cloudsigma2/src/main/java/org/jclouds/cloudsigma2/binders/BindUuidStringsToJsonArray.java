@@ -18,11 +18,15 @@ package org.jclouds.cloudsigma2.binders;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.jclouds.cloudsigma2.domain.ServerInfo;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
 import javax.inject.Singleton;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * @author Vladimir Shevchenko
@@ -31,6 +35,11 @@ import javax.ws.rs.core.MediaType;
 public class BindUuidStringsToJsonArray implements Binder {
     @Override
     public <R extends HttpRequest> R bindToRequest(R request, Object payload) {
+        checkArgument(payload instanceof List, "this binder is only valid for List<String>!");
+        List list = List.class.cast(payload);
+        for(Object o : list){
+            checkArgument(o instanceof String, "this binder is only valid for List<String>!");
+        }
         Iterable<String> uuids = (Iterable<String>) payload;
         JsonArray uuidJsonArray = new JsonArray();
         JsonObject json = new JsonObject();

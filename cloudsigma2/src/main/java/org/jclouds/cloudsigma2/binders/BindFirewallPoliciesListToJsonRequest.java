@@ -16,31 +16,39 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.FirewallPolicy;
+import org.jclouds.cloudsigma2.functions.FirewallPolicyToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * @author Vladimir Shevchenko
  */
 public class BindFirewallPoliciesListToJsonRequest implements Binder {
 
-    private final Function<FirewallPolicy, JsonObject> policyJsonObjectFunction;
+    private final FirewallPolicyToJson policyJsonObjectFunction;
 
     @Inject
-    public BindFirewallPoliciesListToJsonRequest(Function<FirewallPolicy, JsonObject> policyJsonObjectFunction) {
+    public BindFirewallPoliciesListToJsonRequest(FirewallPolicyToJson policyJsonObjectFunction) {
         this.policyJsonObjectFunction = policyJsonObjectFunction;
     }
 
     @Override
     public <R extends HttpRequest> R bindToRequest(R request, Object input) {
-        Iterable<FirewallPolicy> firewallPolicies = (Iterable<FirewallPolicy>) input;
+        checkArgument(input instanceof List, "this binder is only valid for List<FirewallPolicy>!");
+        List list = List.class.cast(input);
+        for(Object o : list){
+            checkArgument(o instanceof FirewallPolicy, "this binder is only valid for List<FirewallPolicy>!");
+        }
+        List<FirewallPolicy> firewallPolicies = (List<FirewallPolicy>) input;
         JsonArray firewalsJsonArray = new JsonArray();
 
         for(FirewallPolicy firewallPolicy : firewallPolicies){

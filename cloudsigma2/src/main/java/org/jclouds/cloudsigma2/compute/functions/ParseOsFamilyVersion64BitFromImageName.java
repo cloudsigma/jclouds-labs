@@ -16,23 +16,18 @@
  */
 package org.jclouds.cloudsigma2.compute.functions;
 
-import static com.google.common.base.Predicates.and;
-import static com.google.common.base.Predicates.containsPattern;
-import static com.google.common.base.Predicates.not;
-import static com.google.common.base.Predicates.or;
-
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
+import com.google.common.base.Function;
 import org.jclouds.compute.domain.OsFamily;
 import org.jclouds.compute.domain.OsFamilyVersion64Bit;
 import org.jclouds.compute.util.ComputeServiceUtils;
 
-import com.google.common.base.Function;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.google.common.base.Predicates.*;
 
 /**
  * Defaults to version null and 64bit, if the operating system is unrecognized and the pattern

@@ -18,7 +18,6 @@ package org.jclouds.cloudsigma2.functions;
 
 import com.google.common.base.Function;
 import com.google.gson.JsonObject;
-import org.jclouds.cloudsigma2.domain.DriveInfo;
 import org.jclouds.cloudsigma2.domain.LibraryDrive;
 import org.jclouds.javax.annotation.Nullable;
 
@@ -31,10 +30,10 @@ import javax.inject.Singleton;
 @Singleton
 public class LibraryDriveToJson implements Function<LibraryDrive, JsonObject> {
 
-    private final Function<DriveInfo, JsonObject> infoJsonObjectFunction;
+    private final DriveToJson infoJsonObjectFunction;
 
     @Inject
-    public LibraryDriveToJson(Function<DriveInfo, JsonObject> infoJsonObjectFunction) {
+    public LibraryDriveToJson(DriveToJson infoJsonObjectFunction) {
         this.infoJsonObjectFunction = infoJsonObjectFunction;
     }
 

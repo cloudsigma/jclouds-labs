@@ -16,11 +16,11 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * 

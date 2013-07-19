@@ -16,8 +16,6 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
-import org.jclouds.net.domain.IpProtocol;
-
 /**
  * @author Vladimir Shevchenko
  */
