@@ -16,9 +16,9 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.IPInfo;
+import org.jclouds.cloudsigma2.functions.IPInfoToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
@@ -34,10 +34,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Singleton
 public class BindIPInfoToJsonRequest implements Binder {
 
-    private final Function<IPInfo, JsonObject> ipInfoJsonObjectFunction;
+    private final IPInfoToJson ipInfoJsonObjectFunction;
 
     @Inject
-    public BindIPInfoToJsonRequest(Function<IPInfo, JsonObject> ipInfoJsonObjectFunction) {
+    public BindIPInfoToJsonRequest(IPInfoToJson ipInfoJsonObjectFunction) {
         this.ipInfoJsonObjectFunction = ipInfoJsonObjectFunction;
     }
 

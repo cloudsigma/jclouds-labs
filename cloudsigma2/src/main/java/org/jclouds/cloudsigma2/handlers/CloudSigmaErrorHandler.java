@@ -94,12 +94,12 @@ public class CloudSigmaErrorHandler implements HttpErrorHandler {
       try {
          return Strings2.toString(response.getPayload());
       } catch (IOException e) {
-         throw new RuntimeException(e);
+         throw Throwables.propagate(e);
       } finally {
          try {
             response.getPayload().getInput().close();
          } catch (IOException e) {
-            Throwables.propagate(e);
+            throw Throwables.propagate(e);
          }
       }
    }

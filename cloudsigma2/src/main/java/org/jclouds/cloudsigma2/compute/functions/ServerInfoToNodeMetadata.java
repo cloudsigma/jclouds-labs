@@ -26,7 +26,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import org.jclouds.cloudsigma2.domain.Device;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
-import org.jclouds.cloudsigma2.domain.Server;
+import org.jclouds.cloudsigma2.domain.ServerDrive;
 import org.jclouds.cloudsigma2.domain.ServerInfo;
 import org.jclouds.cloudsigma2.domain.ServerStatus;
 import org.jclouds.collect.Memoized;
@@ -57,22 +57,21 @@ import static org.jclouds.compute.predicates.ImagePredicates.idEquals;
 public class ServerInfoToNodeMetadata implements Function<ServerInfo, NodeMetadata> {
    public static final Map<ServerStatus, Status> serverStatusToNodeStatus = ImmutableMap
          .<ServerStatus, Status> builder()
-// .put(ServerStatus.ACTIVE, Status.RUNNING)//
+         .put(ServerStatus.RUNNING, Status.RUNNING)//
          .put(ServerStatus.STOPPED, Status.SUSPENDED)//
          .put(ServerStatus.PAUSED, Status.SUSPENDED)//
-//         .put(ServerStatus.DUMPED, Status.PENDING)//
-//         .put(ServerStatus.DEAD, Status.TERMINATED)//
+         .put(ServerStatus.UNAVAILABLE, Status.TERMINATED)//
          .put(ServerStatus.UNRECOGNIZED, Status.UNRECOGNIZED)//
          .build();
 
-   private final Function<Server, String> getImageIdFromServer;
+   private final Function<ServerInfo, String> getImageIdFromServer;
    private final Supplier<Set<? extends Image>> images;
    private final Supplier<Location> locationSupplier;
    private final Function<Device, Volume> deviceToVolume;
    private final GroupNamingConvention nodeNamingConvention;
 
    @Inject
-   ServerInfoToNodeMetadata(Function<Server, String> getImageIdFromServer, @Memoized Supplier<Set<? extends Image>> images,
+   ServerInfoToNodeMetadata(Function<ServerInfo, String> getImageIdFromServer, @Memoized Supplier<Set<? extends Image>> images,
          Function<Device, Volume> deviceToVolume, Supplier<Location> locationSupplier,
          GroupNamingConvention.Factory namingConvention) {
       this.nodeNamingConvention = checkNotNull(namingConvention, "namingConvention").createWithoutPrefix();
@@ -125,9 +124,9 @@ public class ServerInfoToNodeMetadata implements Function<ServerInfo, NodeMetada
          builder.id(input.getId());
          try {
             DriveInfo drive = cache.getUnchecked(input.getDriveUuid());
-            builder.size(drive.getSize().floatValue());
-         } catch (NullPointerException e) {
-            logger.debug("drive %s not found", input.getDriveUuid());
+            if(drive != null){
+               builder.size(drive.getSize().floatValue());
+            }
          } catch (UncheckedExecutionException e) {
             logger.warn(e, "error finding drive %s: %s", input.getDriveUuid(), e.getMessage());
          }
@@ -143,7 +142,7 @@ public class ServerInfoToNodeMetadata implements Function<ServerInfo, NodeMetada
     * 
     */
    @Singleton
-   public static class GetImageIdFromServer implements Function<Server, String> {
+   public static class GetImageIdFromServer implements Function<ServerInfo, String> {
       @Resource
       protected Logger logger = Logger.NULL;
 
@@ -155,21 +154,26 @@ public class ServerInfoToNodeMetadata implements Function<ServerInfo, NodeMetada
       }
 
       @Override
-      public String apply(Server from) {
-         String imageId = null;
-//         String bootDeviceId = Iterables.get(from.getBootDeviceIds(), 0);
-//         Device bootDevice = from.getDevices().get(bootDeviceId);
-//         if (bootDevice != null) {
-//            try {
-//               DriveInfo drive = cache.getUnchecked(bootDevice.getDriveUuid());
-//               imageId = drive.getName();
-//            } catch (NullPointerException e) {
-//               logger.debug("drive %s not found", bootDevice.getDriveUuid());
-//            } catch (UncheckedExecutionException e) {
-//               logger.warn(e, "error finding drive %s: %s", bootDevice.getDriveUuid(), e.getMessage());
-//            }
-//         }
-         return imageId;
+      public String apply(ServerInfo from) {
+         ServerDrive bootDrive = new ServerDrive.Builder().bootOrder(-1).build();
+
+         for(ServerDrive serverDrive : from.getDrives()){
+            if(serverDrive.getBootOrder() > bootDrive.getBootOrder()){
+                bootDrive = serverDrive;
+            }
+         }
+         if (bootDrive.getBootOrder() != -1) {
+            try {
+               DriveInfo drive = cache.getUnchecked(bootDrive.getDriveUuid());
+               return drive.getName();
+            } catch (NullPointerException e) {
+               logger.debug("drive %s not found", bootDrive.getDriveUuid());
+            } catch (UncheckedExecutionException e) {
+               logger.warn(e, "error finding drive %s: %s", bootDrive.getDriveUuid(), e.getMessage());
+            }
+         }
+
+         return null;
       }
    }
 }

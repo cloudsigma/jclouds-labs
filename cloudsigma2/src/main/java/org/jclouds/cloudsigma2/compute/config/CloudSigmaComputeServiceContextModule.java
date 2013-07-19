@@ -33,7 +33,6 @@ import org.jclouds.cloudsigma2.compute.functions.ServerInfoToNodeMetadata.GetIma
 import org.jclouds.cloudsigma2.compute.options.CloudSigmaTemplateOptions;
 import org.jclouds.cloudsigma2.domain.Device;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
-import org.jclouds.cloudsigma2.domain.Server;
 import org.jclouds.cloudsigma2.domain.ServerInfo;
 import org.jclouds.compute.ComputeServiceAdapter;
 import org.jclouds.compute.config.ComputeServiceAdapterContextModule;
@@ -73,7 +72,7 @@ public class CloudSigmaComputeServiceContextModule extends
       }).to(Class.class.cast(IdentityFunction.class));
       bind(new TypeLiteral<Function<Device, Volume>>() {
       }).to(DeviceToVolume.class);
-      bind(new TypeLiteral<Function<Server, String>>() {
+      bind(new TypeLiteral<Function<ServerInfo, String>>() {
       }).to(GetImageIdFromServer.class);
       bind(new TypeLiteral<Function<String, OsFamilyVersion64Bit>>() {
       }).to(ParseOsFamilyVersion64BitFromImageName.class);

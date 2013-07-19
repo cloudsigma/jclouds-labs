@@ -195,7 +195,7 @@ public class CloudSigmaComputeServiceAdapter implements
    @SuppressWarnings("unchecked")
    @Override
    public Iterable<ServerInfo> listNodes() {
-      return (Iterable<ServerInfo>) client.listServersInfo();
+      return client.listServersInfo();
    }
    
    @Override

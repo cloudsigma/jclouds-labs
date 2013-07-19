@@ -16,9 +16,9 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.VLANInfo;
+import org.jclouds.cloudsigma2.functions.VLANInfoToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
@@ -34,10 +34,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Singleton
 public class BindVLANToJsonRequest implements Binder{
 
-    private final Function<VLANInfo, JsonObject> vlanInfoJsonObjectFunction;
+    private final VLANInfoToJson vlanInfoJsonObjectFunction;
 
     @Inject
-    public BindVLANToJsonRequest(Function<VLANInfo, JsonObject> vlanInfoJsonObjectFunction) {
+    public BindVLANToJsonRequest(VLANInfoToJson vlanInfoJsonObjectFunction) {
         this.vlanInfoJsonObjectFunction = vlanInfoJsonObjectFunction;
     }
 

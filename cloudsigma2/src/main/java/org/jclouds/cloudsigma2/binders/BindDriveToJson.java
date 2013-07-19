@@ -16,9 +16,9 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
+import org.jclouds.cloudsigma2.functions.DriveToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
@@ -35,10 +35,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 @Singleton
 public class BindDriveToJson implements Binder {
-    private final Function<DriveInfo, JsonObject> createDriveRequestToJson;
+    private final DriveToJson createDriveRequestToJson;
 
     @Inject
-    public BindDriveToJson(Function<DriveInfo, JsonObject> createDriveRequestToJson) {
+    public BindDriveToJson(DriveToJson createDriveRequestToJson) {
         this.createDriveRequestToJson = createDriveRequestToJson;
     }
     @Override

@@ -16,10 +16,10 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonObject;
 import com.google.inject.Singleton;
 import org.jclouds.cloudsigma2.domain.LibraryDrive;
+import org.jclouds.cloudsigma2.functions.LibraryDriveToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
@@ -34,10 +34,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Singleton
 public class BindLibraryDriveToJson implements Binder {
 
-    private final Function<LibraryDrive, JsonObject> createDriveJsonObjectFunction;
+    private final LibraryDriveToJson createDriveJsonObjectFunction;
 
     @Inject
-    public BindLibraryDriveToJson(Function<LibraryDrive, JsonObject> createDriveJsonObjectFunction) {
+    public BindLibraryDriveToJson(LibraryDriveToJson createDriveJsonObjectFunction) {
         this.createDriveJsonObjectFunction = createDriveJsonObjectFunction;
     }
 

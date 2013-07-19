@@ -16,9 +16,9 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.FirewallPolicy;
+import org.jclouds.cloudsigma2.functions.FirewallPolicyToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
@@ -34,10 +34,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Singleton
 public class BindFirewallPolicyToJsonRequest implements Binder {
 
-    private final Function<FirewallPolicy, JsonObject> policyJsonObjectFunction;
+    private final FirewallPolicyToJson policyJsonObjectFunction;
 
     @Inject
-    public BindFirewallPolicyToJsonRequest(Function<FirewallPolicy, JsonObject> policyJsonObjectFunction) {
+    public BindFirewallPolicyToJsonRequest(FirewallPolicyToJson policyJsonObjectFunction) {
         this.policyJsonObjectFunction = policyJsonObjectFunction;
     }
 

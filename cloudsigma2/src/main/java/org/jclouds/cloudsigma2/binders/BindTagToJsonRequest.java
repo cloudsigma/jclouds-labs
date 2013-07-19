@@ -16,9 +16,9 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.Tag;
+import org.jclouds.cloudsigma2.functions.TagToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
@@ -33,10 +33,10 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 @Singleton
 public class BindTagToJsonRequest implements Binder {
-    private final Function<Tag, JsonObject> createTagRequestToJson;
+    private final TagToJson createTagRequestToJson;
 
     @Inject
-    public BindTagToJsonRequest(Function<Tag, JsonObject> createTagRequestToJson) {
+    public BindTagToJsonRequest(TagToJson createTagRequestToJson) {
         this.createTagRequestToJson = createTagRequestToJson;
     }
 

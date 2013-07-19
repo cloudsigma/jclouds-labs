@@ -16,28 +16,7 @@
  */
 package org.jclouds.cloudsigma2.config;
 
-import com.google.common.base.Function;
-import com.google.gson.JsonObject;
-import com.google.inject.TypeLiteral;
 import org.jclouds.cloudsigma2.CloudSigma2Api;
-import org.jclouds.cloudsigma2.domain.CreateSubscriptionRequest;
-import org.jclouds.cloudsigma2.domain.DriveInfo;
-import org.jclouds.cloudsigma2.domain.FirewallPolicy;
-import org.jclouds.cloudsigma2.domain.IPInfo;
-import org.jclouds.cloudsigma2.domain.LibraryDrive;
-import org.jclouds.cloudsigma2.domain.ProfileInfo;
-import org.jclouds.cloudsigma2.domain.ServerInfo;
-import org.jclouds.cloudsigma2.domain.Tag;
-import org.jclouds.cloudsigma2.domain.VLANInfo;
-import org.jclouds.cloudsigma2.functions.CreateSubscriptionRequestToJson;
-import org.jclouds.cloudsigma2.functions.DriveToJson;
-import org.jclouds.cloudsigma2.functions.FirewallPolicyToJson;
-import org.jclouds.cloudsigma2.functions.IPInfoToJson;
-import org.jclouds.cloudsigma2.functions.LibraryDriveToJson;
-import org.jclouds.cloudsigma2.functions.ProfileInfoToJson;
-import org.jclouds.cloudsigma2.functions.ServerInfoToJson;
-import org.jclouds.cloudsigma2.functions.TagToJson;
-import org.jclouds.cloudsigma2.functions.VLANInfoToJson;
 import org.jclouds.cloudsigma2.handlers.CloudSigmaErrorHandler;
 import org.jclouds.http.HttpErrorHandler;
 import org.jclouds.http.annotation.ClientError;
@@ -64,24 +43,6 @@ public class CloudSigma2HttpApiModule extends HttpApiModule<CloudSigma2Api> {
     @Override
     protected void configure() {
         super.configure();
-        bind(new TypeLiteral<Function<DriveInfo, JsonObject>>() {
-        }).to(DriveToJson.class);
-        bind(new TypeLiteral<Function<ServerInfo, JsonObject>>() {
-        }).to(ServerInfoToJson.class);
-        bind(new TypeLiteral<Function<Tag, JsonObject>>() {
-        }).to(TagToJson.class);
-        bind(new TypeLiteral<Function<ProfileInfo, JsonObject>>() {
-        }).to(ProfileInfoToJson.class);
-        bind(new TypeLiteral<Function<LibraryDrive, JsonObject>>() {
-        }).to(LibraryDriveToJson.class);
-        bind(new TypeLiteral<Function<FirewallPolicy, JsonObject>>() {
-        }).to(FirewallPolicyToJson.class);
-        bind(new TypeLiteral<Function<IPInfo, JsonObject>>() {
-        }).to(IPInfoToJson.class);
-        bind(new TypeLiteral<Function<VLANInfo, JsonObject>>() {
-        }).to(VLANInfoToJson.class);
-        bind(new TypeLiteral<Function<CreateSubscriptionRequest, JsonObject>>() {
-        }).to(CreateSubscriptionRequestToJson.class);
     }
 
     @Override
