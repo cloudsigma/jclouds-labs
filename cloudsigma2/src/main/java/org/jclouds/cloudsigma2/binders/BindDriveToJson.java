@@ -18,7 +18,6 @@ package org.jclouds.cloudsigma2.binders;
 
 import com.google.common.base.Function;
 import com.google.gson.JsonObject;
-import org.jclouds.cloudsigma2.domain.Drive;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;

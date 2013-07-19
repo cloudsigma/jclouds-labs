@@ -19,7 +19,11 @@ package org.jclouds.cloudsigma2.functions;
 import com.google.common.base.Function;
 import org.jclouds.cloudsigma2.beans.RawDrive;
 import org.jclouds.cloudsigma2.beans.RawServer;
-import org.jclouds.cloudsigma2.domain.*;
+import org.jclouds.cloudsigma2.domain.DriveInfo;
+import org.jclouds.cloudsigma2.domain.DriveLicense;
+import org.jclouds.cloudsigma2.domain.DriveStatus;
+import org.jclouds.cloudsigma2.domain.MediaType;
+import org.jclouds.cloudsigma2.domain.Server;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

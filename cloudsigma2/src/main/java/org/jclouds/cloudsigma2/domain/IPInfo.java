@@ -17,15 +17,10 @@
 package org.jclouds.cloudsigma2.domain;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 
 import java.net.URI;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Vladimir Shevchenko

@@ -16,47 +16,39 @@
  */
 package org.jclouds.cloudsigma2.compute.functions;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.jclouds.compute.predicates.ImagePredicates.idEquals;
-
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Resource;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import com.google.common.base.Supplier;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import org.jclouds.cloudsigma2.domain.Device;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
 import org.jclouds.cloudsigma2.domain.Server;
 import org.jclouds.cloudsigma2.domain.ServerInfo;
 import org.jclouds.cloudsigma2.domain.ServerStatus;
-import org.jclouds.cloudsigma2.domain.DriveInfo;
-import org.jclouds.cloudsigma2.domain.Server;
-import org.jclouds.cloudsigma2.domain.ServerInfo;
 import org.jclouds.collect.Memoized;
 import org.jclouds.compute.domain.HardwareBuilder;
 import org.jclouds.compute.domain.Image;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.compute.domain.NodeMetadata.Status;
 import org.jclouds.compute.domain.NodeMetadataBuilder;
-import org.jclouds.compute.domain.Processor;
 import org.jclouds.compute.domain.Volume;
 import org.jclouds.compute.domain.VolumeBuilder;
 import org.jclouds.compute.functions.GroupNamingConvention;
 import org.jclouds.domain.Location;
 import org.jclouds.logging.Logger;
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.base.Supplier;
-import com.google.common.cache.LoadingCache;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import com.google.common.util.concurrent.UncheckedExecutionException;
+import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Map;
+import java.util.Set;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.jclouds.compute.predicates.ImagePredicates.idEquals;
 
 /**
  * @author Adrian Cole

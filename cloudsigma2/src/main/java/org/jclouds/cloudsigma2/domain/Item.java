@@ -20,8 +20,6 @@ import org.jclouds.javax.annotation.Nullable;
 
 import java.net.URI;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * @author Vladimir Shevchenko
  */

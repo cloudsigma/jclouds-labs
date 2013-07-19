@@ -16,10 +16,71 @@
  */
 package org.jclouds.cloudsigma2;
 
+
 import org.jclouds.Fallbacks;
-import org.jclouds.cloudsigma2.binders.*;
-import org.jclouds.cloudsigma2.domain.*;
-import org.jclouds.cloudsigma2.functions.*;
+import org.jclouds.cloudsigma2.binders.BindCreateSubscriptionRequest;
+import org.jclouds.cloudsigma2.binders.BindCreateSubscriptionRequestList;
+import org.jclouds.cloudsigma2.binders.BindDriveToJson;
+import org.jclouds.cloudsigma2.binders.BindDrivesToJson;
+import org.jclouds.cloudsigma2.binders.BindFirewallPoliciesListToJsonRequest;
+import org.jclouds.cloudsigma2.binders.BindFirewallPolicyToJsonRequest;
+import org.jclouds.cloudsigma2.binders.BindIPInfoToJsonRequest;
+import org.jclouds.cloudsigma2.binders.BindLibraryDriveToJson;
+import org.jclouds.cloudsigma2.binders.BindProfileInfoToJsonRequest;
+import org.jclouds.cloudsigma2.binders.BindServerInfoListToJsonRequest;
+import org.jclouds.cloudsigma2.binders.BindServerInfoToJsonRequest;
+import org.jclouds.cloudsigma2.binders.BindTagListToJsonRequest;
+import org.jclouds.cloudsigma2.binders.BindTagToJsonRequest;
+import org.jclouds.cloudsigma2.binders.BindUuidStringsToJsonArray;
+import org.jclouds.cloudsigma2.binders.BindVLANToJsonRequest;
+import org.jclouds.cloudsigma2.domain.AccountBalance;
+import org.jclouds.cloudsigma2.domain.CreateSubscriptionRequest;
+import org.jclouds.cloudsigma2.domain.CurrentUsage;
+import org.jclouds.cloudsigma2.domain.Discount;
+import org.jclouds.cloudsigma2.domain.Drive;
+import org.jclouds.cloudsigma2.domain.DriveInfo;
+import org.jclouds.cloudsigma2.domain.DrivesListRequestFieldsGroup;
+import org.jclouds.cloudsigma2.domain.FirewallPolicy;
+import org.jclouds.cloudsigma2.domain.IP;
+import org.jclouds.cloudsigma2.domain.IPInfo;
+import org.jclouds.cloudsigma2.domain.LibraryDrive;
+import org.jclouds.cloudsigma2.domain.License;
+import org.jclouds.cloudsigma2.domain.Pricing;
+import org.jclouds.cloudsigma2.domain.ProfileInfo;
+import org.jclouds.cloudsigma2.domain.Server;
+import org.jclouds.cloudsigma2.domain.ServerAvailabilityGroup;
+import org.jclouds.cloudsigma2.domain.ServerInfo;
+import org.jclouds.cloudsigma2.domain.Subscription;
+import org.jclouds.cloudsigma2.domain.Tag;
+import org.jclouds.cloudsigma2.domain.Transaction;
+import org.jclouds.cloudsigma2.domain.VLANInfo;
+import org.jclouds.cloudsigma2.functions.ParseAccountBalance;
+import org.jclouds.cloudsigma2.functions.ParseAvailabilityGroup;
+import org.jclouds.cloudsigma2.functions.ParseAvailabilityGroupList;
+import org.jclouds.cloudsigma2.functions.ParseCurrentUsage;
+import org.jclouds.cloudsigma2.functions.ParseDiscountsList;
+import org.jclouds.cloudsigma2.functions.ParseDriveInfo;
+import org.jclouds.cloudsigma2.functions.ParseDrivesInfoList;
+import org.jclouds.cloudsigma2.functions.ParseDrivesList;
+import org.jclouds.cloudsigma2.functions.ParseFirewallPoliciesList;
+import org.jclouds.cloudsigma2.functions.ParseFirewallPolicy;
+import org.jclouds.cloudsigma2.functions.ParseIPInfo;
+import org.jclouds.cloudsigma2.functions.ParseIPInfoList;
+import org.jclouds.cloudsigma2.functions.ParseLibraryDrive;
+import org.jclouds.cloudsigma2.functions.ParseLibraryDrivesList;
+import org.jclouds.cloudsigma2.functions.ParseLicenseList;
+import org.jclouds.cloudsigma2.functions.ParsePricing;
+import org.jclouds.cloudsigma2.functions.ParseProfileInfo;
+import org.jclouds.cloudsigma2.functions.ParseServerInfo;
+import org.jclouds.cloudsigma2.functions.ParseServerInfoList;
+import org.jclouds.cloudsigma2.functions.ParseServerList;
+import org.jclouds.cloudsigma2.functions.ParseSubscription;
+import org.jclouds.cloudsigma2.functions.ParseSubscriptionsList;
+import org.jclouds.cloudsigma2.functions.ParseTag;
+import org.jclouds.cloudsigma2.functions.ParseTagList;
+import org.jclouds.cloudsigma2.functions.ParseTransactionList;
+import org.jclouds.cloudsigma2.functions.ParseVLANInfo;
+import org.jclouds.cloudsigma2.functions.ParseVLANInfoList;
 import org.jclouds.http.filters.BasicAuthentication;
 import org.jclouds.javax.annotation.Nullable;
 import org.jclouds.rest.annotations.BinderParam;
@@ -27,8 +88,15 @@ import org.jclouds.rest.annotations.Fallback;
 import org.jclouds.rest.annotations.RequestFilters;
 import org.jclouds.rest.annotations.ResponseParser;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import java.io.Closeable;
 import java.util.List;
 
@@ -60,10 +128,10 @@ public interface CloudSigma2Api extends Closeable {
      * @return or empty set if no drives are found
      */
     @GET
-    @Path("/drives/?fields={fields}&limit={limit}")
+    @Path("/drives/")
     @ResponseParser(ParseDrivesList.class)
-    List<DriveInfo> listDrives(@PathParam("fields") DrivesListRequestFieldsGroup fields
-            , @DefaultValue("0") @PathParam("limit") int limit);
+    List<DriveInfo> listDrives(@QueryParam("fields") DrivesListRequestFieldsGroup fields
+            , @DefaultValue("0") @QueryParam("limit") int limit);
 
     /**
      * Gets the detailed list of drives with additional information to which the authenticated user has access.
