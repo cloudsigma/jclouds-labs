@@ -40,7 +40,7 @@
     <test.cloudsigma2-lvs.identity>FIXME</test.cloudsigma2-lvs.identity>
     <test.cloudsigma2-lvs.credential>FIXME</test.cloudsigma2-lvs.credential>
     <test.cloudsigma2-lvs.template />
-    <jclouds.osgi.export>org.jclouds.cloudsigma*;version="${project.version}"</jclouds.osgi.export>
+    <jclouds.osgi.export>org.jclouds.cloudsigma2*;version="${project.version}"</jclouds.osgi.export>
     <jclouds.osgi.import>
       org.jclouds.compute.internal;version="${project.version}",
       org.jclouds.rest.internal;version="${project.version}",
