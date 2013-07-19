@@ -27,8 +27,6 @@ import org.jclouds.cloudsigma2.domain.ServerDrive;
 import org.jclouds.cloudsigma2.domain.ServerInfo;
 
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Vladimir Shevchenko

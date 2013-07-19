@@ -16,12 +16,12 @@
  */
 package org.jclouds.cloudsigma2.compute.options;
 
-import java.util.Map;
-
 import org.jclouds.cloudsigma2.domain.AffinityType;
 import org.jclouds.compute.options.TemplateOptions;
 import org.jclouds.domain.LoginCredentials;
 import org.jclouds.scriptbuilder.domain.Statement;
+
+import java.util.Map;
 
 public class CloudSigmaTemplateOptions extends TemplateOptions implements Cloneable {
 

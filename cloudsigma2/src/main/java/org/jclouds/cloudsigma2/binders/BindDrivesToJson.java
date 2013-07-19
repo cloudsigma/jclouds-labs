@@ -16,31 +16,39 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
+import org.jclouds.cloudsigma2.functions.DriveToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * @author Vladimir Shevchenko
  */
 @Singleton
 public class BindDrivesToJson implements Binder {
-    private final Function<DriveInfo,JsonObject> createDriveRequestJson;
+    private final DriveToJson createDriveRequestJson;
 
     @Inject
-    public BindDrivesToJson(Function<DriveInfo, JsonObject>  createDriveRequestToMap) {
+    public BindDrivesToJson(DriveToJson  createDriveRequestToMap) {
         this.createDriveRequestJson = createDriveRequestToMap;
     }
     @Override
     public <R extends HttpRequest> R bindToRequest(R request, Object payload) {
-        Iterable<DriveInfo> drivesList = (Iterable<DriveInfo>) payload;
+        checkArgument(payload instanceof List, "this binder is only valid for List<DriveInfo>!");
+        List list = List.class.cast(payload);
+        for(Object o : list){
+            checkArgument(o instanceof DriveInfo, "this binder is only valid for List<DriveInfo>!");
+        }
+        List<DriveInfo> drivesList = (List<DriveInfo>) payload;
         JsonArray drivesJsonArray = new JsonArray();
 
         for(DriveInfo drive : drivesList){

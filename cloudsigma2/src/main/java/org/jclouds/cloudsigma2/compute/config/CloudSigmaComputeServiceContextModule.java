@@ -33,11 +33,15 @@ import org.jclouds.cloudsigma2.compute.functions.ServerInfoToNodeMetadata.GetIma
 import org.jclouds.cloudsigma2.compute.options.CloudSigmaTemplateOptions;
 import org.jclouds.cloudsigma2.domain.Device;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
-import org.jclouds.cloudsigma2.domain.Server;
 import org.jclouds.cloudsigma2.domain.ServerInfo;
 import org.jclouds.compute.ComputeServiceAdapter;
 import org.jclouds.compute.config.ComputeServiceAdapterContextModule;
-import org.jclouds.compute.domain.*;
+import org.jclouds.compute.domain.Hardware;
+import org.jclouds.compute.domain.Image;
+import org.jclouds.compute.domain.NodeMetadata;
+import org.jclouds.compute.domain.OsFamilyVersion64Bit;
+import org.jclouds.compute.domain.TemplateBuilder;
+import org.jclouds.compute.domain.Volume;
 import org.jclouds.compute.options.TemplateOptions;
 import org.jclouds.domain.Location;
 import org.jclouds.functions.IdentityFunction;
@@ -68,7 +72,7 @@ public class CloudSigmaComputeServiceContextModule extends
       }).to(Class.class.cast(IdentityFunction.class));
       bind(new TypeLiteral<Function<Device, Volume>>() {
       }).to(DeviceToVolume.class);
-      bind(new TypeLiteral<Function<Server, String>>() {
+      bind(new TypeLiteral<Function<ServerInfo, String>>() {
       }).to(GetImageIdFromServer.class);
       bind(new TypeLiteral<Function<String, OsFamilyVersion64Bit>>() {
       }).to(ParseOsFamilyVersion64BitFromImageName.class);

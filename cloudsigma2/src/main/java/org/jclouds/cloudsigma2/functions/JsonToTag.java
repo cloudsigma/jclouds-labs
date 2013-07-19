@@ -18,7 +18,6 @@ package org.jclouds.cloudsigma2.functions;
 
 import com.google.common.base.Function;
 import org.jclouds.cloudsigma2.beans.RawTag;
-import org.jclouds.cloudsigma2.domain.Owner;
 import org.jclouds.cloudsigma2.domain.Tag;
 import org.jclouds.cloudsigma2.domain.TagResource;
 import org.jclouds.cloudsigma2.domain.TagResourceType;

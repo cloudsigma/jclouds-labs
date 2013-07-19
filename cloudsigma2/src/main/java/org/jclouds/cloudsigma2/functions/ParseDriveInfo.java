@@ -19,7 +19,6 @@ package org.jclouds.cloudsigma2.functions;
 import com.google.common.base.Function;
 import com.google.inject.Inject;
 import org.jclouds.cloudsigma2.beans.RawDrive;
-import org.jclouds.cloudsigma2.beans.RawServerInfo;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
 import org.jclouds.http.HttpResponse;
 import org.jclouds.http.functions.ParseJson;

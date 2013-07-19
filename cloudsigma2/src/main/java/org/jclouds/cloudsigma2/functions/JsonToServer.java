@@ -18,7 +18,12 @@ package org.jclouds.cloudsigma2.functions;
 
 import com.google.common.base.Function;
 import org.jclouds.cloudsigma2.beans.RawServer;
-import org.jclouds.cloudsigma2.domain.*;
+import org.jclouds.cloudsigma2.domain.IOStats;
+import org.jclouds.cloudsigma2.domain.InterfaceType;
+import org.jclouds.cloudsigma2.domain.NICStats;
+import org.jclouds.cloudsigma2.domain.Server;
+import org.jclouds.cloudsigma2.domain.ServerRuntime;
+import org.jclouds.cloudsigma2.domain.ServerStatus;
 import org.jclouds.date.internal.SimpleDateFormatDateService;
 
 import javax.inject.Inject;

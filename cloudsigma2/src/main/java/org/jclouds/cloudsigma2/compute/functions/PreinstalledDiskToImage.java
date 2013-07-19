@@ -16,10 +16,9 @@
  */
 package org.jclouds.cloudsigma2.compute.functions;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import org.jclouds.cloudsigma2.domain.DriveInfo;
+import com.google.common.base.Function;
+import com.google.common.base.Supplier;
+import com.google.common.collect.ImmutableMap;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
 import org.jclouds.compute.domain.Image;
 import org.jclouds.compute.domain.Image.Status;
@@ -29,10 +28,8 @@ import org.jclouds.compute.domain.OperatingSystem.Builder;
 import org.jclouds.compute.domain.OsFamilyVersion64Bit;
 import org.jclouds.domain.Location;
 
-import com.google.common.base.Function;
-import com.google.common.base.Supplier;
-import com.google.common.collect.ImmutableMap;
-
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.math.BigInteger;
 
 /**

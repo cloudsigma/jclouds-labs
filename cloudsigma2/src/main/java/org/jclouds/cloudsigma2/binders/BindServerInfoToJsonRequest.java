@@ -16,9 +16,9 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.ServerInfo;
+import org.jclouds.cloudsigma2.functions.ServerInfoToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
@@ -33,10 +33,10 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 @Singleton
 public class BindServerInfoToJsonRequest implements Binder {
-    private final Function<ServerInfo, JsonObject> createServerInfoRequestToJson;
+    private final ServerInfoToJson createServerInfoRequestToJson;
 
     @Inject
-    public BindServerInfoToJsonRequest(Function<ServerInfo, JsonObject> createServerInfoRequestToJson) {
+    public BindServerInfoToJsonRequest(ServerInfoToJson createServerInfoRequestToJson) {
         this.createServerInfoRequestToJson = createServerInfoRequestToJson;
     }
 

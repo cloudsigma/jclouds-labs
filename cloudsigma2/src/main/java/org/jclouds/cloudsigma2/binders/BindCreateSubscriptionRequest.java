@@ -16,9 +16,9 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.CreateSubscriptionRequest;
+import org.jclouds.cloudsigma2.functions.CreateSubscriptionRequestToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
@@ -34,10 +34,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Singleton
 public class BindCreateSubscriptionRequest implements Binder {
 
-    private final Function<CreateSubscriptionRequest, JsonObject> subscriptionRequestJsonObjectFunction;
+    private final CreateSubscriptionRequestToJson subscriptionRequestJsonObjectFunction;
 
     @Inject
-    public BindCreateSubscriptionRequest(Function<CreateSubscriptionRequest, JsonObject> subscriptionRequestJsonObjectFunction) {
+    public BindCreateSubscriptionRequest(CreateSubscriptionRequestToJson subscriptionRequestJsonObjectFunction) {
         this.subscriptionRequestJsonObjectFunction = subscriptionRequestJsonObjectFunction;
     }
 

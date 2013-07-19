@@ -16,9 +16,9 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.ProfileInfo;
+import org.jclouds.cloudsigma2.functions.ProfileInfoToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
@@ -34,10 +34,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 @Singleton
 public class BindProfileInfoToJsonRequest implements Binder {
 
-    private final Function<ProfileInfo, JsonObject> createProfileRequestToJson;
+    private final ProfileInfoToJson createProfileRequestToJson;
 
     @Inject
-    public BindProfileInfoToJsonRequest(Function<ProfileInfo, JsonObject> createProfileRequestToJson) {
+    public BindProfileInfoToJsonRequest(ProfileInfoToJson createProfileRequestToJson) {
         this.createProfileRequestToJson = createProfileRequestToJson;
     }
 

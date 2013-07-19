@@ -16,30 +16,38 @@
  */
 package org.jclouds.cloudsigma2.binders;
 
-import com.google.common.base.Function;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.jclouds.cloudsigma2.domain.ServerInfo;
+import org.jclouds.cloudsigma2.functions.ServerInfoToJson;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.rest.Binder;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * @author Vladimir Shevchenko
  */
 @Singleton
 public class BindServerInfoListToJsonRequest implements Binder {
-    private final Function<ServerInfo,JsonObject> createServerInfoRequestToJson;
+    private final ServerInfoToJson createServerInfoRequestToJson;
 
     @Inject
-    public BindServerInfoListToJsonRequest(Function<ServerInfo, JsonObject>  createServerInfoRequestToJson) {
+    public BindServerInfoListToJsonRequest(ServerInfoToJson createServerInfoRequestToJson) {
         this.createServerInfoRequestToJson = createServerInfoRequestToJson;
     }
     @Override
     public <R extends HttpRequest> R bindToRequest(R request, Object payload) {
+        checkArgument(payload instanceof List, "this binder is only valid for List<ServerInfo>!");
+        List list = List.class.cast(payload);
+        for(Object o : list){
+            checkArgument(o instanceof ServerInfo, "this binder is only valid for List<ServerInfo>!");
+        }
         Iterable<ServerInfo> serverInfoList = (Iterable<ServerInfo>) payload;
         JsonArray serversJsonArray = new JsonArray();
 
