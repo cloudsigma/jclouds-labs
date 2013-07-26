@@ -1,12 +1,34 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.jclouds.cloudsigma2;
 
 import com.google.common.collect.ImmutableList;
 import org.jclouds.cloudsigma2.domain.AccountBalance;
+import org.jclouds.cloudsigma2.domain.CreateSubscriptionRequest;
 import org.jclouds.cloudsigma2.domain.CurrentUsage;
 import org.jclouds.cloudsigma2.domain.Discount;
 import org.jclouds.cloudsigma2.domain.Drive;
 import org.jclouds.cloudsigma2.domain.DriveInfo;
+import org.jclouds.cloudsigma2.domain.FirewallAction;
+import org.jclouds.cloudsigma2.domain.FirewallDirection;
+import org.jclouds.cloudsigma2.domain.FirewallIpProtocol;
 import org.jclouds.cloudsigma2.domain.FirewallPolicy;
+import org.jclouds.cloudsigma2.domain.FirewallRule;
+import org.jclouds.cloudsigma2.domain.IP;
 import org.jclouds.cloudsigma2.domain.IPInfo;
 import org.jclouds.cloudsigma2.domain.LibraryDrive;
 import org.jclouds.cloudsigma2.domain.License;
@@ -16,8 +38,12 @@ import org.jclouds.cloudsigma2.domain.Server;
 import org.jclouds.cloudsigma2.domain.ServerAvailabilityGroup;
 import org.jclouds.cloudsigma2.domain.ServerInfo;
 import org.jclouds.cloudsigma2.domain.Subscription;
+import org.jclouds.cloudsigma2.domain.SubscriptionResource;
 import org.jclouds.cloudsigma2.domain.Tag;
+import org.jclouds.cloudsigma2.domain.TagResource;
+import org.jclouds.cloudsigma2.domain.Transaction;
 import org.jclouds.cloudsigma2.domain.VLANInfo;
+import org.jclouds.date.internal.SimpleDateFormatDateService;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.http.HttpResponse;
 import org.jclouds.rest.internal.BaseRestApiExpectTest;
@@ -25,7 +51,9 @@ import org.testng.annotations.Test;
 
 import javax.ws.rs.core.MediaType;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -196,6 +224,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
         CloudSigma2Api api = requestSendsResponse(
                 deleteBuilder()
                         .endpoint(endpoint + "drives/")
+                        .payload(payloadFromResourceWithContentType("/drives-delete-multiple.json", MediaType.APPLICATION_JSON))
                         .build()
                 , responseBuilder()
                 .build());
@@ -279,7 +308,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
         String uuid = "e96f3c63-6f50-47eb-9401-a56c5ccf6b32";
         CloudSigma2Api api = requestSendsResponse(
                 postBuilder()
-                        .payload(payloadFromResourceWithContentType("/drives-create-request.json", MediaType.APPLICATION_JSON))
+                        .payload(payloadFromResourceWithContentType("/libdrives-create-request.json", MediaType.APPLICATION_JSON))
                         .endpoint(endpoint + "libdrives/" + uuid + "/action/%3Fdo=clone")
                         .build()
                 , responseBuilder()
@@ -327,12 +356,12 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
     public void testCreateServer() throws Exception {
         CloudSigma2Api api = requestSendsResponse(
                 postBuilder()
-                        .endpoint(endpoint + "servers/")
-                        .payload(payloadFromResourceWithContentType("/servers-create-request.json", MediaType.APPLICATION_JSON))
-                        .build()
+                    .endpoint(endpoint + "servers/")
+                    .payload(payloadFromResourceWithContentType("/servers-create-request.json", MediaType.APPLICATION_JSON))
+                    .build()
                 , responseBuilder()
-                .payload(payloadFromResourceWithContentType("/server-single.json", MediaType.APPLICATION_JSON))
-                .build());
+                    .payload(payloadFromResourceWithContentType("/servers-single.json", MediaType.APPLICATION_JSON))
+                    .build());
 
         ServerInfo result = api.createServer(new ServerInfo.Builder()
                 .cpu(100)
@@ -345,7 +374,35 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
 
     @Test
     public void testCreateServers() throws Exception {
-        //TODO add payoad with list of servers
+        CloudSigma2Api api = requestSendsResponse(
+                postBuilder()
+                        .endpoint(endpoint + "servers/")
+                        .payload(payloadFromResourceWithContentType("/servers-create-multiple-request.json", MediaType.APPLICATION_JSON))
+                        .build()
+                , responseBuilder()
+                .payload(payloadFromResourceWithContentType("/server-detail.json", MediaType.APPLICATION_JSON))
+                .build());
+        List<ServerInfo> result = api.createServers(ImmutableList.of(
+                new ServerInfo.Builder()
+                        .cpu(100)
+                        .memory(new BigInteger("536870912"))
+                        .name("test_server_0")
+                        .vncPassword("testserver")
+                        .build()
+                , new ServerInfo.Builder()
+                .cpu(100)
+                .memory(new BigInteger("536870912"))
+                .name("test_server_1")
+                .vncPassword("testserver")
+                .build()
+                , new ServerInfo.Builder()
+                .cpu(100)
+                .memory(new BigInteger("536870912"))
+                .name("test_server_2")
+                .vncPassword("testserver")
+                .build()));
+
+        assertNotNull(result);
     }
 
     @Test
@@ -354,12 +411,18 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
         CloudSigma2Api api = requestSendsResponse(
                 putBuilder()
                         .endpoint(endpoint + "servers/" + uuid + "/")
+                        .payload(payloadFromResourceWithContentType("/servers-create-request.json", MediaType.APPLICATION_JSON))
                         .build()
                 , responseBuilder()
-                .payload(payloadFromResourceWithContentType("/server-single.json", MediaType.APPLICATION_JSON))
+                .payload(payloadFromResourceWithContentType("/servers-single.json", MediaType.APPLICATION_JSON))
                 .build());
 
-        ServerInfo result = api.editServer(uuid, new ServerInfo.Builder().build());
+        ServerInfo result = api.editServer(uuid, new ServerInfo.Builder()
+                .name("testServerAcc")
+                .cpu(100)
+                .memory(new BigInteger("536870912"))
+                .vncPassword("testserver")
+                .build());
         assertNotNull(result);
     }
 
@@ -378,15 +441,20 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
 
     @Test
     public void testDeleteServers() throws Exception {
-        //TODO add multiple servers uuids to payload
+        List<String> deleteUuids = ImmutableList.of(
+                "33e71c37-0d0a-4a3a-a1ea-dc7265c9a154"
+                , "61d61337-884b-4c87-b4de-f7f48f9cfc84"
+                , "a19a425f-9e92-42f6-89fb-6361203071bb"
+        );
         CloudSigma2Api api = requestSendsResponse(
                 deleteBuilder()
-                        .endpoint(endpoint + "servers")
+                        .endpoint(endpoint + "servers/")
+                        .payload(payloadFromResourceWithContentType("/servers-delete-multiple-request.json", MediaType.APPLICATION_JSON))
                         .build()
                 , responseBuilder()
                 .build());
 
-        api.deleteServers(null);
+        api.deleteServers(deleteUuids);
     }
 
     @Test
@@ -399,7 +467,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
         String uuid = "61d61337-884b-4c87-b4de-f7f48f9cfc84";
         CloudSigma2Api api = requestSendsResponse(
                 getBuilder()
-                        .endpoint(endpoint + "servers/" + uuid)
+                        .endpoint(endpoint + "servers/" + uuid + "/")
                         .build()
                 , responseBuilder()
                 .payload(payloadFromResourceWithContentType("/servers-single.json", MediaType.APPLICATION_JSON))
@@ -413,7 +481,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
         String uuid = "61d61337-884b-4c87-b4de-f7f48f9cfc84";
         CloudSigma2Api api = requestSendsResponse(
                 postBuilder()
-                        .endpoint(endpoint + "servers/" + uuid + "/action/?do=start")
+                        .endpoint(endpoint + "servers/" + uuid + "/action/%3Fdo=start")
                         .build()
                 , responseBuilder()
                 .build());
@@ -426,7 +494,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
         String uuid = "61d61337-884b-4c87-b4de-f7f48f9cfc84";
         CloudSigma2Api api = requestSendsResponse(
                 postBuilder()
-                        .endpoint(endpoint + "servers/" + uuid + "/action/?do=stop")
+                        .endpoint(endpoint + "servers/" + uuid + "/action/%3Fdo=stop")
                         .build()
                 , responseBuilder()
                 .build());
@@ -442,7 +510,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
                 "e035a488-8587-4a15-ab25-9b7343236bc9"));
         CloudSigma2Api api = requestSendsResponse(
                 postBuilder()
-                        .endpoint(endpoint + "servers/" + uuid + "/action/?do=start&avoid=" + uuidGroup)
+                        .endpoint(endpoint + "servers/" + uuid + "/action/%3Fdo=start%26avoid=" + uuidGroup.getUuids().get(0) + "%2C" + uuidGroup.getUuids().get(1))
                         .build()
                 , responseBuilder()
                 .build());
@@ -455,7 +523,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
         String uuid = "61d61337-884b-4c87-b4de-f7f48f9cfc84";
         CloudSigma2Api api = requestSendsResponse(
                 postBuilder()
-                        .endpoint(endpoint + "servers/" + uuid + "/action/?do=open_vnc")
+                        .endpoint(endpoint + "servers/" + uuid + "/action/%3Fdo=open_vnc")
                         .build()
                 , responseBuilder()
                 .build());
@@ -468,7 +536,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
         String uuid = "61d61337-884b-4c87-b4de-f7f48f9cfc84";
         CloudSigma2Api api = requestSendsResponse(
                 postBuilder()
-                        .endpoint(endpoint + "servers/" + uuid + "/action/?do=close_vnc")
+                        .endpoint(endpoint + "servers/" + uuid + "/action/%3Fdo=close_vnc")
                         .build()
                 , responseBuilder()
                 .build());
@@ -534,17 +602,179 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
 
     @Test
     public void testCreateFirewallPolicies() throws Exception {
-        //TODO get payload from docs
+        CloudSigma2Api api = requestSendsResponse(
+                postBuilder()
+                        .endpoint(endpoint + "fwpolicies/")
+                        .payload(payloadFromResourceWithContentType("/fwpolicies-create-multiple-request.json", MediaType.APPLICATION_JSON))
+                        .build()
+                , responseBuilder()
+                .payload(payloadFromResourceWithContentType("/fwpolicies-detail.json", MediaType.APPLICATION_JSON))
+                .build());
+
+        List<FirewallPolicy> result = api.createFirewallPolicies(ImmutableList.of(
+                new FirewallPolicy.Builder()
+                    .name("New policy")
+                    .rules(ImmutableList.of(
+                            new FirewallRule.Builder()
+                                    .action(FirewallAction.ACCEPT)
+                                    .comment("Test comment")
+                                    .direction(FirewallDirection.IN)
+                                    .destinationIp("192.168.1.132/32")
+                                    .destinationPort("1233")
+                                    .ipProtocol(FirewallIpProtocol.TCP)
+                                    .sourceIp("255.255.255.12/32")
+                                    .sourcePort("321")
+                                    .build()
+                    ))
+                    .build()
+                , new FirewallPolicy.Builder()
+                .name("My awesome policy")
+                .rules(ImmutableList.of(
+                        new FirewallRule.Builder()
+                                .action(FirewallAction.DROP)
+                                .comment("Drop traffic from the VM to IP address 23.0.0.0/32")
+                                .direction(FirewallDirection.OUT)
+                                .destinationIp("23.0.0.0/32")
+                                .build()
+                        , new FirewallRule.Builder()
+                        .action(FirewallAction.ACCEPT)
+                        .comment("Allow SSH traffic to the VM from our office in Dubai")
+                        .direction(FirewallDirection.IN)
+                        .destinationPort("22")
+                        .ipProtocol(FirewallIpProtocol.TCP)
+                        .sourceIp("172.66.32.0/24")
+                        .build()
+                        , new FirewallRule.Builder()
+                        .action(FirewallAction.DROP)
+                        .comment("Drop all other SSH traffic to the VM")
+                        .direction(FirewallDirection.IN)
+                        .destinationPort("22")
+                        .ipProtocol(FirewallIpProtocol.TCP)
+                        .build()
+                        , new FirewallRule.Builder()
+                        .action(FirewallAction.DROP)
+                        .comment("Drop all UDP traffic to the VM, not originating from 172.66.32.55")
+                        .direction(FirewallDirection.IN)
+                        .ipProtocol(FirewallIpProtocol.UDP)
+                        .sourceIp("!172.66.32.55/32")
+                        .build()
+                        , new FirewallRule.Builder()
+                        .action(FirewallAction.DROP)
+                        .comment("Drop any traffic, to the VM with destination port not between 1-1024")
+                        .direction(FirewallDirection.IN)
+                        .destinationPort("!1:1024")
+                        .ipProtocol(FirewallIpProtocol.TCP)
+                        .build()))
+                .build()));
+        assertNotNull(result);
     }
 
     @Test
     public void testCreateFirewallPolicy() throws Exception {
-        //TODO get payload from docs
+        CloudSigma2Api api = requestSendsResponse(
+                postBuilder()
+                        .endpoint(endpoint + "fwpolicies/")
+                        .payload(payloadFromResourceWithContentType("/fwpolicies-create-request.json", MediaType.APPLICATION_JSON))
+                        .build()
+                , responseBuilder()
+                .payload(payloadFromResourceWithContentType("/fwpolicies-single.json", MediaType.APPLICATION_JSON))
+                .build());
+
+        FirewallPolicy result = api.createFirewallPolicy(new FirewallPolicy.Builder()
+                .name("My awesome policy")
+                .rules(ImmutableList.of(
+                        new FirewallRule.Builder()
+                                .action(FirewallAction.DROP)
+                                .comment("Drop traffic from the VM to IP address 23.0.0.0/32")
+                                .direction(FirewallDirection.OUT)
+                                .destinationIp("23.0.0.0/32")
+                                .build()
+                        , new FirewallRule.Builder()
+                        .action(FirewallAction.ACCEPT)
+                        .comment("Allow SSH traffic to the VM from our office in Dubai")
+                        .direction(FirewallDirection.IN)
+                        .destinationPort("22")
+                        .ipProtocol(FirewallIpProtocol.TCP)
+                        .sourceIp("172.66.32.0/24")
+                        .build()
+                        , new FirewallRule.Builder()
+                        .action(FirewallAction.DROP)
+                        .comment("Drop all other SSH traffic to the VM")
+                        .direction(FirewallDirection.IN)
+                        .destinationPort("22")
+                        .ipProtocol(FirewallIpProtocol.TCP)
+                        .build()
+                        , new FirewallRule.Builder()
+                        .action(FirewallAction.DROP)
+                        .comment("Drop all UDP traffic to the VM, not originating from 172.66.32.55")
+                        .direction(FirewallDirection.IN)
+                        .ipProtocol(FirewallIpProtocol.UDP)
+                        .sourceIp("!172.66.32.55/32")
+                        .build()
+                        , new FirewallRule.Builder()
+                        .action(FirewallAction.DROP)
+                        .comment("Drop any traffic, to the VM with destination port not between 1-1024")
+                        .direction(FirewallDirection.IN)
+                        .destinationPort("!1:1024")
+                        .ipProtocol(FirewallIpProtocol.TCP)
+                        .build()))
+                .build());
+        assertNotNull(result);
     }
 
     @Test
     public void testEditFirewallPolicy() throws Exception {
-        //TODO get payload from docs
+        String uuid = "cf8479b4-c98b-46c8-ab9c-108bb00c8218";
+        CloudSigma2Api api = requestSendsResponse(
+                putBuilder()
+                        .endpoint(endpoint + "fwpolicies/" + uuid + "/")
+                        .payload(payloadFromResourceWithContentType("/fwpolicies-create-request.json", MediaType.APPLICATION_JSON))
+                        .build()
+                , responseBuilder()
+                .payload(payloadFromResourceWithContentType("/fwpolicies-single.json", MediaType.APPLICATION_JSON))
+                .build());
+
+        FirewallPolicy result = api.editFirewallPolicy(uuid,
+                new FirewallPolicy.Builder()
+                        .name("My awesome policy")
+                        .rules(ImmutableList.of(
+                                new FirewallRule.Builder()
+                                        .action(FirewallAction.DROP)
+                                        .comment("Drop traffic from the VM to IP address 23.0.0.0/32")
+                                        .direction(FirewallDirection.OUT)
+                                        .destinationIp("23.0.0.0/32")
+                                        .build()
+                                , new FirewallRule.Builder()
+                                .action(FirewallAction.ACCEPT)
+                                .comment("Allow SSH traffic to the VM from our office in Dubai")
+                                .direction(FirewallDirection.IN)
+                                .destinationPort("22")
+                                .ipProtocol(FirewallIpProtocol.TCP)
+                                .sourceIp("172.66.32.0/24")
+                                .build()
+                                , new FirewallRule.Builder()
+                                .action(FirewallAction.DROP)
+                                .comment("Drop all other SSH traffic to the VM")
+                                .direction(FirewallDirection.IN)
+                                .destinationPort("22")
+                                .ipProtocol(FirewallIpProtocol.TCP)
+                                .build()
+                                , new FirewallRule.Builder()
+                                .action(FirewallAction.DROP)
+                                .comment("Drop all UDP traffic to the VM, not originating from 172.66.32.55")
+                                .direction(FirewallDirection.IN)
+                                .ipProtocol(FirewallIpProtocol.UDP)
+                                .sourceIp("!172.66.32.55/32")
+                                .build()
+                                , new FirewallRule.Builder()
+                                .action(FirewallAction.DROP)
+                                .comment("Drop any traffic, to the VM with destination port not between 1-1024")
+                                .direction(FirewallDirection.IN)
+                                .destinationPort("!1:1024")
+                                .ipProtocol(FirewallIpProtocol.TCP)
+                                .build()))
+                        .build());
+        assertNotNull(result);
     }
 
     @Test
@@ -592,7 +822,26 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
 
     @Test
     public void testEditVLAN() throws Exception {
-        //TODO get payload from docs
+        String uuid = "96537817-f4b6-496b-a861-e74192d3ccb0";
+        Map<String, String> meta = new HashMap<String, String>();
+        meta.put("description", "test vlan");
+        meta.put("test_key_1", "test_value_1");
+        meta.put("test_key_2", "test_value_2");
+
+        CloudSigma2Api api = requestSendsResponse(
+                putBuilder()
+                    .endpoint(endpoint + "vlans/" + uuid + "/")
+                    .payload(payloadFromResourceWithContentType("/vlans-edit-request.json", MediaType.APPLICATION_JSON))
+                    .build()
+                , responseBuilder()
+                    .payload(payloadFromResourceWithContentType("/vlan-single.json", MediaType.APPLICATION_JSON))
+                    .build());
+
+        VLANInfo result = api.editVLAN(uuid
+                , new VLANInfo.Builder()
+                .meta(meta)
+                .build());
+        assertNotNull(result);
     }
 
     @Test
@@ -605,7 +854,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
                 .payload(payloadFromResourceWithContentType("/ips.json", MediaType.APPLICATION_JSON))
                 .build());
 
-        List<IPInfo> result = api.listIPInfo();
+        List<IP> result = api.listIPs();
         assertNotNull(result);
     }
 
@@ -640,7 +889,26 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
 
     @Test
     public void testEditIP() throws Exception {
-        //TODO get payload from docs
+        String uuid = "96537817-f4b6-496b-a861-e74192d3ccb0";
+        Map<String, String> meta = new HashMap<String, String>();
+        meta.put("description", "test vlan");
+        meta.put("test_key_1", "test_value_1");
+        meta.put("test_key_2", "test_value_2");
+
+        CloudSigma2Api api = requestSendsResponse(
+                putBuilder()
+                        .endpoint(endpoint + "ips/" + uuid + "/")
+                        .payload(payloadFromResourceWithContentType("/ips-edit-request.json", MediaType.APPLICATION_JSON))
+                        .build()
+                , responseBuilder()
+                .payload(payloadFromResourceWithContentType("/ips-single.json", MediaType.APPLICATION_JSON))
+                .build());
+
+        IPInfo result = api.editIP(uuid
+                , new IPInfo.Builder()
+                .meta(meta)
+                .build());
+        assertNotNull(result);
     }
 
     @Test
@@ -688,23 +956,63 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
 
     @Test
     public void testEditTag() throws Exception {
-        //TODO get payload from docs
+        String uuid = "68bb0cfc-0c76-4f37-847d-7bb705c5ae46";
+        CloudSigma2Api api = requestSendsResponse(
+                putBuilder()
+                        .endpoint(endpoint + "tags/" + uuid + "/")
+                        .payload(payloadFromResourceWithContentType("/tags-create-request.json", MediaType.APPLICATION_JSON))
+                        .build()
+                , responseBuilder()
+                .payload(payloadFromResourceWithContentType("/tags-single.json", MediaType.APPLICATION_JSON))
+                .build());
+
+        Tag result = api.editTag(uuid,
+                new Tag.Builder()
+                        .name("TagCreatedWithResource")
+                        .resources(ImmutableList.of(
+                                new TagResource.Builder().uuid("61bcc398-c034-42f1-81c9-f6d7f62c4ea0").build()
+                                , new TagResource.Builder().uuid("8ac6ac13-a55e-4b01-bcf4-5eed7b60a3ed").build()
+                                , new TagResource.Builder().uuid("3610d935-514a-4552-acf3-a40dd0a5f961").build()
+                                , new TagResource.Builder().uuid("185.12.6.183").build()
+                                , new TagResource.Builder().uuid("96537817-f4b6-496b-a861-e74192d3ccb0").build()
+                        ))
+                        .build());
+        assertNotNull(result);
     }
 
     @Test
     public void testCreateTag() throws Exception {
-        //TODO get payload from docs
+        CloudSigma2Api api = requestSendsResponse(
+                postBuilder()
+                        .endpoint(endpoint + "tags/")
+                        .payload(payloadFromResourceWithContentType("/tags-create-request.json", MediaType.APPLICATION_JSON))
+                        .build()
+                , responseBuilder()
+                .payload(payloadFromResourceWithContentType("/tags-single.json", MediaType.APPLICATION_JSON))
+                .build());
+
+        Tag result = api.createTag(new Tag.Builder()
+                                        .name("TagCreatedWithResource")
+                                        .resources(ImmutableList.of(
+                                                new TagResource.Builder().uuid("61bcc398-c034-42f1-81c9-f6d7f62c4ea0").build()
+                                                , new TagResource.Builder().uuid("8ac6ac13-a55e-4b01-bcf4-5eed7b60a3ed").build()
+                                                , new TagResource.Builder().uuid("3610d935-514a-4552-acf3-a40dd0a5f961").build()
+                                                , new TagResource.Builder().uuid("185.12.6.183").build()
+                                                , new TagResource.Builder().uuid("96537817-f4b6-496b-a861-e74192d3ccb0").build()
+                                        ))
+                                        .build());
+        assertNotNull(result);
     }
 
     @Test
     public void testDeleteTag() throws Exception {
         String uuid = "956e2ca0-dee3-4b3f-a1be-a6e86f90946f";
+
         CloudSigma2Api api = requestSendsResponse(
                 deleteBuilder()
-                        .endpoint(endpoint + "/tags/" + uuid + "/")
+                        .endpoint(endpoint + "tags/" + uuid + "/")
                         .build()
                 , responseBuilder()
-                .payload(payloadFromResourceWithContentType("/profile.json", MediaType.APPLICATION_JSON))
                 .build());
 
         api.deleteTag(uuid);
@@ -712,12 +1020,49 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
 
     @Test
     public void testDeleteTags() throws Exception {
-        //TODO get payload from docs
+        List<String> deleteUuids = ImmutableList.of(
+                "956e2ca0-dee3-4b3f-a1be-a6e86f90946f"
+                , "68bb0cfc-0c76-4f37-847d-7bb705c5ae46"
+                , "cb63f668-34f6-49c4-9a1c-1e3d3d668b08");
+
+        CloudSigma2Api api = requestSendsResponse(
+                deleteBuilder()
+                    .endpoint(endpoint + "tags/")
+                    .payload(payloadFromResourceWithContentType("/tags-delete-multiple.json", MediaType.APPLICATION_JSON))
+                    .build()
+                , responseBuilder()
+                    .build());
+
+        api.deleteTags(deleteUuids);
     }
 
     @Test
     public void testCreateTags() throws Exception {
-        //TODO get payload from docs
+        CloudSigma2Api api = requestSendsResponse(
+                postBuilder()
+                        .endpoint(endpoint + "tags/")
+                        .payload(payloadFromResourceWithContentType("/tags-create-multiple-request.json", MediaType.APPLICATION_JSON))
+                        .build()
+                , responseBuilder()
+                .payload(payloadFromResourceWithContentType("/tags-detail.json", MediaType.APPLICATION_JSON))
+                .build());
+
+        List<Tag> result = api.createTags(ImmutableList.of(
+                new Tag.Builder()
+                    .name("new tag")
+                    .resources(ImmutableList.of(new TagResource.Builder().uuid("185.12.6.183").build()))
+                    .build()
+                , new Tag.Builder()
+                    .name("TagCreatedWithResource")
+                    .resources(ImmutableList.of(
+                            new TagResource.Builder().uuid("61bcc398-c034-42f1-81c9-f6d7f62c4ea0").build()
+                            , new TagResource.Builder().uuid("8ac6ac13-a55e-4b01-bcf4-5eed7b60a3ed").build()
+                            , new TagResource.Builder().uuid("3610d935-514a-4552-acf3-a40dd0a5f961").build()
+                            , new TagResource.Builder().uuid("185.12.6.183").build()
+                            , new TagResource.Builder().uuid("96537817-f4b6-496b-a861-e74192d3ccb0").build()
+                    ))
+                    .build()));
+        assertNotNull(result);
     }
 
     @Test
@@ -736,7 +1081,52 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
 
     @Test
     public void testEditProfileInfo() throws Exception {
-        //TODO get payload from docs
+        CloudSigma2Api api = requestSendsResponse(
+                putBuilder()
+                        .endpoint(endpoint + "profile/")
+                        .payload(payloadFromResourceWithContentType("/profile-edit-request.json", MediaType.APPLICATION_JSON))
+                        .build()
+                , responseBuilder()
+                .payload(payloadFromResourceWithContentType("/profile.json", MediaType.APPLICATION_JSON))
+                .build());
+
+        Map<String, String> meta = new HashMap<String, String>();
+        meta.put("description", "profile info");
+
+        ProfileInfo result = api.editProfileInfo(new ProfileInfo.Builder()
+                .address("test_address")
+                .isApiHttpsOnly(false)
+                .autotopupAmount("0E-16")
+                .autotopupThreshold("0E-16")
+                .bankReference("jdoe123")
+                .company("Newly Set Company Name")
+                .country("GB")
+                .currency("USD")
+                .email("user@example.com")
+                .firstName("John")
+                .hasAutotopup(false)
+                .invoicing(true)
+                .isKeyAuth(false)
+                .language("en-au")
+                .lastName("Doe")
+                .isMailingListEnabled(true)
+                .meta(meta)
+                .myNotes("test notes")
+                .nickname("test nickname")
+                .phone("123456789")
+                .postcode("12345")
+                .reseller("test reseller")
+                .signupTime(new SimpleDateFormatDateService().iso8601SecondsDateParse("2013-05-28T11:57:01+00:00"))
+                .state("REGULAR")
+                .taxRate(3.14)
+                .taxName("test tax_name")
+                .title("test title")
+                .town("test town")
+                .uuid("6f670b3c-a2e6-433f-aeab-b976b1cdaf03")
+                .vat("test vat")
+                .build());
+
+        assertNotNull(result);
     }
 
     @Test
@@ -811,12 +1201,51 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
 
     @Test
     public void testCreateSubscription() throws Exception {
-        //TODO get payload from documentation
+        CloudSigma2Api api = requestSendsResponse(
+                postBuilder()
+                        .endpoint(endpoint + "subscriptions/")
+                        .payload(payloadFromResourceWithContentType("/subscriptions-create-request.json", MediaType.APPLICATION_JSON))
+                        .build()
+                , responseBuilder()
+                .payload(payloadFromResourceWithContentType("/subscriptions.json", MediaType.APPLICATION_JSON))
+                .build());
+
+        Subscription result = api.createSubscription(new CreateSubscriptionRequest.Builder()
+                .resource(SubscriptionResource.DSSD)
+                .period("1 month")
+                .amount("30000")
+                .build());
+        assertNotNull(result);
     }
 
     @Test
     public void testCreateSubscriptions() throws Exception {
-        //TODO get payload from documentation
+        CloudSigma2Api api = requestSendsResponse(
+                postBuilder()
+                        .endpoint(endpoint + "subscriptions/")
+                        .payload(payloadFromResourceWithContentType("/subscriptions-create-multiple-request.json", MediaType.APPLICATION_JSON))
+                        .build()
+                , responseBuilder()
+                .payload(payloadFromResourceWithContentType("/subscriptions.json", MediaType.APPLICATION_JSON))
+                .build());
+
+        List<Subscription> result = api.createSubscriptions(ImmutableList.of(
+                new CreateSubscriptionRequest.Builder()
+                        .resource(SubscriptionResource.DSSD)
+                        .period("1 month")
+                        .amount("30000")
+                        .build()
+                , new CreateSubscriptionRequest.Builder()
+                .resource(SubscriptionResource.MEM)
+                .period("3 months")
+                .amount("30000")
+                .build()
+                , new CreateSubscriptionRequest.Builder()
+                .resource(SubscriptionResource.IP)
+                .period("1 year")
+                .amount("30000")
+                .build()));
+        assertNotNull(result);
     }
 
     @Test
@@ -824,7 +1253,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
         String uuid = "509f8e27-1e64-49bb-aa5a-baec074b0210";
         CloudSigma2Api api = requestSendsResponse(
                 postBuilder()
-                        .endpoint(endpoint + "subscriptions/" + uuid + "/action/?do=extend")
+                        .endpoint(endpoint + "subscriptions/" + uuid + "/action/%3Fdo=extend")
                         .build()
                 , responseBuilder()
                 .payload(payloadFromResourceWithContentType("/subscriptions-single.json", MediaType.APPLICATION_JSON))
@@ -838,7 +1267,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
         String uuid = "509f8e27-1e64-49bb-aa5a-baec074b0210";
         CloudSigma2Api api = requestSendsResponse(
                 postBuilder()
-                        .endpoint(endpoint + "subscriptions/" +  uuid +"/action/?do=auto_renew")
+                        .endpoint(endpoint + "subscriptions/" +  uuid +"/action/%3Fdo=auto_renew")
                         .build()
                 , responseBuilder()
                 .payload(payloadFromResourceWithContentType("/pricing.json", MediaType.APPLICATION_JSON))
@@ -879,13 +1308,13 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
     public void testListTransactions() throws Exception {
         CloudSigma2Api api = requestSendsResponse(
                 getBuilder()
-                        .endpoint(endpoint + "transactions/")
+                        .endpoint(endpoint + "ledger/")
                         .build()
                 , responseBuilder()
-                .payload(payloadFromResourceWithContentType("/transactions.json", MediaType.APPLICATION_JSON))
+                .payload(payloadFromResourceWithContentType("/ledger.json", MediaType.APPLICATION_JSON))
                 .build());
 
-        List<License> result = api.listLicenses();
+        List<Transaction> result = api.listTransactions();
         assertNotNull(result);
     }
 
@@ -893,11 +1322,11 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
     public void testListLicenses() throws Exception {
         CloudSigma2Api api = requestSendsResponse(
                 getBuilder()
-                        .endpoint(endpoint + "licenses/")
-                        .build()
+                    .endpoint(endpoint + "licenses/")
+                    .build()
                 , responseBuilder()
-                .payload(payloadFromResourceWithContentType("/licenses.json", MediaType.APPLICATION_JSON))
-                .build());
+                    .payload(payloadFromResourceWithContentType("/licences.json", MediaType.APPLICATION_JSON))
+                    .build());
 
         List<License> result = api.listLicenses();
         assertNotNull(result);

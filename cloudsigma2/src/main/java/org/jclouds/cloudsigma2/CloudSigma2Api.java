@@ -588,7 +588,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("vlan:listVLANInfo/{uuid}")
     @PUT
     @Path("/vlans/{uuid}/")
-    @ResponseParser(ParseVLANInfoList.class)
+    @ResponseParser(ParseVLANInfo.class)
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     VLANInfo editVLAN(@PathParam("uuid") String uuid
             , @BinderParam(BindVLANToJsonRequest.class) VLANInfo vlanInfo);
@@ -715,7 +715,7 @@ public interface CloudSigma2Api extends Closeable {
     @DELETE
     @Path("/tags/{uuid}/")
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
-    Void deleteTag(@PathParam("uuid")String uuid);
+    void deleteTag(@PathParam("uuid")String uuid);
 
     /**
      * Deletes multiple tags
@@ -726,7 +726,7 @@ public interface CloudSigma2Api extends Closeable {
     @DELETE
     @Path("/tags/")
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
-    Void deleteTags(@BinderParam(BindUuidStringsToJsonArray.class) List<String> uuids);
+    void deleteTags(@BinderParam(BindUuidStringsToJsonArray.class) List<String> uuids);
 
     /**
      * Creates a multiple new tags
