@@ -258,10 +258,10 @@ public interface CloudSigma2Api extends Closeable {
      */
     @Named("libdrive:getLibraryDrive/{uuid}")
     @GET
-    @Path("/libdrives/{uuid}")
+    @Path("/libdrives/{uuid}/")
     @ResponseParser(ParseLibraryDrive.class)
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
-    List<LibraryDrive> getLibraryDrive(@PathParam("uuid") String uuid);
+    LibraryDrive getLibraryDrive(@PathParam("uuid") String uuid);
 
     /**
      * If a library drive is not a CDROM, you have to clone it in your account in order to use it.
@@ -275,7 +275,7 @@ public interface CloudSigma2Api extends Closeable {
     @Path("/libdrives/{uuid}/action/?do=clone")
     @ResponseParser(ParseLibraryDrive.class)
     @Fallback(Fallbacks.VoidOnNotFoundOr404.class)
-    DriveInfo cloneLibraryDrive(@PathParam("uuid") String uuid
+    LibraryDrive cloneLibraryDrive(@PathParam("uuid") String uuid
             , @Nullable @BinderParam(BindLibraryDriveToJson.class) LibraryDrive libraryDrive);
 
     /**
@@ -588,7 +588,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("vlan:listVLANInfo/{uuid}")
     @PUT
     @Path("/vlans/{uuid}/")
-    @ResponseParser(ParseVLANInfoList.class)
+    @ResponseParser(ParseVLANInfo.class)
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     VLANInfo editVLAN(@PathParam("uuid") String uuid
             , @BinderParam(BindVLANToJsonRequest.class) VLANInfo vlanInfo);
@@ -715,7 +715,7 @@ public interface CloudSigma2Api extends Closeable {
     @DELETE
     @Path("/tags/{uuid}/")
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
-    Void deleteTag(@PathParam("uuid")String uuid);
+    void deleteTag(@PathParam("uuid")String uuid);
 
     /**
      * Deletes multiple tags
@@ -726,7 +726,7 @@ public interface CloudSigma2Api extends Closeable {
     @DELETE
     @Path("/tags/")
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
-    Void deleteTags(@BinderParam(BindUuidStringsToJsonArray.class) List<String> uuids);
+    void deleteTags(@BinderParam(BindUuidStringsToJsonArray.class) List<String> uuids);
 
     /**
      * Creates a multiple new tags
