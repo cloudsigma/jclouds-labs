@@ -59,6 +59,7 @@ import org.jclouds.http.filters.BasicAuthentication;
 import org.jclouds.javax.annotation.Nullable;
 import org.jclouds.rest.annotations.BinderParam;
 import org.jclouds.rest.annotations.Fallback;
+import org.jclouds.rest.annotations.OnlyElement;
 import org.jclouds.rest.annotations.RequestFilters;
 import org.jclouds.rest.annotations.SelectJson;
 
@@ -142,6 +143,8 @@ public interface CloudSigma2Api extends Closeable {
     @POST
     @Path("/drives/")
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
+    @SelectJson("objects")
+    @OnlyElement
     DriveInfo createDrive(@BinderParam(BindDriveToJson.class) DriveInfo createDrive);
 
     /**
@@ -281,6 +284,8 @@ public interface CloudSigma2Api extends Closeable {
     @Named("server:createServer")
     @POST
     @Path("/servers/")
+    @SelectJson("objects")
+    @OnlyElement
     ServerInfo createServer(@BinderParam(BindServerInfoToJsonRequest.class) ServerInfo createServer);
 
     /**
@@ -394,10 +399,10 @@ public interface CloudSigma2Api extends Closeable {
      */
     @Named("server:startServerInSeparateAvailabilityGroup/{uuid}")
     @POST
-    @Path("/servers/{uuid}/action/?do=start&avoid={group}")
+    @Path("/servers/{uuid}/action/?do=start")
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     void startServerInSeparateAvailabilityGroup(@PathParam("uuid") String uuid
-            , @PathParam("group") ServerAvailabilityGroup uuidGroup);
+            , @QueryParam("avoid") List<String> uuidGroup);
 
     /**
      * Opens a VNC tunnel to a server with specific UUID.
@@ -427,7 +432,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("server:listServerAvailabilityGroup")
     @GET
     @Path("/servers/availability_groups/")
-    List<ServerAvailabilityGroup> listServerAvailabilityGroup();
+    List<List<String>> listServerAvailabilityGroup();
 
     /**
      * Queries which other servers share same physical host with the given one.
@@ -486,6 +491,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("fwpolicy:createFirewallPolicy")
     @POST
     @Path("/fwpolicies/")
+    @OnlyElement
     FirewallPolicy createFirewallPolicy(
             @BinderParam(BindFirewallPolicyToJsonRequest.class) FirewallPolicy firewallPolicy);
 
@@ -656,6 +662,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("tag:createTag")
     @POST
     @Path("/tags/")
+    @OnlyElement
     Tag createTag(@BinderParam(BindTagToJsonRequest.class) Tag tag);
 
     /**
@@ -690,6 +697,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("tag:createTags")
     @POST
     @Path("/tags/")
+    @SelectJson("objects")
     List<Tag> createTags(@BinderParam(BindTagListToJsonRequest.class) List<Tag> tags);
 
     /**
@@ -779,6 +787,8 @@ public interface CloudSigma2Api extends Closeable {
     @Named("subscription:listSubscriptionsCalculator")
     @POST
     @Path("/subscriptions/")
+    @SelectJson("objects")
+    @OnlyElement
     Subscription createSubscription(
             @BinderParam(BindCreateSubscriptionRequest.class) CreateSubscriptionRequest subscriptionRequest);
 

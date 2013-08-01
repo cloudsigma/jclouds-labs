@@ -19,7 +19,6 @@ package org.jclouds.cloudsigma2;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Module;
 import org.jclouds.apis.ApiMetadata;
-import org.jclouds.cloudsigma2.compute.config.CloudSigmaComputeServiceContextModule;
 import org.jclouds.cloudsigma2.config.CloudSigma2HttpApiModule;
 import org.jclouds.cloudsigma2.config.CloudSigma2ParserModule;
 import org.jclouds.cloudsigma2.reference.CloudSigmaConstants;
@@ -80,7 +79,6 @@ public class CloudSigma2ApiMetadata extends BaseHttpApiMetadata {
          .view(typeToken(ComputeServiceContext.class))
          .defaultModules(ImmutableSet.<Class<? extends Module>>of(
                 CloudSigma2HttpApiModule.class,
-                CloudSigmaComputeServiceContextModule.class,
                 CloudSigma2ParserModule.class));
       }
 

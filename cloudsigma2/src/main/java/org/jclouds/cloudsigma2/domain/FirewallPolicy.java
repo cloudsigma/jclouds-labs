@@ -112,7 +112,7 @@ public class FirewallPolicy extends Item{
     protected final List<Server> servers;
 
     @ConstructorProperties({
-            "meta", "owner", "rules", "servers"
+            "meta", "name", "owner", "resource_uri", "rules", "servers", "uuid"
     })
     public FirewallPolicy(Map<String, String> meta, String name, Owner owner, URI resourceUri, List<FirewallRule> rules
             , List<Server> servers, String uuid) {
