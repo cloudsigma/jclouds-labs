@@ -18,6 +18,8 @@ package org.jclouds.cloudsigma2.domain;
 
 import com.google.common.collect.ImmutableList;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.List;
@@ -223,13 +225,23 @@ public class LibraryDrive extends DriveInfo {
     protected final String arch;
     protected final List<String> category;
     protected final String description;
+    @Named("favourite")
     protected final boolean isFavorite;
+    @Named("image_type")
     protected final String imageType;
+    @Named("install_notes")
     protected final String installNotes;
     protected final String os;
+    @Named("paid")
     protected final boolean isPaid;
     protected final String url;
 
+    @ConstructorProperties({
+            "uuid", "name", "resource_uri", "size", "owner", "status",
+            "allow_multimount", "affinities", "jobs", "licenses",
+            "media", "meta", "mounted_on", "tags", "arch", "category",
+            "description", "favourite", "image_type", "install_notes", "os", "paid", "url"
+    })
     public LibraryDrive(String uuid, String name, URI resourceUri, BigInteger size, Owner owner, DriveStatus status
             , boolean allowMultimount, List<String> affinities, List<String> jobs, List<DriveLicense> licenses
             , MediaType media, Map<String,String> meta, List<Server> mountedOn, List<String> tags, String arch, List<String> category

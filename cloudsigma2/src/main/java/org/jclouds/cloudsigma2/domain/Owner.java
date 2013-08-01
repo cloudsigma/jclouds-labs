@@ -16,6 +16,8 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
 import java.net.URI;
 
 /**
@@ -84,9 +86,13 @@ public class Owner {
         }
     }
     private String uuid;
+    @Named("resoource_uri")
     private URI resourceUri;
     private String email;
 
+    @ConstructorProperties({
+            "uuid", "resource_uri", "email"
+    })
     public Owner(String uuid, URI resourceUri, String email){
         this.uuid = uuid;
         this.resourceUri = resourceUri;

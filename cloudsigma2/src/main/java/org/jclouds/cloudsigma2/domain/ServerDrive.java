@@ -16,6 +16,9 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
+
 /**
  * @author Vladimir Shevchenko
  */
@@ -52,10 +55,13 @@ public class ServerDrive {
         }
     }
 
-
+    @Named("boot_order")
     protected final int bootOrder;
+    @Named("dev_channel")
     protected final String deviceChannel;
+    @Named("device")
     protected final DeviceEmulationType deviceEmulationType;
+    @Named("drive")
     protected final Drive drive;
     protected final String driveUuid;
 
@@ -66,6 +72,9 @@ public class ServerDrive {
      * @param deviceEmulationType device emulation type
      * @param drive drive to attach. UUID Required.
      */
+    @ConstructorProperties({
+            "boot_order", "dev_channel", "device", "drive"
+    })
     public ServerDrive(int bootOrder, String deviceChannel, DeviceEmulationType deviceEmulationType, Drive drive) {
         this.bootOrder = bootOrder;
         this.deviceChannel = deviceChannel;

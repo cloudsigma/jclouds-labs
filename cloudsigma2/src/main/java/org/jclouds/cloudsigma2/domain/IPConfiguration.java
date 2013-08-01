@@ -16,6 +16,9 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
+
 /**
  * @author Vladimir Shevchenko
  */
@@ -40,9 +43,14 @@ public class IPConfiguration {
         }
     }
 
+    @Named("conf")
     protected final IPConfigurationType configurationType;
+    @Named("ip")
     protected final IP ip;
 
+    @ConstructorProperties({
+            "conf", "ip"
+    })
     public IPConfiguration(IPConfigurationType configurationType, IP ip) {
         this.configurationType = configurationType;
         this.ip = ip;

@@ -14,36 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jclouds.cloudsigma2.domain;
+package org.jclouds.cloudsigma2.config;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import com.google.inject.AbstractModule;
+import org.jclouds.json.config.GsonModule;
 
 /**
- * Option for the cloneDrive operation.
- * 'HDD' to specifies a regular "spinning oxide" disk; 'SSD' specifies a solid-state drive.
- * 
- * @author Alasdair Hodge
+ * @author Vladimir Shevchenko
  */
-public enum AffinityType {
-   HDD,
-   SSD,
-   UNRECOGNIZED;
-
-   public String value() {
-      return name().toLowerCase();
-   }
-
-   @Override
-   public String toString() {
-      return value();
-   }
-
-   public static AffinityType fromValue(String affinity) {
-      try {
-         return valueOf(checkNotNull(affinity, "affinity").toUpperCase());
-      } catch (IllegalArgumentException e) {
-         return UNRECOGNIZED;
-      }
-   }
-
+public class CloudSigma2ParserModule extends AbstractModule{
+    @Override
+    protected void configure() {
+        bind(GsonModule.DateAdapter.class).to(GsonModule.Iso8601DateAdapter.class);
+    }
 }

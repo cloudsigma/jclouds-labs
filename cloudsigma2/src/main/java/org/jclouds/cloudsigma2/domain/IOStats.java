@@ -16,15 +16,26 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
+
 /**
  * @author Vladimir Shevchenko
  */
 public class IOStats {
+
+    @Named("bytes_recv")
     protected final String bytesReceived;
+    @Named("bytes_sent")
     protected final String bytesSent;
+    @Named("packets_recv")
     protected final String packetsReceived;
+    @Named("packets_sent")
     protected final String packetsSent;
 
+    @ConstructorProperties({
+            "bytes_recv", "bytes_sent", "packets_recv", "packets_sent"
+    })
     public IOStats(String bytesReceived, String bytesSent, String packetsReceived, String packetsSent){
         this.bytesReceived = bytesReceived;
         this.bytesSent = bytesSent;

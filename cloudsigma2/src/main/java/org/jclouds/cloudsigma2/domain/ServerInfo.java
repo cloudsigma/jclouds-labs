@@ -18,6 +18,8 @@ package org.jclouds.cloudsigma2.domain;
 
 import com.google.common.collect.ImmutableList;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.ArrayList;
@@ -242,19 +244,31 @@ public class ServerInfo extends Server {
     }
 
     protected final int cpu;
+    @Named("cpus_instead_of_cores")
     protected final boolean cpusInsteadOfCores;
     protected final List<ServerDrive> drives;
+    @Named("enable_numa")
     protected final boolean enableNuma;
+    @Named("hv_relaxed")
     protected final boolean hvRelaxed;
+    @Named("hv_tsc")
     protected final boolean hvTsc;
+    @Named("mem")
     protected final BigInteger memory;
     protected final Map<String, String> meta;
     protected final List<NIC> nics;
     protected final List<String> requirements;
     protected final List<String> tags;
+    @Named("vnc_password")
     protected final String vncPassword;
     protected final int smp;
 
+    @ConstructorProperties({
+            "uuid", "name", "resource_uri", "owner", "status", "runtime",
+            "cpu", "cpus_instead_of_cores", "drives", "enable_numa",
+            "hv_relaxed", "hv_tsc", "mem", "meta", "nics",
+            "requirements", "tags", "vnc_password", "smp"
+    })
     public ServerInfo(String uuid, String name, URI resourceUri, Owner owner, ServerStatus status, ServerRuntime runtime
             , int cpu, boolean cpusInsteadOfCores, List<ServerDrive> drives, boolean enableNuma
             , boolean hvRelaxed, boolean hvTsc, BigInteger memory, Map<String, String> meta, List<NIC> nics

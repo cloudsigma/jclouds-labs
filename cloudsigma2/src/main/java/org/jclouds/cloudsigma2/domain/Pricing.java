@@ -18,6 +18,7 @@ package org.jclouds.cloudsigma2.domain;
 
 import com.google.common.collect.ImmutableList;
 
+import java.beans.ConstructorProperties;
 import java.util.List;
 
 /**
@@ -54,6 +55,9 @@ public class Pricing {
     protected final BurstLevel next;
     protected final List<Price> priceList;
 
+    @ConstructorProperties({
+            "current", "next", "objects"
+    })
     public Pricing(BurstLevel current, BurstLevel next, List<Price> priceList) {
         this.current = current;
         this.next = next;

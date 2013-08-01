@@ -18,6 +18,7 @@ package org.jclouds.cloudsigma2.domain;
 
 import com.google.common.collect.ImmutableList;
 
+import java.beans.ConstructorProperties;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +111,9 @@ public class FirewallPolicy extends Item{
     protected final List<FirewallRule> rules;
     protected final List<Server> servers;
 
+    @ConstructorProperties({
+            "meta", "owner", "rules", "servers"
+    })
     public FirewallPolicy(Map<String, String> meta, String name, Owner owner, URI resourceUri, List<FirewallRule> rules
             , List<Server> servers, String uuid) {
         super(uuid, name, resourceUri);

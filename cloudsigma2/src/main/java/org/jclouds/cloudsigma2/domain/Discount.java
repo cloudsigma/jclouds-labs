@@ -16,6 +16,8 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import java.beans.ConstructorProperties;
+
 /**
  * @author Vladimir Shevchenko
  */
@@ -24,6 +26,9 @@ public class Discount {
     protected final String period;
     protected final Double value;
 
+    @ConstructorProperties({
+            "period", "value"
+    })
     public Discount(String period, Double value) {
         this.period = period;
         this.value = value;
