@@ -548,6 +548,12 @@ public class CloudSigma2ApiLiveTest extends BaseApiLiveTest<CloudSigma2Api> {
         Assert.assertNotNull(api.listTransactions());
     }
 
+    @Test
+    public void testListLicenses() throws Exception {
+        List<License> licenses = api.listLicenses();
+        Assert.assertNotNull(licenses);
+    }
+
     private void checkDrive(DriveInfo newDrive, DriveInfo createdDrive){
         Assert.assertEquals(newDrive.getName(), createdDrive.getName());
         Assert.assertEquals(newDrive.getMedia(), createdDrive.getMedia());

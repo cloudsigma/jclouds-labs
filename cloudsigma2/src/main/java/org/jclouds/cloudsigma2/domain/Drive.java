@@ -19,6 +19,7 @@ package org.jclouds.cloudsigma2.domain;
 import com.google.common.base.Objects;
 import org.jclouds.javax.annotation.Nullable;
 
+import java.beans.ConstructorProperties;
 import java.net.URI;
 
 /**
@@ -109,6 +110,9 @@ public class Drive extends Item {
     protected final Owner owner;
     protected final DriveStatus status;
 
+    @ConstructorProperties({
+            "uuid", "name", "resource_uri", "owner", "status"
+    })
     public Drive(@Nullable String uuid, String name, @Nullable URI resourceUri, @Nullable Owner owner, DriveStatus status) {
         super(uuid, name, resourceUri);
 

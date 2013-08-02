@@ -18,6 +18,7 @@ package org.jclouds.cloudsigma2.domain;
 
 import org.jclouds.javax.annotation.Nullable;
 
+import java.beans.ConstructorProperties;
 import java.net.URI;
 
 /**
@@ -102,6 +103,9 @@ public class IP {
     protected final Server server;
     protected final URI resourceUri;
 
+    @ConstructorProperties({
+            "uuid", "owner", "server", "resource_uri"
+    })
     public IP(String uuid, Owner owner, Server server, URI resourceUri) {
         this.owner = owner;
         this.uuid = uuid;

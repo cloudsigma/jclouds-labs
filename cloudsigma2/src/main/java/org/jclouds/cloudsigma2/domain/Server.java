@@ -18,6 +18,7 @@ package org.jclouds.cloudsigma2.domain;
 
 import org.jclouds.javax.annotation.Nullable;
 
+import java.beans.ConstructorProperties;
 import java.net.URI;
 
 /**
@@ -98,6 +99,9 @@ public class Server extends Item {
     protected final ServerStatus status;
     protected final ServerRuntime runtime;
 
+    @ConstructorProperties({
+            "uuid", "name", "resource_uri", "owner", "status", "runtime"
+    })
     public Server(@Nullable String uuid, String name, URI resourceUri, Owner owner, ServerStatus status, ServerRuntime runtime) {
         super(uuid, name, resourceUri);
         this.owner = owner;

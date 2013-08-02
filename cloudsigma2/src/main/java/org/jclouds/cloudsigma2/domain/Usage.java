@@ -16,6 +16,7 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import java.beans.ConstructorProperties;
 import java.math.BigInteger;
 
 /**
@@ -52,6 +53,9 @@ public class Usage {
     protected final BigInteger subscribed;
     protected final BigInteger using;
 
+    @ConstructorProperties({
+            "burst", "subscribed", "using"
+    })
     public Usage(BigInteger burst, BigInteger subscribed, BigInteger using) {
         this.burst = burst;
         this.subscribed = subscribed;

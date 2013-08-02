@@ -16,6 +16,7 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import java.beans.ConstructorProperties;
 import java.math.BigInteger;
 
 /**
@@ -108,6 +109,9 @@ public class Price {
     protected final SubscriptionResource resource;
     protected final String unit;
 
+    @ConstructorProperties({
+            "currency", "id", "level", "multiplier", "price", "resource", "unit"
+    })
     public Price(String currency, String id, Integer level, BigInteger multiplier, double price
             , SubscriptionResource resource, String unit) {
         this.currency = currency;

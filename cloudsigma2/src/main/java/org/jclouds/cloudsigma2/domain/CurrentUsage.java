@@ -16,6 +16,8 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import java.beans.ConstructorProperties;
+
 /**
  * @author Vladimir Shevchenko
  */
@@ -43,6 +45,9 @@ public class CurrentUsage {
     protected final AccountBalance balance;
     protected final AccountUsage usage;
 
+    @ConstructorProperties({
+            "balance", "usage"
+    })
     public CurrentUsage(AccountBalance balance, AccountUsage usage) {
         this.balance = balance;
         this.usage = usage;

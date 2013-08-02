@@ -16,6 +16,8 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
 import java.net.URI;
 
 /**
@@ -67,12 +69,18 @@ public class License {
     }
 
     protected final boolean burstable;
+    @Named("long_name")
     protected final String longName;
     protected final String name;
+    @Named("resource_uri")
     protected final URI resourceUri;
     protected final String type;
+    @Named("user_metric")
     protected final String userMetric;
 
+    @ConstructorProperties({
+        "burstable", "long_name", "name", "resource_uri", "type", "user_metric"
+    })
     public License(boolean burstable, String longName, String name, URI resourceUri, String type, String userMetric) {
         this.burstable = burstable;
         this.longName = longName;

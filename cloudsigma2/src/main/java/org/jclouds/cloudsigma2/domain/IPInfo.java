@@ -18,6 +18,7 @@ package org.jclouds.cloudsigma2.domain;
 
 import com.google.common.collect.ImmutableList;
 
+import java.beans.ConstructorProperties;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -140,6 +141,10 @@ public class IPInfo extends IP {
     protected final int netmask;
     protected final String gateway;
 
+    @ConstructorProperties({
+            "uuid", "owner", "server", "resource_uri", "meta", "subscription",
+            "tags", "nameservers", "netmask", "gateway"
+    })
     public IPInfo(String uuid, Owner owner, Server server, URI resourceUri, Map<String, String> meta, Subscription subscription
             , List<Tag> tags, List<String> nameservers, int netmask, String gateway) {
         super(uuid, owner, server, resourceUri);

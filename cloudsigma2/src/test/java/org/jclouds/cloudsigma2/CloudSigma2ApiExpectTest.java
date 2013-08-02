@@ -35,7 +35,6 @@ import org.jclouds.cloudsigma2.domain.License;
 import org.jclouds.cloudsigma2.domain.Pricing;
 import org.jclouds.cloudsigma2.domain.ProfileInfo;
 import org.jclouds.cloudsigma2.domain.Server;
-import org.jclouds.cloudsigma2.domain.ServerAvailabilityGroup;
 import org.jclouds.cloudsigma2.domain.ServerInfo;
 import org.jclouds.cloudsigma2.domain.Subscription;
 import org.jclouds.cloudsigma2.domain.SubscriptionResource;
@@ -155,7 +154,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
                     .endpoint(endpoint + "drives/")
                     .build()
                 , responseBuilder()
-                    .payload(payloadFromResourceWithContentType("/drives-detail.json", MediaType.APPLICATION_JSON))
+                    .payload(payloadFromResourceWithContentType("/drives-single.json", MediaType.APPLICATION_JSON))
                     .build());
 
         DriveInfo result = api.createDrive(new DriveInfo.Builder()
@@ -505,12 +504,12 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
     @Test
     public void testStartServerInSeparateAvailabilityGroup() throws Exception {
         String uuid = "61d61337-884b-4c87-b4de-f7f48f9cfc84";
-        ServerAvailabilityGroup uuidGroup = new ServerAvailabilityGroup(ImmutableList.of(
+        List<String> uuidGroup = ImmutableList.of(
                 "313e73a4-592f-48cf-81c4-a6c079d005a5",
-                "e035a488-8587-4a15-ab25-9b7343236bc9"));
+                "e035a488-8587-4a15-ab25-9b7343236bc9");
         CloudSigma2Api api = requestSendsResponse(
                 postBuilder()
-                        .endpoint(endpoint + "servers/" + uuid + "/action/%3Fdo=start%26avoid=" + uuidGroup.getUuids().get(0) + "%2C" + uuidGroup.getUuids().get(1))
+                        .endpoint(endpoint + "servers/" + uuid + "/action/%3Fdo=start?avoid=" + uuidGroup.get(0) + "&avoid=" + uuidGroup.get(1))
                         .build()
                 , responseBuilder()
                 .build());
@@ -554,7 +553,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
                 .payload(payloadFromResourceWithContentType("/servers-availability-groups.json", MediaType.APPLICATION_JSON))
                 .build());
 
-        List<ServerAvailabilityGroup> result = api.listServerAvailabilityGroup();
+        List<List<String>> result = api.listServerAvailabilityGroup();
         assertNotNull(result);
     }
 
@@ -1207,7 +1206,7 @@ public class CloudSigma2ApiExpectTest extends BaseRestApiExpectTest<CloudSigma2A
                         .payload(payloadFromResourceWithContentType("/subscriptions-create-request.json", MediaType.APPLICATION_JSON))
                         .build()
                 , responseBuilder()
-                .payload(payloadFromResourceWithContentType("/subscriptions.json", MediaType.APPLICATION_JSON))
+                .payload(payloadFromResourceWithContentType("/subscriptions-single.json", MediaType.APPLICATION_JSON))
                 .build());
 
         Subscription result = api.createSubscription(new CreateSubscriptionRequest.Builder()
