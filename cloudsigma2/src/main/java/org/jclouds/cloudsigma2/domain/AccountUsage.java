@@ -16,6 +16,10 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import com.google.inject.name.Named;
+
+import java.beans.ConstructorProperties;
+
 /**
  * @author Vladimir Shevchenko
  */
@@ -98,14 +102,20 @@ public class AccountUsage {
     protected final Usage dssd;
     protected final Usage ip;
     protected final Usage mem;
+    @Named("msft_lwa_00135")
     protected final Usage windowsWebServer2008;
+    @Named("msft_p37_04837")
     protected final Usage windowsServer2008Standard;
+    @Named("msft_tfa_00009")
     protected final Usage sqlServerStandard2008;
     protected final Usage sms;
     protected final Usage ssd;
     protected final Usage tx;
     protected final Usage vlan;
 
+    @ConstructorProperties({
+            "cpu", "dssd", "ip", "mem", "msft_lwa_00135", "msft_p37_04837", "msft_tfa_00009", "sms", "ssd", "tx", "vlan"
+    })
     public AccountUsage(Usage cpu, Usage dssd, Usage ip, Usage mem, Usage windowsWebServer2008
             , Usage windowsServer2008Standard, Usage sqlServerStandard2008, Usage sms, Usage ssd, Usage tx, Usage vlan) {
         this.cpu = cpu;

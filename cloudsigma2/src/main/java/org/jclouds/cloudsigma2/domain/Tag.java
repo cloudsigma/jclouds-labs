@@ -19,6 +19,7 @@ package org.jclouds.cloudsigma2.domain;
 import com.google.common.collect.ImmutableList;
 import org.jclouds.javax.annotation.Nullable;
 
+import java.beans.ConstructorProperties;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +83,9 @@ public class Tag extends Item{
     protected final Owner owner;
     protected final List<TagResource> resources;
 
+    @ConstructorProperties({
+            "uuid", "name", "resource_uri", "meta", "owner", "resources"
+    })
     public Tag(@Nullable String uuid, String name, @Nullable URI resourceUri, Map<String, String> meta, Owner owner, List<TagResource> resources) {
         super(uuid, name, resourceUri);
         this.meta = meta;

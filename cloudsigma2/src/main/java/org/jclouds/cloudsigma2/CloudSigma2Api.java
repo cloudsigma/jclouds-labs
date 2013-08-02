@@ -55,39 +55,13 @@ import org.jclouds.cloudsigma2.domain.Subscription;
 import org.jclouds.cloudsigma2.domain.Tag;
 import org.jclouds.cloudsigma2.domain.Transaction;
 import org.jclouds.cloudsigma2.domain.VLANInfo;
-import org.jclouds.cloudsigma2.functions.ParseAccountBalance;
-import org.jclouds.cloudsigma2.functions.ParseAvailabilityGroup;
-import org.jclouds.cloudsigma2.functions.ParseAvailabilityGroupList;
-import org.jclouds.cloudsigma2.functions.ParseCurrentUsage;
-import org.jclouds.cloudsigma2.functions.ParseDiscountsList;
-import org.jclouds.cloudsigma2.functions.ParseDriveInfo;
-import org.jclouds.cloudsigma2.functions.ParseDrivesInfoList;
-import org.jclouds.cloudsigma2.functions.ParseDrivesList;
-import org.jclouds.cloudsigma2.functions.ParseFirewallPoliciesList;
-import org.jclouds.cloudsigma2.functions.ParseFirewallPolicy;
-import org.jclouds.cloudsigma2.functions.ParseIPInfo;
-import org.jclouds.cloudsigma2.functions.ParseIPInfoList;
-import org.jclouds.cloudsigma2.functions.ParseLibraryDrive;
-import org.jclouds.cloudsigma2.functions.ParseLibraryDrivesList;
-import org.jclouds.cloudsigma2.functions.ParseLicenseList;
-import org.jclouds.cloudsigma2.functions.ParsePricing;
-import org.jclouds.cloudsigma2.functions.ParseProfileInfo;
-import org.jclouds.cloudsigma2.functions.ParseServerInfo;
-import org.jclouds.cloudsigma2.functions.ParseServerInfoList;
-import org.jclouds.cloudsigma2.functions.ParseServerList;
-import org.jclouds.cloudsigma2.functions.ParseSubscription;
-import org.jclouds.cloudsigma2.functions.ParseSubscriptionsList;
-import org.jclouds.cloudsigma2.functions.ParseTag;
-import org.jclouds.cloudsigma2.functions.ParseTagList;
-import org.jclouds.cloudsigma2.functions.ParseTransactionList;
-import org.jclouds.cloudsigma2.functions.ParseVLANInfo;
-import org.jclouds.cloudsigma2.functions.ParseVLANInfoList;
 import org.jclouds.http.filters.BasicAuthentication;
 import org.jclouds.javax.annotation.Nullable;
 import org.jclouds.rest.annotations.BinderParam;
 import org.jclouds.rest.annotations.Fallback;
+import org.jclouds.rest.annotations.OnlyElement;
 import org.jclouds.rest.annotations.RequestFilters;
-import org.jclouds.rest.annotations.ResponseParser;
+import org.jclouds.rest.annotations.SelectJson;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -119,7 +93,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("drive:listDrives")
     @GET
     @Path("/drives/")
-    @ResponseParser(ParseDrivesList.class)
+    @SelectJson("objects")
     List<Drive> listDrives();
 
     /**
@@ -132,7 +106,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("drive:listDrives")
     @GET
     @Path("/drives/")
-    @ResponseParser(ParseDrivesList.class)
+    @SelectJson("objects")
     List<DriveInfo> listDrives(@QueryParam("fields") DrivesListRequestFieldsGroup fields
             , @DefaultValue("0") @QueryParam("limit") int limit);
 
@@ -144,7 +118,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("drive:listDrivesInfo")
     @GET
     @Path("/drives/detail/")
-    @ResponseParser(ParseDrivesInfoList.class)
+    @SelectJson("objects")
     List<DriveInfo> listDrivesInfo();
 
     /**
@@ -157,7 +131,6 @@ public interface CloudSigma2Api extends Closeable {
     @GET
     @Path("/drives/{uuid}/")
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
-    @ResponseParser(ParseDriveInfo.class)
     DriveInfo getDriveInfo(@PathParam("uuid") String uuid);
 
     /**
@@ -170,7 +143,8 @@ public interface CloudSigma2Api extends Closeable {
     @POST
     @Path("/drives/")
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
-    @ResponseParser(ParseDriveInfo.class)
+    @SelectJson("objects")
+    @OnlyElement
     DriveInfo createDrive(@BinderParam(BindDriveToJson.class) DriveInfo createDrive);
 
     /**
@@ -182,7 +156,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("drive:listDrives")
     @POST
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
-    @ResponseParser(ParseDrivesInfoList.class)
+    @SelectJson("objects")
     @Path("/drives/")
     List<DriveInfo> createDrives(@BinderParam(BindDrivesToJson.class) List<DriveInfo> createDrives);
 
@@ -218,7 +192,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("drive:editDrive/{uuid}")
     @PUT
     @Path("/drives/{uuid}/")
-    @ResponseParser(ParseDriveInfo.class)
     @Fallback(Fallbacks.VoidOnNotFoundOr404.class)
     DriveInfo editDrive(@PathParam("uuid") String sourceUuid
             , @BinderParam(BindDriveToJson.class) DriveInfo driveInfo);
@@ -234,7 +207,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("drive:cloneDrive/{uuid}")
     @POST
     @Path("/drives/{uuid}/action/?do=clone")
-    @ResponseParser(ParseDriveInfo.class)
     @Fallback(Fallbacks.VoidOnNotFoundOr404.class)
     DriveInfo cloneDrive(@PathParam("uuid") String sourceUuid
             , @Nullable @BinderParam(BindDriveToJson.class) DriveInfo driveInfo);
@@ -247,7 +219,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("libdrive:listLibraryDrives")
     @GET
     @Path("/libdrives/")
-    @ResponseParser(ParseLibraryDrivesList.class)
+    @SelectJson("objects")
     List<LibraryDrive> listLibraryDrives();
 
     /**
@@ -259,7 +231,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("libdrive:getLibraryDrive/{uuid}")
     @GET
     @Path("/libdrives/{uuid}/")
-    @ResponseParser(ParseLibraryDrive.class)
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     LibraryDrive getLibraryDrive(@PathParam("uuid") String uuid);
 
@@ -273,7 +244,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("libdrive:cloneLibraryDrive/{uuid}")
     @POST
     @Path("/libdrives/{uuid}/action/?do=clone")
-    @ResponseParser(ParseLibraryDrive.class)
     @Fallback(Fallbacks.VoidOnNotFoundOr404.class)
     LibraryDrive cloneLibraryDrive(@PathParam("uuid") String uuid
             , @Nullable @BinderParam(BindLibraryDriveToJson.class) LibraryDrive libraryDrive);
@@ -286,7 +256,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("server:listServers")
     @GET
     @Path("/servers/")
-    @ResponseParser(ParseServerList.class)
+    @SelectJson("objects")
     List<Server> listServers();
 
     /**
@@ -297,7 +267,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("server:listServersInfo")
     @GET
     @Path("/servers/detail/")
-    @ResponseParser(ParseServerInfoList.class)
+    @SelectJson("objects")
     List<ServerInfo> listServersInfo();
 
     /**
@@ -314,7 +284,8 @@ public interface CloudSigma2Api extends Closeable {
     @Named("server:createServer")
     @POST
     @Path("/servers/")
-    @ResponseParser(ParseServerInfo.class)
+    @SelectJson("objects")
+    @OnlyElement
     ServerInfo createServer(@BinderParam(BindServerInfoToJsonRequest.class) ServerInfo createServer);
 
     /**
@@ -326,7 +297,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("server:createServers")
     @POST
     @Path("/servers/")
-    @ResponseParser(ParseServerInfoList.class)
+    @SelectJson("objects")
     List<ServerInfo> createServers(@BinderParam(BindServerInfoListToJsonRequest.class) Iterable<ServerInfo> servers);
 
     /**
@@ -339,7 +310,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("server:editServer/{uuid}")
     @PUT
     @Path("/servers/{uuid}/")
-    @ResponseParser(ParseServerInfo.class)
     @Fallback(Fallbacks.VoidOnNotFoundOr404.class)
     ServerInfo editServer(@PathParam("uuid") String uuid
             , @BinderParam(BindServerInfoToJsonRequest.class) ServerInfo server);
@@ -379,7 +349,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("server:cloneServer/{uuid}")
     @POST
     @Path("/servers/{uuid}/action/?do=clone")
-    @ResponseParser(ParseServerInfo.class)
     @Fallback(Fallbacks.VoidOnNotFoundOr404.class)
     ServerInfo cloneServer(@PathParam("uuid") String uuid);
 
@@ -392,7 +361,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("server:getServerInfo/{uuid}")
     @GET
     @Path("/servers/{uuid}/")
-    @ResponseParser(ParseServerInfo.class)
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     ServerInfo getServerInfo(@PathParam("uuid") String uuid);
 
@@ -431,10 +399,10 @@ public interface CloudSigma2Api extends Closeable {
      */
     @Named("server:startServerInSeparateAvailabilityGroup/{uuid}")
     @POST
-    @Path("/servers/{uuid}/action/?do=start&avoid={group}")
+    @Path("/servers/{uuid}/action/?do=start")
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     void startServerInSeparateAvailabilityGroup(@PathParam("uuid") String uuid
-            , @PathParam("group") ServerAvailabilityGroup uuidGroup);
+            , @QueryParam("avoid") List<String> uuidGroup);
 
     /**
      * Opens a VNC tunnel to a server with specific UUID.
@@ -464,8 +432,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("server:listServerAvailabilityGroup")
     @GET
     @Path("/servers/availability_groups/")
-    @ResponseParser(ParseAvailabilityGroupList.class)
-    List<ServerAvailabilityGroup> listServerAvailabilityGroup();
+    List<List<String>> listServerAvailabilityGroup();
 
     /**
      * Queries which other servers share same physical host with the given one.
@@ -477,7 +444,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("server:getServerAvailabilityGroup/{uuid}")
     @GET
     @PathParam("/servers/availability_groups/{uuid}/")
-    @ResponseParser(ParseAvailabilityGroup.class)
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     ServerAvailabilityGroup getServerAvailabilityGroup(@PathParam("uuid") String uuid);
 
@@ -489,7 +455,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("fwpolicy:listFirewallPolicies")
     @GET
     @Path("/fwpolicies/")
-    @ResponseParser(ParseFirewallPoliciesList.class)
+    @SelectJson("objects")
     List<FirewallPolicy> listFirewallPolicies();
 
     /**
@@ -500,7 +466,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("fwpolicy:listFirewallPoliciesInfo")
     @GET
     @Path("/fwpolicies/detail/")
-    @ResponseParser(ParseFirewallPoliciesList.class)
+    @SelectJson("objects")
     List<FirewallPolicy> listFirewallPoliciesInfo();
 
     /**
@@ -512,7 +478,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("fwpolicy:createFirewallPolicies")
     @POST
     @Path("/fwpolicies/")
-    @ResponseParser(ParseFirewallPoliciesList.class)
+    @SelectJson("objects")
     List<FirewallPolicy> createFirewallPolicies(
             @BinderParam(BindFirewallPoliciesListToJsonRequest.class) List<FirewallPolicy> firewallPolicies);
 
@@ -525,7 +491,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("fwpolicy:createFirewallPolicy")
     @POST
     @Path("/fwpolicies/")
-    @ResponseParser(ParseFirewallPolicy.class)
+    @OnlyElement
     FirewallPolicy createFirewallPolicy(
             @BinderParam(BindFirewallPolicyToJsonRequest.class) FirewallPolicy firewallPolicy);
 
@@ -539,7 +505,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("fwpolicy:editFirewallPolicy/{uuid}")
     @PUT
     @Path("/fwpolicies/{uuid}/")
-    @ResponseParser(ParseFirewallPolicy.class)
     FirewallPolicy editFirewallPolicy(@PathParam("uuid") String uuid
             , @BinderParam(BindFirewallPolicyToJsonRequest.class) FirewallPolicy firewallPolicy);
 
@@ -552,7 +517,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("vlan:getVLANInfo/{uuid}")
     @GET
     @Path("/vlans/{uuid}/")
-    @ResponseParser(ParseVLANInfo.class)
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     VLANInfo getVLANInfo(@PathParam("uuid") String uuid);
 
@@ -564,7 +528,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("vlan:listVLANs")
     @GET
     @Path("/vlans/")
-    @ResponseParser(ParseVLANInfoList.class)
+    @SelectJson("objects")
     List<VLANInfo> listVLANs();
 
     /**
@@ -575,7 +539,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("vlan:listVLANInfo")
     @GET
     @Path("/vlans/detail/")
-    @ResponseParser(ParseVLANInfoList.class)
+    @SelectJson("objects")
     List<VLANInfo> listVLANInfo();
 
     /**
@@ -588,7 +552,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("vlan:listVLANInfo/{uuid}")
     @PUT
     @Path("/vlans/{uuid}/")
-    @ResponseParser(ParseVLANInfo.class)
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     VLANInfo editVLAN(@PathParam("uuid") String uuid
             , @BinderParam(BindVLANToJsonRequest.class) VLANInfo vlanInfo);
@@ -601,7 +564,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("ip:listIPs")
     @GET
     @Path("/ips/")
-    @ResponseParser(ParseIPInfoList.class)
+    @SelectJson("objects")
     List<IP> listIPs();
 
     /**
@@ -612,7 +575,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("ip:listIPInfo")
     @GET
     @Path("/ips/detail/")
-    @ResponseParser(ParseIPInfoList.class)
+    @SelectJson("objects")
     List<IPInfo> listIPInfo();
 
     /**
@@ -624,7 +587,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("ip:getIPInfo/{uuid}")
     @GET
     @Path("/ips/{uuid}/")
-    @ResponseParser(ParseIPInfo.class)
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     IPInfo getIPInfo(@PathParam("uuid") String uuid);
 
@@ -638,7 +600,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("ip:editIP/{uuid}")
     @PUT
     @Path("/ips/{uuid}/")
-    @ResponseParser(ParseIPInfo.class)
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     IPInfo editIP(@PathParam("uuid") String uuid
             , @BinderParam(BindIPInfoToJsonRequest.class) IPInfo ipInfo);
@@ -651,7 +612,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("tag:listTags")
     @GET
     @Path("/tags/")
-    @ResponseParser(ParseTagList.class)
+    @SelectJson("objects")
     List<Tag> listTags();
 
     /**
@@ -663,7 +624,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("tag:listTagsInfo")
     @GET
     @Path("/tags/detail/")
-    @ResponseParser(ParseTagList.class)
+    @SelectJson("objects")
     List<Tag> listTagsInfo();
 
     /**
@@ -675,7 +636,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("tag:getTagInfo/{uuid}")
     @GET
     @Path("/tags/{uuid}/")
-    @ResponseParser(ParseTag.class)
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     Tag getTagInfo(@PathParam("uuid") String uuid);
 
@@ -690,7 +650,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("tag:editTag/{uuid}")
     @PUT
     @Path("/tags/{uuid}/")
-    @ResponseParser(ParseTag.class)
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     Tag editTag(@PathParam("uuid") String uuid, @BinderParam(BindTagToJsonRequest.class) Tag tag);
 
@@ -703,7 +662,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("tag:createTag")
     @POST
     @Path("/tags/")
-    @ResponseParser(ParseTag.class)
+    @OnlyElement
     Tag createTag(@BinderParam(BindTagToJsonRequest.class) Tag tag);
 
     /**
@@ -725,6 +684,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("tag:deleteTags")
     @DELETE
     @Path("/tags/")
+    @SelectJson("objects")
     @Fallback(Fallbacks.NullOnNotFoundOr404.class)
     void deleteTags(@BinderParam(BindUuidStringsToJsonArray.class) List<String> uuids);
 
@@ -737,7 +697,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("tag:createTags")
     @POST
     @Path("/tags/")
-    @ResponseParser(ParseTagList.class)
+    @SelectJson("objects")
     List<Tag> createTags(@BinderParam(BindTagListToJsonRequest.class) List<Tag> tags);
 
     /**
@@ -748,7 +708,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("profile:getProfileInfo")
     @GET
     @Path("/profile/")
-    @ResponseParser(ParseProfileInfo.class)
     ProfileInfo getProfileInfo();
 
     /**
@@ -760,7 +719,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("profile:editProfileInfo")
     @PUT
     @Path("/profile/")
-    @ResponseParser(ParseProfileInfo.class)
     ProfileInfo editProfileInfo(@BinderParam(BindProfileInfoToJsonRequest.class) ProfileInfo profile);
 
     /**
@@ -771,7 +729,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("balance:getAccountBalance")
     @GET
     @Path("/balance/")
-    @ResponseParser(ParseAccountBalance.class)
     AccountBalance getAccountBalance();
 
     /**
@@ -782,7 +739,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("currentusage:getCurrentUsage")
     @GET
     @Path("/currentusage/")
-    @ResponseParser(ParseCurrentUsage.class)
     CurrentUsage getCurrentUsage();
 
     /**
@@ -793,7 +749,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("subscription:listSubscriptions")
     @GET
     @Path("/subscriptions/")
-    @ResponseParser(ParseSubscriptionsList.class)
+    @SelectJson("objects")
     List<Subscription> listSubscriptions();
 
     /**
@@ -804,7 +760,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("subscription:listGroupedSubscriptions")
     @GET
     @Path("/groupedsubscriptions/")
-    @ResponseParser(ParseSubscriptionsList.class)
+    @SelectJson("objects")
     List<Subscription> listGroupedSubscriptions();
 
     /**
@@ -815,7 +771,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("subscription:listSubscriptionsCalculator")
     @GET
     @Path("/subscriptioncalculator/")
-    @ResponseParser(ParseSubscriptionsList.class)
+    @SelectJson("objects")
     List<Subscription> listSubscriptionsCalculator();
 
     /**
@@ -831,7 +787,8 @@ public interface CloudSigma2Api extends Closeable {
     @Named("subscription:listSubscriptionsCalculator")
     @POST
     @Path("/subscriptions/")
-    @ResponseParser(ParseSubscription.class)
+    @SelectJson("objects")
+    @OnlyElement
     Subscription createSubscription(
             @BinderParam(BindCreateSubscriptionRequest.class) CreateSubscriptionRequest subscriptionRequest);
 
@@ -848,7 +805,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("subscription:createSubscriptions")
     @POST
     @Path("/subscriptions/")
-    @ResponseParser(ParseSubscriptionsList.class)
+    @SelectJson("objects")
     List<Subscription> createSubscriptions(
             @BinderParam(BindCreateSubscriptionRequestList.class) List<CreateSubscriptionRequest> subscriptionRequest);
 
@@ -891,7 +848,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("pricing:getPricing")
     @GET
     @Path("/pricing/")
-    @ResponseParser(ParsePricing.class)
     Pricing getPricing();
 
     /**
@@ -902,7 +858,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("discount:listDiscounts")
     @GET
     @Path("/discount/")
-    @ResponseParser(ParseDiscountsList.class)
+    @SelectJson("objects")
     List<Discount> listDiscounts();
 
     /**
@@ -913,7 +869,7 @@ public interface CloudSigma2Api extends Closeable {
     @Named("ledger:listTransactions")
     @GET
     @Path("/ledger/")
-    @ResponseParser(ParseTransactionList.class)
+    @SelectJson("objects")
     List<Transaction> listTransactions();
 
     /**
@@ -930,6 +886,6 @@ public interface CloudSigma2Api extends Closeable {
     @Named("license:listLicenses")
     @GET
     @Path("/licenses/")
-    @ResponseParser(ParseLicenseList.class)
+    @SelectJson("objects")
     List<License> listLicenses();
 }

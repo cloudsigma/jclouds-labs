@@ -18,6 +18,8 @@ package org.jclouds.cloudsigma2.domain;
 
 import org.jclouds.javax.annotation.Nullable;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
 import java.net.URI;
 
 /**
@@ -91,8 +93,12 @@ public class Item {
     @Nullable
     protected final String name;
     @Nullable
+    @Named("resource_uri")
     protected final URI resourceUri;
 
+    @ConstructorProperties({
+            "uuid", "name", "resource_uri"
+    })
     public Item(@Nullable String uuid, @Nullable String name, @Nullable URI resourceUri) {
         this.uuid = uuid;
         this.name = name;

@@ -16,6 +16,8 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
 import java.util.Date;
 
 /**
@@ -71,6 +73,7 @@ public class Transaction {
     }
 
     protected final double amount;
+    @Named("billing_cycle")
     protected final long billingCycle;
     protected final double end;
     protected final String id;
@@ -78,6 +81,9 @@ public class Transaction {
     protected final String reason;
     protected final Date time;
 
+    @ConstructorProperties({
+            "amount", "billing_cycle", "end", "id", "initial", "reason", "time"
+    })
     public Transaction(double amount, long billingCycle, double end, String id, double initial, String reason, Date time) {
         this.amount = amount;
         this.billingCycle = billingCycle;

@@ -19,6 +19,8 @@ package org.jclouds.cloudsigma2.domain;
 import com.google.common.collect.ImmutableList;
 import org.jclouds.javax.annotation.Nullable;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -107,11 +109,15 @@ public class VLANInfo {
     protected final Map<String, String> meta;
     protected final String uuid;
     protected final Owner owner;
+    @Named("resource_uri")
     protected final URI resourceUri;
     protected final List<Server> servers;
     protected final Subscription subscription;
     protected final List<Tag> tags;
 
+    @ConstructorProperties({
+            "meta", "uuid", "owner", "resource_uri", "servers", "subscription", "tags"
+    })
     public VLANInfo(Map<String, String> meta, String uuid, Owner owner, URI resourceUri, List<Server> servers
             , Subscription subscription, List<Tag> tags) {
         this.meta = meta;

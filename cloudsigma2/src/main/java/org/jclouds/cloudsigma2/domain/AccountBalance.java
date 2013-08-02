@@ -16,6 +16,8 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import java.beans.ConstructorProperties;
+
 /**
  * @author Vladimir Shevchenko
  */
@@ -24,6 +26,9 @@ public class AccountBalance {
     protected final double balance;
     protected final String currency;
 
+    @ConstructorProperties({
+            "balance", "currency"
+    })
     public AccountBalance(double balance, String currency) {
         this.balance = balance;
         this.currency = currency;

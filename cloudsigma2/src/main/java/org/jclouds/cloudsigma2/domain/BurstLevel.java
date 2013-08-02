@@ -16,6 +16,10 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import com.google.inject.name.Named;
+
+import java.beans.ConstructorProperties;
+
 /**
  * @author Vladimir Shevchenko
  */
@@ -98,14 +102,20 @@ public class BurstLevel {
     protected final int dssd;
     protected final int ip;
     protected final int mem;
+    @Named("msft_lwa_00135")
     protected final int windowsWebServer2008;
+    @Named("msft_p37_04837")
     protected final int windowsServer2008Standard;
+    @Named("msft_tfa_00009")
     protected final int sqlServerStandard2008;
     protected final int sms;
     protected final int ssd;
     protected final int tx;
     protected final int vlan;
 
+    @ConstructorProperties({
+            "cpu", "dssd", "ip", "mem", "msft_lwa_00135", "msft_p37_04837", "msft_tfa_00009", "sms", "ssd", "tx", "vlan"
+    })
     public BurstLevel(int cpu, int dssd, int ip, int mem, int windowsWebServer2008
             , int windowsServer2008Standard, int sqlServerStandard2008, int sms, int ssd, int tx, int vlan) {
         this.cpu = cpu;

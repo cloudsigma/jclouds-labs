@@ -14,29 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jclouds.cloudsigma2.beans;
+package org.jclouds.cloudsigma2.config;
 
-import java.util.List;
+import com.google.inject.AbstractModule;
+import org.jclouds.json.config.GsonModule;
 
 /**
  * @author Vladimir Shevchenko
  */
-public class RawSubscription {
-    public String amount;
-    public Boolean auto_renew;
-    public List<RawSubscription> descendants;
-    public Double discount_amount;
-    public Double discount_percent;
-    public String end_time;
-    public String id;
-    public String last_notification;
-    public String period;
-    public Double price;
-    public String remaining;
-    public String resource;
-    public String resource_uri;
-    public String start_time;
-    public String status;
-    public String subscribed_object;
-    public String uuid;
+public class CloudSigma2ParserModule extends AbstractModule{
+    @Override
+    protected void configure() {
+        bind(GsonModule.DateAdapter.class).to(GsonModule.Iso8601DateAdapter.class);
+    }
 }

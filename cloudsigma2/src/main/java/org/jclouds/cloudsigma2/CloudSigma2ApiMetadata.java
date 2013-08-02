@@ -19,8 +19,8 @@ package org.jclouds.cloudsigma2;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Module;
 import org.jclouds.apis.ApiMetadata;
-import org.jclouds.cloudsigma2.compute.config.CloudSigmaComputeServiceContextModule;
 import org.jclouds.cloudsigma2.config.CloudSigma2HttpApiModule;
+import org.jclouds.cloudsigma2.config.CloudSigma2ParserModule;
 import org.jclouds.cloudsigma2.reference.CloudSigmaConstants;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.rest.internal.BaseHttpApiMetadata;
@@ -77,7 +77,9 @@ public class CloudSigma2ApiMetadata extends BaseHttpApiMetadata {
          .defaultEndpoint("https://zrh.cloudsigma.com/api/2.0")
          .defaultProperties(CloudSigma2ApiMetadata.defaultProperties())
          .view(typeToken(ComputeServiceContext.class))
-         .defaultModules(ImmutableSet.<Class<? extends Module>>of(CloudSigma2HttpApiModule.class, CloudSigmaComputeServiceContextModule.class));
+         .defaultModules(ImmutableSet.<Class<? extends Module>>of(
+                CloudSigma2HttpApiModule.class,
+                CloudSigma2ParserModule.class));
       }
 
       @Override

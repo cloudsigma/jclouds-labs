@@ -16,17 +16,27 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
+
 /**
  * @author Vladimir Shevchenko
  */
 public class NICStats {
 
+    @Named("interface_type")
     protected final InterfaceType interfaceType;
+    @Named("io")
     protected final IOStats ioStats;
+    @Named("ip_v4")
     protected final String ipV4;
+    @Named("ip_v6")
     protected final String ipV6;
     protected final String mac;
 
+    @ConstructorProperties({
+            "interface_type", "io", "ip_v4", "ip_v6", "mac"
+    })
     public NICStats(InterfaceType interfaceType, IOStats ioStats, String ipV4, String ipV6, String mac) {
         this.interfaceType = interfaceType;
         this.ioStats = ioStats;

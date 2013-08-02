@@ -18,6 +18,8 @@ package org.jclouds.cloudsigma2.domain;
 
 import com.google.common.collect.ImmutableList;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.List;
@@ -186,15 +188,22 @@ public class DriveInfo extends Drive {
     }
 
     protected final BigInteger size;
+    @Named("allow_multimount")
     protected final boolean allowMultimount;
     protected final List<String> affinities;
     protected final List<String> jobs;
     protected final List<DriveLicense> licenses;
     protected final MediaType media;
     protected final Map<String, String> meta;
+    @Named("mounted_on")
     protected final List<Server> mountedOn;
     protected final List<String> tags;
 
+    @ConstructorProperties({
+            "uuid", "name", "resource_uri", "size", "owner", "status",
+            "allow_multimount", "affinities", "jobs", "licenses",
+            "media", "meta", "mounted_on", "tags"
+    })
     public DriveInfo(String uuid, String name, URI resourceUri,
                      BigInteger size, Owner owner, DriveStatus status,
                      boolean allowMultimount, List<String> affinities, List<String> jobs, List<DriveLicense> licenses,

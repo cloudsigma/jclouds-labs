@@ -16,6 +16,9 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
+
 /**
  * @author Vladimir Shevchenko
  */
@@ -111,12 +114,21 @@ public class FirewallRule {
     protected final FirewallAction action;
     protected final String comment;
     protected final FirewallDirection direction;
+    @Named("dst_ip")
     protected final String destinationIp;
+    @Named("dst_port")
     protected final String destinationPort;
+    @Named("ip_proto")
     protected final FirewallIpProtocol ipProtocol;
+    @Named("src_ip")
     protected final String sourceIp;
+    @Named("src_port")
     protected final String sourcePort;
 
+    @ConstructorProperties({
+            "action", "comment", "direction", "dst_ip",
+            "dst_port", "ip_proto", "src_ip", "src_port"
+    })
     public FirewallRule(FirewallAction action, String comment, FirewallDirection direction, String destinationIp
             , String destinationPort, FirewallIpProtocol ipProtocol, String sourceIp, String sourcePort) {
         this.action = action;

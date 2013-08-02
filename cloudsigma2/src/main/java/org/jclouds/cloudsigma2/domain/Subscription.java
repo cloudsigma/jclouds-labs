@@ -18,6 +18,8 @@ package org.jclouds.cloudsigma2.domain;
 
 import com.google.common.collect.ImmutableList;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
@@ -207,23 +209,37 @@ public class Subscription {
     }
 
     protected final String amount;
+    @Named("auto_renew")
     protected final boolean isAutoRenewEnabled;
     protected final List<Subscription> descendants;
+    @Named("discount_amount")
     protected final double discountAmount;
+    @Named("discount_percent")
     protected final double discountPercent;
+    @Named("end_time")
     protected final Date endTime;
     protected final String id;
+    @Named("last_notification")
     protected final Date lastNotification;
     protected final String period;
     protected final double price;
     protected final String remaining;
     protected final SubscriptionResource resource;
+    @Named("resource_uri")
     protected final URI resourceUri;
+    @Named("start_time")
     protected final Date startTime;
     protected final String status;
+    @Named("subscribed_object")
     protected final String subscribedObject;
     protected final String uuid;
 
+    @ConstructorProperties({
+            "amount", "auto_renew", "descendants", "discount_amount"
+            , "discount_percent", "end_time", "id", "last_notification", "period", "price"
+            , "remaining", "resource", "resource_uri", "start_time", "status"
+            , "subscribed_object", "uuid"
+    })
     public Subscription(String amount, boolean autoRenewEnabled, List<Subscription> descendants, double discountAmount
             , double discountPercent, Date endTime, String id, Date lastNotification, String period, double price
             , String remaining, SubscriptionResource resource, URI resourceUri, Date startTime, String status

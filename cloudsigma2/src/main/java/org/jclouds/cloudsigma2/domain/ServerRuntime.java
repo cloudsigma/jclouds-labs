@@ -16,6 +16,8 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
 import java.util.Date;
 
 /**
@@ -43,9 +45,14 @@ public class ServerRuntime {
         }
     }
 
+    @Named("active_since")
     protected final Date activeSince;
+    @Named("nics")
     protected final Iterable<NICStats> nicStats;
 
+    @ConstructorProperties({
+        "active_since", "nics"
+    })
     public ServerRuntime(Date activeSince, Iterable<NICStats> nicStats){
         this.activeSince = activeSince;
         this.nicStats = nicStats;

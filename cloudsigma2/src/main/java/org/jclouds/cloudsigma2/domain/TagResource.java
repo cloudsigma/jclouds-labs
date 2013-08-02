@@ -16,6 +16,8 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
 import java.net.URI;
 
 /**
@@ -55,10 +57,15 @@ public class TagResource {
     }
 
     protected final Owner owner;
+    @Named("resource_uri")
     protected final URI resourceUri;
     protected final String uuid;
+    @Named("resource_type")
     protected final TagResourceType resourceType;
 
+    @ConstructorProperties({
+            "uuid", "resource_type", "owner", "resource_uri"
+    })
     public TagResource(String uuid, TagResourceType resourceType, Owner owner, URI resourceUri) {
         this.owner = owner;
         this.resourceUri = resourceUri;

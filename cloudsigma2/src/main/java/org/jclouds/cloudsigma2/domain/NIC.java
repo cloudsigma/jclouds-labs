@@ -16,6 +16,9 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
+
 /**
  * @author Vladimir Shevchenko
  */
@@ -87,15 +90,23 @@ public class NIC {
         }
     }
 
+    @Named("boot_order")
     private final int bootOrder;
+    @Named("firewall_policy")
     private final FirewallPolicy firewallPolicy;
+    @Named("ip_v4_conf")
     private final IPConfiguration ipV4Configuration;
+    @Named("ip_v6_conf")
     private final IPConfiguration ipV6Configuration;
     private final String mac;
     private final Model model;
     private final NICStats runtime;
     private final VLANInfo vlan;
 
+    @ConstructorProperties({
+            "boot_order", "firewall_policy", "ip_v4_conf", "ip_v6_conf",
+            "mac", "model", "runtime", "vlan"
+    })
     public NIC(int bootOrder, FirewallPolicy firewallPolicy, IPConfiguration ipV4Configuration, IPConfiguration ipV6Configuration
             , String mac, Model model, NICStats runtime, VLANInfo vlan) {
         this.bootOrder = bootOrder;

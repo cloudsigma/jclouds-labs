@@ -16,6 +16,8 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import javax.inject.Named;
+import java.beans.ConstructorProperties;
 import java.util.Date;
 import java.util.Map;
 
@@ -187,37 +189,57 @@ public class ProfileInfo {
     }
 
     protected final String address;
+    @Named("api_https_only")
     protected final boolean isApiHttpsOnly;
+    @Named("autotopup_amount")
     protected final String autotopupAmount;
+    @Named("autotopup_threshold")
     protected final String autotopupThreshold;
+    @Named("bank_reference")
     protected final String bankReference;
     protected final String company;
     protected final String country;
     protected final String currency;
     protected final String email;
+    @Named("first_name")
     protected final String firstName;
+    @Named("has_autotopup")
     protected final boolean hasAutotopup;
     protected final boolean invoicing;
+    @Named("key_auth")
     protected final boolean isKeyAuth;
     protected final String language;
+    @Named("last_name")
     protected final String lastName;
+    @Named("mailing_list")
     protected final boolean isMailingListEnabled;
     protected final Map<String, String> meta;
+    @Named("my_notes")
     protected final String myNotes;
     protected final String nickname;
     protected final String phone;
     protected final String postcode;
     protected final String reseller;
+    @Named("signup_time")
     protected final Date signupTime;
     protected final String state;
+    @Named("tax_name")
     protected final String taxName;
+    @Named("tax_rate")
     protected final double taxRate;
     protected final String title;
     protected final String town;
     protected final String uuid;
     protected final String vat;
 
-
+    @ConstructorProperties({
+            "address", "api_https_only", "autopopup_amount", "autopopup_threshold"
+            , "bank_reference", "company", "country", "currency", "email", "first_name"
+            , "has_autotopup", "invoicing", "key_auth", "language", "last_name"
+            , "mailing_list", "meta", "my_notes", "nickname", "phone"
+            , "postcode", "reseller", "signup_time", "state", "tax_name", "tax_rate"
+            , "title", "town", "uuid", "vat"
+    })
     public ProfileInfo(String address, boolean apiHttpsOnly, String autotopupAmount, String autotopupThreshold
             , String bankReference, String company, String country, String currency, String email, String firstName
             , boolean hasAutotopup, boolean invoicing, boolean keyAuth, String language, String lastName

@@ -16,6 +16,8 @@
  */
 package org.jclouds.cloudsigma2.domain;
 
+import java.beans.ConstructorProperties;
+
 /**
  * @author Vladimir Shevchenko
  */
@@ -50,6 +52,9 @@ public class DriveLicense {
     protected final License license;
     protected final Owner user;
 
+    @ConstructorProperties({
+            "amount", "license", "user"
+    })
     public DriveLicense(int amount, License license, Owner user) {
         this.amount = amount;
         this.license = license;
