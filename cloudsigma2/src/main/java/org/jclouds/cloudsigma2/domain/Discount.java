@@ -23,8 +23,8 @@ import java.beans.ConstructorProperties;
  */
 public class Discount {
 
-    protected final String period;
-    protected final Double value;
+    private final String period;
+    private final Double value;
 
     @ConstructorProperties({
             "period", "value"

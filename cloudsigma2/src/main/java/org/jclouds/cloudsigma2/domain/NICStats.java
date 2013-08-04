@@ -25,14 +25,14 @@ import java.beans.ConstructorProperties;
 public class NICStats {
 
     @Named("interface_type")
-    protected final InterfaceType interfaceType;
+    private final InterfaceType interfaceType;
     @Named("io")
-    protected final IOStats ioStats;
+    private final IOStats ioStats;
     @Named("ip_v4")
-    protected final String ipV4;
+    private final String ipV4;
     @Named("ip_v6")
-    protected final String ipV6;
-    protected final String mac;
+    private final String ipV6;
+    private final String mac;
 
     @ConstructorProperties({
             "interface_type", "io", "ip_v4", "ip_v6", "mac"

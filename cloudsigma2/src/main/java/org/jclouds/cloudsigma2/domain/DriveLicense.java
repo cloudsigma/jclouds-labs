@@ -24,9 +24,9 @@ import java.beans.ConstructorProperties;
 public class DriveLicense {
 
     public static class Builder{
-        protected int amount;
-        protected License license;
-        protected Owner user;
+        private int amount;
+        private License license;
+        private Owner user;
 
         public Builder amount(int amount){
             this.amount = amount;
@@ -48,9 +48,9 @@ public class DriveLicense {
         }
     }
 
-    protected final int amount;
-    protected final License license;
-    protected final Owner user;
+    private final int amount;
+    private final License license;
+    private final Owner user;
 
     @ConstructorProperties({
             "amount", "license", "user"

@@ -26,17 +26,17 @@ import java.beans.ConstructorProperties;
 public class BurstLevel {
 
     public static class Builder{
-        protected int cpu;
-        protected int dssd;
-        protected int ip;
-        protected int mem;
-        protected int windowsWebServer2008;
-        protected int windowsServer2008Standard;
-        protected int sqlServerStandard2008;
-        protected int sms;
-        protected int ssd;
-        protected int tx;
-        protected int vlan;
+        private int cpu;
+        private int dssd;
+        private int ip;
+        private int mem;
+        private int windowsWebServer2008;
+        private int windowsServer2008Standard;
+        private int sqlServerStandard2008;
+        private int sms;
+        private int ssd;
+        private int tx;
+        private int vlan;
 
         public Builder cpu(int cpu) {
             this.cpu = cpu;
@@ -98,20 +98,20 @@ public class BurstLevel {
         }
     }
 
-    protected final int cpu;
-    protected final int dssd;
-    protected final int ip;
-    protected final int mem;
+    private final int cpu;
+    private final int dssd;
+    private final int ip;
+    private final int mem;
     @Named("msft_lwa_00135")
-    protected final int windowsWebServer2008;
+    private final int windowsWebServer2008;
     @Named("msft_p37_04837")
-    protected final int windowsServer2008Standard;
+    private final int windowsServer2008Standard;
     @Named("msft_tfa_00009")
-    protected final int sqlServerStandard2008;
-    protected final int sms;
-    protected final int ssd;
-    protected final int tx;
-    protected final int vlan;
+    private final int sqlServerStandard2008;
+    private final int sms;
+    private final int ssd;
+    private final int tx;
+    private final int vlan;
 
     @ConstructorProperties({
             "cpu", "dssd", "ip", "mem", "msft_lwa_00135", "msft_p37_04837", "msft_tfa_00009", "sms", "ssd", "tx", "vlan"

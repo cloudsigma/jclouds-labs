@@ -25,13 +25,13 @@ import java.math.BigInteger;
 public class Price {
 
     public static class Builder{
-        protected String currency;
-        protected String id;
-        protected Integer level;
-        protected BigInteger multiplier;
-        protected double price;
-        protected SubscriptionResource resource;
-        protected String unit;
+        private String currency;
+        private String id;
+        private Integer level;
+        private BigInteger multiplier;
+        private double price;
+        private SubscriptionResource resource;
+        private String unit;
 
         /**
          * @param currency The currency of the price
@@ -101,13 +101,13 @@ public class Price {
         }
     }
 
-    protected final String currency;
-    protected final String id;
-    protected final Integer level;
-    protected final BigInteger multiplier;
-    protected final double price;
-    protected final SubscriptionResource resource;
-    protected final String unit;
+    private final String currency;
+    private final String id;
+    private final Integer level;
+    private final BigInteger multiplier;
+    private final double price;
+    private final SubscriptionResource resource;
+    private final String unit;
 
     @ConstructorProperties({
             "currency", "id", "level", "multiplier", "price", "resource", "unit"

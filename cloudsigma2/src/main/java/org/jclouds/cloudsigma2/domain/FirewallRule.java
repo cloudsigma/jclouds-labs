@@ -25,14 +25,14 @@ import java.beans.ConstructorProperties;
 public class FirewallRule {
 
     public static class Builder{
-        protected FirewallAction action;
-        protected String comment;
-        protected FirewallDirection direction;
-        protected String destinationIp;
-        protected String destinationPort;
-        protected FirewallIpProtocol ipProtocol;
-        protected String sourceIp;
-        protected String sourcePort;
+        private FirewallAction action;
+        private String comment;
+        private FirewallDirection direction;
+        private String destinationIp;
+        private String destinationPort;
+        private FirewallIpProtocol ipProtocol;
+        private String sourceIp;
+        private String sourcePort;
 
         /**
          * @param action Action to be taken
@@ -111,19 +111,19 @@ public class FirewallRule {
         }
     }
 
-    protected final FirewallAction action;
-    protected final String comment;
-    protected final FirewallDirection direction;
+    private final FirewallAction action;
+    private final String comment;
+    private final FirewallDirection direction;
     @Named("dst_ip")
-    protected final String destinationIp;
+    private final String destinationIp;
     @Named("dst_port")
-    protected final String destinationPort;
+    private final String destinationPort;
     @Named("ip_proto")
-    protected final FirewallIpProtocol ipProtocol;
+    private final FirewallIpProtocol ipProtocol;
     @Named("src_ip")
-    protected final String sourceIp;
+    private final String sourceIp;
     @Named("src_port")
-    protected final String sourcePort;
+    private final String sourcePort;
 
     @ConstructorProperties({
             "action", "comment", "direction", "dst_ip",

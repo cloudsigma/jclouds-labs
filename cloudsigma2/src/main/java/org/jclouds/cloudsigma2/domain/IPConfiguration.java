@@ -25,8 +25,8 @@ import java.beans.ConstructorProperties;
 public class IPConfiguration {
 
     public static class Builder{
-        protected IPConfigurationType configurationType;
-        protected IP ip;
+        private IPConfigurationType configurationType;
+        private IP ip;
 
         public Builder configurationType(IPConfigurationType configurationType) {
             this.configurationType = configurationType;
@@ -44,9 +44,9 @@ public class IPConfiguration {
     }
 
     @Named("conf")
-    protected final IPConfigurationType configurationType;
+    private final IPConfigurationType configurationType;
     @Named("ip")
-    protected final IP ip;
+    private final IP ip;
 
     @ConstructorProperties({
             "conf", "ip"

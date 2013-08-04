@@ -26,13 +26,13 @@ import java.util.Date;
 public class Transaction {
 
     public static class Builder{
-        protected double amount;
-        protected long billingCycle;
-        protected double end;
-        protected String id;
-        protected double initial;
-        protected String reason;
-        protected Date time;
+        private double amount;
+        private long billingCycle;
+        private double end;
+        private String id;
+        private double initial;
+        private String reason;
+        private Date time;
 
         public Builder amount(double amount){
             this.amount = amount;
@@ -72,14 +72,14 @@ public class Transaction {
         }
     }
 
-    protected final double amount;
+    private final double amount;
     @Named("billing_cycle")
-    protected final long billingCycle;
-    protected final double end;
-    protected final String id;
-    protected final double initial;
-    protected final String reason;
-    protected final Date time;
+    private final long billingCycle;
+    private final double end;
+    private final String id;
+    private final double initial;
+    private final String reason;
+    private final Date time;
 
     @ConstructorProperties({
             "amount", "billing_cycle", "end", "id", "initial", "reason", "time"

@@ -31,15 +31,15 @@ import java.util.Map;
 public class LibraryDrive extends DriveInfo {
 
     public static class Builder extends DriveInfo.Builder{
-        protected String arch;
-        protected List<String> category;
-        protected String description;
-        protected boolean isFavorite;
-        protected String imageType;
-        protected String installNotes;
-        protected String os;
-        protected boolean isPaid;
-        protected String url;
+        private String arch;
+        private List<String> category;
+        private String description;
+        private boolean isFavorite;
+        private String imageType;
+        private String installNotes;
+        private String os;
+        private boolean isPaid;
+        private String url;
 
         public Builder arch(String arch){
             this.arch = arch;
@@ -222,19 +222,19 @@ public class LibraryDrive extends DriveInfo {
         }
     }
 
-    protected final String arch;
-    protected final List<String> category;
-    protected final String description;
+    private final String arch;
+    private final List<String> category;
+    private final String description;
     @Named("favourite")
-    protected final boolean isFavorite;
+    private final boolean isFavorite;
     @Named("image_type")
-    protected final String imageType;
+    private final String imageType;
     @Named("install_notes")
-    protected final String installNotes;
-    protected final String os;
+    private final String installNotes;
+    private final String os;
     @Named("paid")
-    protected final boolean isPaid;
-    protected final String url;
+    private final boolean isPaid;
+    private final String url;
 
     @ConstructorProperties({
             "uuid", "name", "resource_uri", "size", "owner", "status",

@@ -30,23 +30,23 @@ import java.util.List;
 public class Subscription {
 
     public static class Builder{
-        protected String amount;
-        protected boolean isAutoRenewEnabled;
-        protected List<Subscription> descendants;
-        protected double discountAmount;
-        protected double discountPercent;
-        protected Date endTime;
-        protected String id;
-        protected Date lastNotification;
-        protected String period;
-        protected double price;
-        protected String remaining;
-        protected SubscriptionResource resource;
-        protected URI resourceUri;
-        protected Date startTime;
-        protected String status;
-        protected String subscribedObject;
-        protected String uuid;
+        private String amount;
+        private boolean isAutoRenewEnabled;
+        private List<Subscription> descendants;
+        private double discountAmount;
+        private double discountPercent;
+        private Date endTime;
+        private String id;
+        private Date lastNotification;
+        private String period;
+        private double price;
+        private String remaining;
+        private SubscriptionResource resource;
+        private URI resourceUri;
+        private Date startTime;
+        private String status;
+        private String subscribedObject;
+        private String uuid;
 
         /**
          * @param amount
@@ -208,31 +208,31 @@ public class Subscription {
         }
     }
 
-    protected final String amount;
+    private final String amount;
     @Named("auto_renew")
-    protected final boolean isAutoRenewEnabled;
-    protected final List<Subscription> descendants;
+    private final boolean isAutoRenewEnabled;
+    private final List<Subscription> descendants;
     @Named("discount_amount")
-    protected final double discountAmount;
+    private final double discountAmount;
     @Named("discount_percent")
-    protected final double discountPercent;
+    private final double discountPercent;
     @Named("end_time")
-    protected final Date endTime;
-    protected final String id;
+    private final Date endTime;
+    private final String id;
     @Named("last_notification")
-    protected final Date lastNotification;
-    protected final String period;
-    protected final double price;
-    protected final String remaining;
-    protected final SubscriptionResource resource;
+    private final Date lastNotification;
+    private final String period;
+    private final double price;
+    private final String remaining;
+    private final SubscriptionResource resource;
     @Named("resource_uri")
-    protected final URI resourceUri;
+    private final URI resourceUri;
     @Named("start_time")
-    protected final Date startTime;
-    protected final String status;
+    private final Date startTime;
+    private final String status;
     @Named("subscribed_object")
-    protected final String subscribedObject;
-    protected final String uuid;
+    private final String subscribedObject;
+    private final String uuid;
 
     @ConstructorProperties({
             "amount", "auto_renew", "descendants", "discount_amount"

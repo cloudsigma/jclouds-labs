@@ -28,12 +28,12 @@ import java.util.Map;
  */
 public class IPInfo extends IP {
     public static class Builder extends IP.Builder {
-        protected Map<String, String> meta;
-        protected Subscription subscription;
-        protected List<Tag> tags;
-        protected List<String> nameservers;
-        protected int netmask;
-        protected String gateway;
+        private Map<String, String> meta;
+        private Subscription subscription;
+        private List<Tag> tags;
+        private List<String> nameservers;
+        private int netmask;
+        private String gateway;
 
         /**
          * @param meta User defined meta information
@@ -134,12 +134,12 @@ public class IPInfo extends IP {
         }
     }
 
-    protected final Map<String, String> meta;
-    protected final Subscription subscription;
-    protected final List<Tag> tags;
-    protected final List<String> nameservers;
-    protected final int netmask;
-    protected final String gateway;
+    private final Map<String, String> meta;
+    private final Subscription subscription;
+    private final List<Tag> tags;
+    private final List<String> nameservers;
+    private final int netmask;
+    private final String gateway;
 
     @ConstructorProperties({
             "uuid", "owner", "server", "resource_uri", "meta", "subscription",

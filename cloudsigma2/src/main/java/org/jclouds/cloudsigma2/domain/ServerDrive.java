@@ -25,10 +25,10 @@ import java.beans.ConstructorProperties;
 public class ServerDrive {
 
     public static class Builder{
-        protected int bootOrder;
-        protected String deviceChannel;
-        protected DeviceEmulationType deviceEmulationType;
-        protected Drive drive;
+        private int bootOrder;
+        private String deviceChannel;
+        private DeviceEmulationType deviceEmulationType;
+        private Drive drive;
 
         public Builder bootOrder(int bootOrder){
             this.bootOrder = bootOrder;
@@ -56,14 +56,14 @@ public class ServerDrive {
     }
 
     @Named("boot_order")
-    protected final int bootOrder;
+    private final int bootOrder;
     @Named("dev_channel")
-    protected final String deviceChannel;
+    private final String deviceChannel;
     @Named("device")
-    protected final DeviceEmulationType deviceEmulationType;
+    private final DeviceEmulationType deviceEmulationType;
     @Named("drive")
-    protected final Drive drive;
-    protected final String driveUuid;
+    private final Drive drive;
+    private final String driveUuid;
 
     /**
      *
