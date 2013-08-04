@@ -25,13 +25,13 @@ import java.beans.ConstructorProperties;
 public class IOStats {
 
     @Named("bytes_recv")
-    protected final String bytesReceived;
+    private final String bytesReceived;
     @Named("bytes_sent")
-    protected final String bytesSent;
+    private final String bytesSent;
     @Named("packets_recv")
-    protected final String packetsReceived;
+    private final String packetsReceived;
     @Named("packets_sent")
-    protected final String packetsSent;
+    private final String packetsSent;
 
     @ConstructorProperties({
             "bytes_recv", "bytes_sent", "packets_recv", "packets_sent"

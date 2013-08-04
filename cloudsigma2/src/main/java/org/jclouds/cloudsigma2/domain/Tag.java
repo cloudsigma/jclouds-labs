@@ -31,9 +31,9 @@ import java.util.Map;
 public class Tag extends Item{
 
     public static class Builder extends Item.Builder{
-        protected Map<String, String> meta;
-        protected Owner owner;
-        protected List<TagResource> resources;
+        private Map<String, String> meta;
+        private Owner owner;
+        private List<TagResource> resources;
 
         public Builder meta(Map<String, String> meta) {
             this.meta = meta;
@@ -79,9 +79,9 @@ public class Tag extends Item{
         }
     }
 
-    protected final Map<String, String> meta;
-    protected final Owner owner;
-    protected final List<TagResource> resources;
+    private final Map<String, String> meta;
+    private final Owner owner;
+    private final List<TagResource> resources;
 
     @ConstructorProperties({
             "uuid", "name", "resource_uri", "meta", "owner", "resources"

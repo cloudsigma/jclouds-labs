@@ -24,8 +24,8 @@ import java.beans.ConstructorProperties;
 public class CurrentUsage {
 
     public static class Builder{
-        protected AccountBalance balance;
-        protected AccountUsage usage;
+        private AccountBalance balance;
+        private AccountUsage usage;
 
         public Builder balance(AccountBalance balance) {
             this.balance = balance;
@@ -42,8 +42,8 @@ public class CurrentUsage {
         }
     }
 
-    protected final AccountBalance balance;
-    protected final AccountUsage usage;
+    private final AccountBalance balance;
+    private final AccountUsage usage;
 
     @ConstructorProperties({
             "balance", "usage"

@@ -26,8 +26,8 @@ import java.util.Date;
 public class ServerRuntime {
 
     public static class Builder{
-        protected Date activeSince;
-        protected Iterable<NICStats> nicStats;
+        private Date activeSince;
+        private Iterable<NICStats> nicStats;
 
 
         public Builder activeSince(Date activeSince) {
@@ -46,9 +46,9 @@ public class ServerRuntime {
     }
 
     @Named("active_since")
-    protected final Date activeSince;
+    private final Date activeSince;
     @Named("nics")
-    protected final Iterable<NICStats> nicStats;
+    private final Iterable<NICStats> nicStats;
 
     @ConstructorProperties({
         "active_since", "nics"

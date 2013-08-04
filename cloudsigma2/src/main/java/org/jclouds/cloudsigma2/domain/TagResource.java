@@ -26,10 +26,10 @@ import java.net.URI;
 public class TagResource {
 
     public static class Builder{
-        protected Owner owner;
-        protected URI resourceUri;
-        protected String uuid;
-        protected TagResourceType resourceType;
+        private Owner owner;
+        private URI resourceUri;
+        private String uuid;
+        private TagResourceType resourceType;
 
         public Builder uuid(String uuid) {
             this.uuid = uuid;
@@ -56,12 +56,12 @@ public class TagResource {
         }
     }
 
-    protected final Owner owner;
+    private final Owner owner;
     @Named("resource_uri")
-    protected final URI resourceUri;
-    protected final String uuid;
+    private final URI resourceUri;
+    private final String uuid;
     @Named("resource_type")
-    protected final TagResourceType resourceType;
+    private final TagResourceType resourceType;
 
     @ConstructorProperties({
             "uuid", "resource_type", "owner", "resource_uri"

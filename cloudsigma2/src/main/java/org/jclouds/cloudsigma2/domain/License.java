@@ -26,12 +26,12 @@ import java.net.URI;
 public class License {
 
     public static class Builder{
-        protected boolean burstable;
-        protected String longName;
-        protected String name;
-        protected URI resourceUri;
-        protected String type;
-        protected String userMetric;
+        private boolean burstable;
+        private String longName;
+        private String name;
+        private URI resourceUri;
+        private String type;
+        private String userMetric;
 
         public Builder isBurstable(boolean burstable){
             this.burstable = burstable;
@@ -68,15 +68,15 @@ public class License {
         }
     }
 
-    protected final boolean burstable;
+    private final boolean burstable;
     @Named("long_name")
-    protected final String longName;
-    protected final String name;
+    private final String longName;
+    private final String name;
     @Named("resource_uri")
-    protected final URI resourceUri;
-    protected final String type;
+    private final URI resourceUri;
+    private final String type;
     @Named("user_metric")
-    protected final String userMetric;
+    private final String userMetric;
 
     @ConstructorProperties({
         "burstable", "long_name", "name", "resource_uri", "type", "user_metric"

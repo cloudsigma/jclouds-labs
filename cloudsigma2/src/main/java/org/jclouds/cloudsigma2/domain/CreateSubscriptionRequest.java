@@ -22,9 +22,9 @@ package org.jclouds.cloudsigma2.domain;
 public class CreateSubscriptionRequest {
 
     public static class Builder{
-        protected String amount;
-        protected String period;
-        protected SubscriptionResource resource;
+        private String amount;
+        private String period;
+        private SubscriptionResource resource;
 
         /**
          * @param amount Subscription amount
@@ -58,9 +58,9 @@ public class CreateSubscriptionRequest {
         }
     }
 
-    protected final String amount;
-    protected final String period;
-    protected final SubscriptionResource resource;
+    private final String amount;
+    private final String period;
+    private final SubscriptionResource resource;
 
     public CreateSubscriptionRequest(String amount, String period, SubscriptionResource resource) {
         this.amount = amount;

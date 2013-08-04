@@ -27,9 +27,9 @@ import java.util.List;
 public class Pricing {
 
     public static class Builder{
-        protected BurstLevel current;
-        protected BurstLevel next;
-        protected List<Price> priceList;
+        private BurstLevel current;
+        private BurstLevel next;
+        private List<Price> priceList;
 
         public Builder current(BurstLevel current) {
             this.current = current;
@@ -51,9 +51,9 @@ public class Pricing {
         }
     }
 
-    protected final BurstLevel current;
-    protected final BurstLevel next;
-    protected final List<Price> priceList;
+    private final BurstLevel current;
+    private final BurstLevel next;
+    private final List<Price> priceList;
 
     @ConstructorProperties({
             "current", "next", "objects"

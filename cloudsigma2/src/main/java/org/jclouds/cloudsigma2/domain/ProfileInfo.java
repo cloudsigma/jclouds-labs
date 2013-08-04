@@ -27,36 +27,36 @@ import java.util.Map;
 public class ProfileInfo {
 
     public static class Builder {
-        protected String address;
-        protected boolean isApiHttpsOnly;
-        protected String autotopupAmount;
-        protected String autotopupThreshold;
-        protected String bankReference;
-        protected String company;
-        protected String country;
-        protected String currency;
-        protected String email;
-        protected String firstName;
-        protected boolean hasAutotopup;
-        protected boolean invoicing;
-        protected boolean isKeyAuth;
-        protected String language;
-        protected String lastName;
-        protected boolean isMailingListEnabled;
-        protected Map<String, String> meta;
-        protected String myNotes;
-        protected String nickname;
-        protected String phone;
-        protected String postcode;
-        protected String reseller;
-        protected Date signupTime;
-        protected String state;
-        protected String taxName;
-        protected double taxRate;
-        protected String title;
-        protected String town;
-        protected String uuid;
-        protected String vat;
+        private String address;
+        private boolean isApiHttpsOnly;
+        private String autotopupAmount;
+        private String autotopupThreshold;
+        private String bankReference;
+        private String company;
+        private String country;
+        private String currency;
+        private String email;
+        private String firstName;
+        private boolean hasAutotopup;
+        private boolean invoicing;
+        private boolean isKeyAuth;
+        private String language;
+        private String lastName;
+        private boolean isMailingListEnabled;
+        private Map<String, String> meta;
+        private String myNotes;
+        private String nickname;
+        private String phone;
+        private String postcode;
+        private String reseller;
+        private Date signupTime;
+        private String state;
+        private String taxName;
+        private double taxRate;
+        private String title;
+        private String town;
+        private String uuid;
+        private String vat;
 
         public Builder uuid(String uuid) {
             this.uuid = uuid;
@@ -188,49 +188,49 @@ public class ProfileInfo {
 
     }
 
-    protected final String address;
+    private final String address;
     @Named("api_https_only")
-    protected final boolean isApiHttpsOnly;
+    private final boolean isApiHttpsOnly;
     @Named("autotopup_amount")
-    protected final String autotopupAmount;
+    private final String autotopupAmount;
     @Named("autotopup_threshold")
-    protected final String autotopupThreshold;
+    private final String autotopupThreshold;
     @Named("bank_reference")
-    protected final String bankReference;
-    protected final String company;
-    protected final String country;
-    protected final String currency;
-    protected final String email;
+    private final String bankReference;
+    private final String company;
+    private final String country;
+    private final String currency;
+    private final String email;
     @Named("first_name")
-    protected final String firstName;
+    private final String firstName;
     @Named("has_autotopup")
-    protected final boolean hasAutotopup;
-    protected final boolean invoicing;
+    private final boolean hasAutotopup;
+    private final boolean invoicing;
     @Named("key_auth")
-    protected final boolean isKeyAuth;
-    protected final String language;
+    private final boolean isKeyAuth;
+    private final String language;
     @Named("last_name")
-    protected final String lastName;
+    private final String lastName;
     @Named("mailing_list")
-    protected final boolean isMailingListEnabled;
-    protected final Map<String, String> meta;
+    private final boolean isMailingListEnabled;
+    private final Map<String, String> meta;
     @Named("my_notes")
-    protected final String myNotes;
-    protected final String nickname;
-    protected final String phone;
-    protected final String postcode;
-    protected final String reseller;
+    private final String myNotes;
+    private final String nickname;
+    private final String phone;
+    private final String postcode;
+    private final String reseller;
     @Named("signup_time")
-    protected final Date signupTime;
-    protected final String state;
+    private final Date signupTime;
+    private final String state;
     @Named("tax_name")
-    protected final String taxName;
+    private final String taxName;
     @Named("tax_rate")
-    protected final double taxRate;
-    protected final String title;
-    protected final String town;
-    protected final String uuid;
-    protected final String vat;
+    private final double taxRate;
+    private final String title;
+    private final String town;
+    private final String uuid;
+    private final String vat;
 
     @ConstructorProperties({
             "address", "api_https_only", "autopopup_amount", "autopopup_threshold"

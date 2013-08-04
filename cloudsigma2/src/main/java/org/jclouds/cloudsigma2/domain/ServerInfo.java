@@ -32,19 +32,19 @@ import java.util.Map;
 public class ServerInfo extends Server {
 
     public static class Builder extends Server.Builder {
-        protected int cpu;
-        protected boolean cpusInsteadOfCores;
-        protected List<ServerDrive> drives;
-        protected boolean enableNuma;
-        protected boolean hvRelaxed;
-        protected boolean hvTsc;
-        protected BigInteger memory;
-        protected Map<String, String> meta;
-        protected List<NIC> nics;
-        protected List<String> requirements;
-        protected List<String> tags;
-        protected String vncPassword;
-        protected int smp;
+        private int cpu;
+        private boolean cpusInsteadOfCores;
+        private List<ServerDrive> drives;
+        private boolean enableNuma;
+        private boolean hvRelaxed;
+        private boolean hvTsc;
+        private BigInteger memory;
+        private Map<String, String> meta;
+        private List<NIC> nics;
+        private List<String> requirements;
+        private List<String> tags;
+        private String vncPassword;
+        private int smp;
 
         /**
          * @param cpu server’s CPU Clock speed measured in MHz
@@ -243,25 +243,25 @@ public class ServerInfo extends Server {
         }
     }
 
-    protected final int cpu;
+    private final int cpu;
     @Named("cpus_instead_of_cores")
-    protected final boolean cpusInsteadOfCores;
-    protected final List<ServerDrive> drives;
+    private final boolean cpusInsteadOfCores;
+    private final List<ServerDrive> drives;
     @Named("enable_numa")
-    protected final boolean enableNuma;
+    private final boolean enableNuma;
     @Named("hv_relaxed")
-    protected final boolean hvRelaxed;
+    private final boolean hvRelaxed;
     @Named("hv_tsc")
-    protected final boolean hvTsc;
+    private final boolean hvTsc;
     @Named("mem")
-    protected final BigInteger memory;
-    protected final Map<String, String> meta;
-    protected final List<NIC> nics;
-    protected final List<String> requirements;
-    protected final List<String> tags;
+    private final BigInteger memory;
+    private final Map<String, String> meta;
+    private final List<NIC> nics;
+    private final List<String> requirements;
+    private final List<String> tags;
     @Named("vnc_password")
-    protected final String vncPassword;
-    protected final int smp;
+    private final String vncPassword;
+    private final int smp;
 
     @ConstructorProperties({
             "uuid", "name", "resource_uri", "owner", "status", "runtime",

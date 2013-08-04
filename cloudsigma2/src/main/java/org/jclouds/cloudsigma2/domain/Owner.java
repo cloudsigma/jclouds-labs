@@ -25,9 +25,9 @@ import java.net.URI;
  */
 public class Owner {
     public static class Builder{
-        protected String uuid;
-        protected URI resourceUri;
-        protected String email;
+        private String uuid;
+        private URI resourceUri;
+        private String email;
 
         public Builder uuid(String uuid) {
             this.uuid = uuid;

@@ -30,10 +30,10 @@ import java.util.Map;
 public class FirewallPolicy extends Item{
 
     public static class Builder extends Item.Builder{
-        protected Map<String, String> meta;
-        protected Owner owner;
-        protected List<FirewallRule> rules;
-        protected List<Server> servers;
+        private Map<String, String> meta;
+        private Owner owner;
+        private List<FirewallRule> rules;
+        private List<Server> servers;
 
         /**
          * @param meta User assigned meta information for this policy
@@ -106,10 +106,10 @@ public class FirewallPolicy extends Item{
         }
     }
 
-    protected final Map<String, String> meta;
-    protected final Owner owner;
-    protected final List<FirewallRule> rules;
-    protected final List<Server> servers;
+    private final Map<String, String> meta;
+    private final Owner owner;
+    private final List<FirewallRule> rules;
+    private final List<Server> servers;
 
     @ConstructorProperties({
             "meta", "name", "owner", "resource_uri", "rules", "servers", "uuid"

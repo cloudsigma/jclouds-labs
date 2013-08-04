@@ -30,13 +30,13 @@ import java.util.Map;
  */
 public class VLANInfo {
     public static class Builder {
-        protected Map<String, String> meta;
-        protected String uuid;
-        protected Owner owner;
-        protected URI resourceUri;
-        protected List<Server> servers;
-        protected Subscription subscription;
-        protected List<Tag> tags;
+        private Map<String, String> meta;
+        private String uuid;
+        private Owner owner;
+        private URI resourceUri;
+        private List<Server> servers;
+        private Subscription subscription;
+        private List<Tag> tags;
 
         /**
          * @param uuid VLAN UUID
@@ -106,14 +106,14 @@ public class VLANInfo {
         }
     }
 
-    protected final Map<String, String> meta;
-    protected final String uuid;
-    protected final Owner owner;
+    private final Map<String, String> meta;
+    private final String uuid;
+    private final Owner owner;
     @Named("resource_uri")
-    protected final URI resourceUri;
-    protected final List<Server> servers;
-    protected final Subscription subscription;
-    protected final List<Tag> tags;
+    private final URI resourceUri;
+    private final List<Server> servers;
+    private final Subscription subscription;
+    private final List<Tag> tags;
 
     @ConstructorProperties({
             "meta", "uuid", "owner", "resource_uri", "servers", "subscription", "tags"

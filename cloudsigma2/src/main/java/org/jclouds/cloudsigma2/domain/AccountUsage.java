@@ -26,17 +26,17 @@ import java.beans.ConstructorProperties;
 public class AccountUsage {
 
     public static class Builder{
-        protected Usage cpu;
-        protected Usage dssd;
-        protected Usage ip;
-        protected Usage mem;
-        protected Usage windowsWebServer2008;
-        protected Usage windowsServer2008Standard;
-        protected Usage sqlServerStandard2008;
-        protected Usage sms;
-        protected Usage ssd;
-        protected Usage tx;
-        protected Usage vlan;
+        private Usage cpu;
+        private Usage dssd;
+        private Usage ip;
+        private Usage mem;
+        private Usage windowsWebServer2008;
+        private Usage windowsServer2008Standard;
+        private Usage sqlServerStandard2008;
+        private Usage sms;
+        private Usage ssd;
+        private Usage tx;
+        private Usage vlan;
 
         public Builder cpu(Usage cpu) {
             this.cpu = cpu;
@@ -98,20 +98,20 @@ public class AccountUsage {
         }
     }
 
-    protected final Usage cpu;
-    protected final Usage dssd;
-    protected final Usage ip;
-    protected final Usage mem;
+    private final Usage cpu;
+    private final Usage dssd;
+    private final Usage ip;
+    private final Usage mem;
     @Named("msft_lwa_00135")
-    protected final Usage windowsWebServer2008;
+    private final Usage windowsWebServer2008;
     @Named("msft_p37_04837")
-    protected final Usage windowsServer2008Standard;
+    private final Usage windowsServer2008Standard;
     @Named("msft_tfa_00009")
-    protected final Usage sqlServerStandard2008;
-    protected final Usage sms;
-    protected final Usage ssd;
-    protected final Usage tx;
-    protected final Usage vlan;
+    private final Usage sqlServerStandard2008;
+    private final Usage sms;
+    private final Usage ssd;
+    private final Usage tx;
+    private final Usage vlan;
 
     @ConstructorProperties({
             "cpu", "dssd", "ip", "mem", "msft_lwa_00135", "msft_p37_04837", "msft_tfa_00009", "sms", "ssd", "tx", "vlan"

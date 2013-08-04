@@ -23,8 +23,8 @@ import java.beans.ConstructorProperties;
  */
 public class AccountBalance {
 
-    protected final double balance;
-    protected final String currency;
+    private final double balance;
+    private final String currency;
 
     @ConstructorProperties({
             "balance", "currency"

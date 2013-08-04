@@ -25,9 +25,9 @@ import java.math.BigInteger;
 public class Usage {
 
     public static class Builder{
-        protected BigInteger burst;
-        protected BigInteger subscribed;
-        protected BigInteger using;
+        private BigInteger burst;
+        private BigInteger subscribed;
+        private BigInteger using;
 
         public Builder subscribed(BigInteger subscribed) {
             this.subscribed = subscribed;
@@ -49,9 +49,9 @@ public class Usage {
         }
     }
 
-    protected final BigInteger burst;
-    protected final BigInteger subscribed;
-    protected final BigInteger using;
+    private final BigInteger burst;
+    private final BigInteger subscribed;
+    private final BigInteger using;
 
     @ConstructorProperties({
             "burst", "subscribed", "using"
